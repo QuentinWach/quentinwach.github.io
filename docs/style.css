@@ -149,7 +149,13 @@ li {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    filter: grayscale();
+    transition: 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+.right:hover {
+    filter: grayscale(10%);
+}
+
 /* If you want the content centered horizontally and vertically */
 .centered {
     position: absolute;
