@@ -170,7 +170,7 @@ li {
 }
 
 
-@media screen and (max-width: 1024px) and (min-width: 768px){
+@media screen and (max-width: 1024px) {
     .right {
         display: none;
     }
