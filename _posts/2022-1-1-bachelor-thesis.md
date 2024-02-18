@@ -2,7 +2,7 @@
 layout: post
 mathjax: true
 title:  "Pulsed THz-Photoconductivity of Semiconductor Nanorods"
-description: "A few notes and links as an introduction to the research I began originally for my B.Sc. thesis."
+description: "A few notes and links as an introduction to the research I began for my B.Sc. thesis."
 date:   2022-6-3 20:38:24 +0100
 author: Quentin Wach
 tags: ["physics", "optics", "THz spectroscopy", "thesis", "density matrix", "quantum mechanics", "semiconductors", "nanoscience"]
