@@ -11,11 +11,18 @@ layout: base
     {%- endif -%}
 
     <p class="post-meta">
+      {%- if page.author -%}
+        by {% for author in page.author %}
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
+            {%- if forloop.last == false %}, {% endif -%}
+        {% endfor %}
+      {%- endif -%}
       {% capture read_time %}
         {{ page.content | number_of_words | divided_by: 180 }}
       {% endcapture %}
       {% if read_time != 0 %}
-        {{ read_time }} min read • 
+        • {{ read_time }} min read • 
       {% endif %}
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
@@ -28,13 +35,7 @@ layout: base
           {{ mdate | date: date_format }}
         </time>
       {%- endif -%}
-      {%- if page.author -%}
-        • {% for author in page.author %}
-          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
-            {%- if forloop.last == false %}, {% endif -%}
-        {% endfor %}
-      {%- endif -%}</p>
+      </p>
   </header>
 
   <div>

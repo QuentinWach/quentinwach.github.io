@@ -2,7 +2,7 @@
 layout:         redirect
 mathjax:        true
 title:          "THz Response of Charge Carriers in Nanoparticles"
-description:    "Our theory models the THz mobility of charge carriers in low-dimensional semiconductors, revealing nonlinearities and quantum contributions that reshape the mobility."
+description:    "We present a new quantum mechanical theory that models the THz mobility of charge carriers in low-dimensional semiconductors, revealing nonlinearities even a low field-strengths as well as a quantum mechanical equilibration current that counteracts the mobility at low frequencies."
 published: "    Advanced Photonics Research"
 date:           2023-1-1 20:38:24 +0100
 author:         Quentin Wach

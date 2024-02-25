@@ -3,11 +3,13 @@
 
   {%- include head.html -%}
 
-  <body>
-
+  <body onload="document.body.style.opacity='1'">
     {%- include header.html -%}
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
+        <div style="height: 50px;">
+          </br>
+        </div>
         {{ content }}
       </div>
     </main>

@@ -1,8 +1,8 @@
 ---
 layout: post
 mathjax: true
-title:  "Pulsed THz-Photoconductivity of Semiconductor Nanorods"
-description: "A few notes and links as an introduction to the research I began for my B.Sc. thesis."
+title:  "An Introduction to the Density Matrix in Quantum Mechanics"
+description: "An explanation of density matrices and the Lioville-von Neumann equation as an introduction to the theory I developed for my B.Sc. thesis _\"Pulsed THz-Photonductivity in Semiconductor Nanorods\"_."
 date:   2022-6-3 20:38:24 +0100
 author: Quentin Wach
 tags: ["physics", "optics", "THz spectroscopy", "thesis", "density matrix", "quantum mechanics", "semiconductors", "nanoscience"]
