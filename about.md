@@ -37,7 +37,7 @@ Work-inspired side projects:
 + Again unprompted, I also developed, implemented, and integrated a global auto-routing algorithm which is optimized to minimize waveguide losses, crosstalk, save hours if not days of work as well as enable the design of complex heterogenic PIC structures with >1000 components which was utterly unthinkable before. -->
 
 <style>
-    img[alt=Profile] {float: right; width: 200px; border-radius: 50%; margin-left: 30px; margin-bottom: 15px; box-shadow: 0px 5px 5px #14518386;}
+    img[alt=Profile] {float: right; width: 200px; border-radius: 50%; margin-top: 10px; margin-left: 30px; margin-bottom: 15px; box-shadow: 0px 5px 5px #14518386;}
 </style>
 ![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024_2_1x1.png)
 
@@ -60,7 +60,7 @@ Some people I loved/love working with and am very thankful to are
 -->
 <div style="height: 50px;">
 </div>
->"**Man has a duty to make himself useful to others.** The differences between the bright future of humanity and the dark realities of our present are so large that I see it as categorically imperative for everyone capable to advance research and engineering solving humanities greatest challenges." (Me. I said that. Right here. I tend to be dramatic but that's what I believe.)
+>"**Man has a duty to make himself useful to others.** The differences between the bright future of humanity and the dark realities of our present are so large that I see it as categorically imperative to advance research and engineering solving humanities greatest challenges." (Me. I said that. Right here. I tend to be dramatic but that's what I believe.)
 
 ### Charge Transport in Nanostructures
 <style>
