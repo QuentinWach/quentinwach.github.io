@@ -44,7 +44,7 @@ Dubins paths are named after Lester Dubins, who introduced them in the 1950s[^Du
 <style>
     img[alt=dubin1] { float: right; width: 65%; padding: 10px; }
 </style>
-![dubin1](/images/dubin/wikipedia_3.PNG)
+![dubin1](/images/dubin/wikipedia_3.png)
 
 These paths simply connect circular arcs with straights which leaves us with a couple of characteristic Dubins paths:
 + **LRL** (Left-Right-Left)
