@@ -89,7 +89,7 @@ Lithography techniques now allow us to reduce large, complicated, thus costly an
 
 I have been part of two [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, developing new building blocks to be used within our group, and running and automating large simulations. This work also inspired some projects I worked on privately:
 
-* [(2023.) Dubins Paths for Waveguide Routing](https://quentinwach.com/2024/02/15/dubins-paths-for-waveguide-routing.html)
+* [(2024.) Dubins Paths for Waveguide Routing](https://quentinwach.com/2024/02/15/dubins-paths-for-waveguide-routing.html)
 * (Super-secret project I'll release soon 😉...)
 
 _More details coming._
