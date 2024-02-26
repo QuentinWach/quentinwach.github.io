@@ -5,8 +5,19 @@ permalink: /about/
 ---
 
 <!--Add a TOC for posts using:
-https://afeld.github.io/bootstrap-toc/#layout -->
+https://afeld.github.io/bootstrap-toc/#layout
+https://idratherbewriting.com/documentation-theme-jekyll/mydoc_sidebar_navigation.html
+https://loopback.io/doc/en/contrib/code-contrib-lb2-lb3.html
+-->
 
+<!--Add sidenotes in the margins using:
+https://acdlite.github.io/jquery.sidenotes/
+https://edwardtufte.github.io/tufte-css/#
+https://forum.getkirby.com/t/sidenotes-marginnotes-in-kirby/18778/2
+
+Example:
+https://gwern.net/spaced-repetition
+-->
 
 <!--**Gain of recources is the fundamental enabler of societal progress and stability.** Peace between groups and countries, democratic political structures, higher education, nourishing food, clean water, energy, ... We must avoid cultural zero-sum games or face the collapse of these societies.
 
