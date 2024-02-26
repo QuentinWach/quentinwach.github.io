@@ -87,14 +87,14 @@ All of engineering is based on material science and its limitations and many of 
 ### Photonic Integrated Circuits (PICs)
 Lithography techniques now allow us to reduce large, complicated, thus costly and time-consuming optical setups down to chips only a few mm in size. Such photonic integrated circuits are also essential for quantum computing, the quantum internet, and essentially all modern communication / data transmission technologies. (The reason you can read this blog is because of PICs that are used throughout the infrastructure of the internet.) Still, creating them comes with a lot of exciting challenges as the field is still very young compared to that of integrated _electronic_ circuits. Personally, I think a lot about **photonic design automation** (How can we design PICs better and faster?) and **photonic computing** (How can we build faster and more energy efficient computers using photons instead of electrons?)
 
-I have been part of two [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, developing new building blocks to be used within our group, and running and automating large simulations.
+I have been part of two [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, developing new building blocks to be used within our group, and running and automating large simulations. This work also inspired some projects I worked on privately:
 
-_More details coming soon._
+* [(2023.) Dubins Paths for Waveguide Routing](https://quentinwach.com/2024/02/15/dubins-paths-for-waveguide-routing.html)
+* (Super-secret project I'll release soon 😉...)
 
-<!--
-* [(2023.) Dubins Paths for Waveguide Routing](https://quentinwach.com/2023/11/01/dubins-paths-for-pics.html)
-* (Super-secret project to be announced soon 😉...)
--->
+_More details coming._
+
+
 
 <!--### Artificial Intelligence
 Among others, PICs enable new computing technologies. That brought ...
