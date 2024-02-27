@@ -853,4 +853,5 @@ h4.post-title {
   padding-right: 8px;
   padding-bottom: 3px;
   margin-left: 2px;
+  white-space:nowrap;
 }
