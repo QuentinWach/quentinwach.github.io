@@ -47,8 +47,10 @@ Work-inspired side projects:
 + Unprompted, I solved the direct routing problem that kept causing errors, delays, and poorly optimized waveguide layouts by implementing and integrating Dubins paths which is the mathematically proven shortest path between two vectors with a given minimum bending radius. This made me known within the entire group overnight.
 + Again unprompted, I also developed, implemented, and integrated a global auto-routing algorithm which is optimized to minimize waveguide losses, crosstalk, save hours if not days of work as well as enable the design of complex heterogenic PIC structures with >1000 components which was utterly unthinkable before. -->
 
+<!-- MACHINE LEANRNING | HARDWARE ARCHITECTURE | NEUROMORPHIC COMPUTING | NANOTECHNOLOGY | NANOPHOTONIC -->
+
 <style>
-    img[alt=Profile] {float: right; width: 200px; border-radius: 50%; margin-top: 10px; margin-left: 30px; margin-bottom: 15px; box-shadow: 0px 5px 5px #14518386;}
+    img[alt=Profile] {float: right; width: 200px; border-radius: 50%; margin-top: 10px; margin-left: 30px; margin-bottom: 15px; box-shadow: 0px 2px 6px #14518386;}
 </style>
 ![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024_2_1x1.png)
 
