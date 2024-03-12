@@ -53,7 +53,21 @@ Work-inspired side projects:
 <!-- MACHINE LEANRNING | HARDWARE ARCHITECTURE | NEUROMORPHIC COMPUTING | NANOTECHNOLOGY | NANOPHOTONIC -->
 
 <style>
-    img[alt=Profile] {float: right; width: 200px; border-radius: 50%; margin-top: 10px; margin-left: 30px; margin-bottom: 15px; box-shadow: 0px 2px 6px #14518386;}
+    img[alt=Profile] {
+        float: right; 
+        width: 200px; 
+        border-radius: 50%; 
+        margin-top: 10px; 
+        margin-left: 30px; 
+        margin-bottom: 15px; 
+        box-shadow: 0px 2px 6px #14518386;
+    }
+
+    @media only screen and (max-width: 600px) {
+        img[alt=Profile] {
+            display: none;
+        }
+    }
 </style>
 ![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024.png)
 
