@@ -55,7 +55,7 @@ Work-inspired side projects:
 <style>
     img[alt=Profile] {float: right; width: 200px; border-radius: 50%; margin-top: 10px; margin-left: 30px; margin-bottom: 15px; box-shadow: 0px 2px 6px #14518386;}
 </style>
-![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024_2_1x1.png)
+![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024.png)
 
 I am physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with TUBs [Department of Nonlinear Optics](https://www.tu.berlin/en/nlo). And I am currently working as a research assistant with the [Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html).
 
