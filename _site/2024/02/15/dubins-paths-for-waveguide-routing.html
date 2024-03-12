@@ -46,7 +46,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+        <div class="trigger"><a class="page-link" href="/blog/">Blog</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -62,7 +62,7 @@
             <span class="p-author h-card" itemprop="name">Quentin Wach</span></span>
       
         • 
-        26
+        16
        min read • 
       <time class="dt-published" datetime="2024-02-15T20:38:24+01:00" itemprop="datePublished">
         Feb 15, 2024
@@ -71,9 +71,9 @@
 
   <div>
     <div class="post-content e-content" itemprop="articleBody">
-      <p>Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.</p>
+      <!--Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.-->
 
-<p><em>What does the perfect waveguide routing look like? Traditional waveguide interconnects lack efficiency and optimization, leading to suboptimal photonic integrated circuits (PICs). Addressing key concerns like minimizing internal and radiation losses, reducing cross-talk, and avoiding unnecessary crossings, I explored the concept of finding the shortest path between two points in a PIC given a minimum bending radius. Dubins paths, already well known in robotics and control theory, emerged as a simple and highly practical solution.</em></p>
+<p><em>(Updated: March 12, 2024.) What does the perfect waveguide routing look like? Traditional waveguide interconnects lack efficiency and optimization, leading to suboptimal photonic integrated circuits (PICs). Addressing key concerns like minimizing internal and radiation losses, reducing cross-talk, and avoiding unnecessary crossings, I explored the concept of finding the shortest path between two points in a PIC given a minimum bending radius. Dubins paths, already well known in robotics and control theory, emerged as a simple and highly practical solution.</em></p>
 
 <div class="tag_list"> 
     <div class="tag">photonic integrated circuits</div>
@@ -125,27 +125,32 @@
 <p>Dubins did indeed prove that these trajectories are the shortest paths mathematically. The geometric construction is quite intuitive and a nice toy problem to figure out on ones own but it can quickly explode into multiple pages of pen and paper calculations and diagrams which is why I am not going to go into it here. Instead, I refer to a great overview and explanation of the synthesis of Dubins paths given by David A. Anisi<sup id="fnref:DubinImplementPaper" role="doc-noteref"><a href="#fn:DubinImplementPaper" class="footnote" rel="footnote">3</a></sup>. A wonderful and in-depth guide is also given by Andy G<sup id="fnref:DubinGuide" role="doc-noteref"><a href="#fn:DubinGuide" class="footnote" rel="footnote">4</a></sup>.</p>
 
 <h3 id="4-code">4 Code</h3>
-<p>Let’s go through some code to generate them, though. There is an abundance of implementations of Dubins paths available on the internet<sup id="fnref:code1" role="doc-noteref"><a href="#fn:code1" class="footnote" rel="footnote">5</a></sup>. What I present here is a hacked together version. First, it’s useful to define a little helper to keep all the angles within the range of \([ 0, 2 \pi )\):</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">math</span> <span class="k">as</span> <span class="n">m</span>
+<p>There is an abundance of implementations of Dubins paths available on the internet<sup id="fnref:code1" role="doc-noteref"><a href="#fn:code1" class="footnote" rel="footnote">5</a></sup>.</p>
 
-<span class="c1"># normalizes an angle to the range [0, 2*pi)
-</span><span class="k">def</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">angle</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">angle</span> <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="n">m</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="n">angle</span><span class="o">/</span><span class="mf">2.0</span><span class="o">/</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span><span class="p">)</span>
-</code></pre></div></div>
+<!--
+What I present here is a hacked together version. First, it's useful to define a little helper to keep all the angles within the range of $$ [ 0, 2 \pi ) $$:
+```python
+import math as m
 
-<p>Next, we actually find our Dubins paths using a planner function <code class="language-plaintext highlighter-rouge">general_planner()</code> which creates and compares the lengths of all six possible routes using <code class="language-plaintext highlighter-rouge">dubins_path_length()</code>. The data of the solution is then returned with <code class="language-plaintext highlighter-rouge">dubins_path()</code>.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">nazca</span> <span class="k">as</span> <span class="n">nd</span>
-<span class="kn">from</span> <span class="n">nazca.interconnects</span> <span class="kn">import</span> <span class="n">Interconnect</span>
+# normalizes an angle to the range [0, 2*pi)
+def mod_to_pi(angle):
+    return angle - 2.0*m.pi*m.floor(angle/2.0/m.pi)
+```
 
-<span class="c1"># Function to find the optimal Dubins path between two points
-</span><span class="k">def</span> <span class="nf">general_planner</span><span class="p">(</span><span class="n">planner</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-    <span class="sh">"""</span><span class="s">
+Next, we actually find our Dubins paths using a planner function `general_planner()` which creates and compares the lengths of all six possible routes using `dubins_path_length()`. The data of the solution is then returned with `dubins_path()`.
+```python
+import nazca as nd
+from nazca.interconnects import Interconnect
+
+# Function to find the optimal Dubins path between two points
+def general_planner(planner, alpha, beta, d):
+    """
     Calculates the Dubins path between two points defined by their 
     angles and distance given a plan.
 
     Parameters:
-        planner (str): Type of Dubins path. Can be one of </span><span class="sh">'</span><span class="s">LSL</span><span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="s">RSR</span><span class="sh">'</span><span class="s">,
-                        </span><span class="sh">'</span><span class="s">LSR</span><span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="s">RSL</span><span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="s">RLR</span><span class="sh">'</span><span class="s">, or </span><span class="sh">'</span><span class="s">LRL</span><span class="sh">'</span><span class="s">.
+        planner (str): Type of Dubins path. Can be one of 'LSL', 'RSR',
+                        'LSR', 'RSL', 'RLR', or 'LRL'.
         alpha (float): Starting orientation angle in radians.
         beta (float): Ending orientation angle in radians.
         d (float): Distance between the two points.
@@ -155,261 +160,266 @@
         angles and distances, the mode of the planner, 
         and the cost of the path. 
         Returns None if the path is not feasible.
-    </span><span class="sh">"""</span>
+    """
 
-    <span class="c1"># Convert angles to sine and cosine
-</span>    <span class="n">sa</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">sb</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
-    <span class="n">ca</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">cb</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
-    <span class="n">c_ab</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">beta</span><span class="p">)</span>
-    <span class="c1"># Convert planner input to uppercase
-</span>    <span class="n">planner_uc</span> <span class="o">=</span> <span class="n">planner</span><span class="p">.</span><span class="nf">upper</span><span class="p">()</span>
+    # Convert angles to sine and cosine
+    sa = m.sin(alpha)
+    sb = m.sin(beta)
+    ca = m.cos(alpha)
+    cb = m.cos(beta)
+    c_ab = m.cos(alpha - beta)
+    # Convert planner input to uppercase
+    planner_uc = planner.upper()
     
-    <span class="c1"># Case LSL Dubins path
-</span>    <span class="k">if</span> <span class="n">planner_uc</span> <span class="o">==</span> <span class="sh">'</span><span class="s">LSL</span><span class="sh">'</span><span class="p">:</span>
-        <span class="c1"># Calculate intermediate values for LSL path
-</span>        <span class="n">tmp0</span> <span class="o">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">sa</span> <span class="o">-</span> <span class="n">sb</span>
-        <span class="n">p_squared</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c_ab</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">sa</span> <span class="o">-</span> <span class="n">sb</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">p_squared</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Path not feasible
-</span>            <span class="k">return</span> <span class="bp">None</span>
-        <span class="n">tmp1</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">((</span><span class="n">cb</span> <span class="o">-</span> <span class="n">ca</span><span class="p">),</span> <span class="n">tmp0</span><span class="p">)</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">tmp1</span><span class="p">)</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">p_squared</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="n">tmp1</span><span class="p">)</span>
+    # Case LSL Dubins path
+    if planner_uc == 'LSL':
+        # Calculate intermediate values for LSL path
+        tmp0 = d + sa - sb
+        p_squared = 2 + (d * d) - (2 * c_ab) + (2 * d * (sa - sb))
+        if p_squared < 0:  # Path not feasible
+            return None
+        tmp1 = m.atan2((cb - ca), tmp0)
+        t = mod_to_pi(-alpha + tmp1)
+        p = m.sqrt(p_squared)
+        q = mod_to_pi(beta - tmp1)
 
-    <span class="c1"># Case RSR Dubins path (similar structure to LSL)
-</span>    <span class="k">elif</span> <span class="n">planner_uc</span> <span class="o">==</span> <span class="sh">'</span><span class="s">RSR</span><span class="sh">'</span><span class="p">:</span>
-        <span class="c1"># Calculate intermediate values for RSR path
-</span>        <span class="n">tmp0</span> <span class="o">=</span> <span class="n">d</span> <span class="o">-</span> <span class="n">sa</span> <span class="o">+</span> <span class="n">sb</span>
-        <span class="n">p_squared</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c_ab</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">sb</span> <span class="o">-</span> <span class="n">sa</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">p_squared</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Path not feasible
-</span>            <span class="k">return</span> <span class="bp">None</span>
-        <span class="n">tmp1</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">((</span><span class="n">ca</span> <span class="o">-</span> <span class="n">cb</span><span class="p">),</span> <span class="n">tmp0</span><span class="p">)</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">tmp1</span><span class="p">)</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">p_squared</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span> <span class="o">+</span> <span class="n">tmp1</span><span class="p">)</span>
+    # Case RSR Dubins path (similar structure to LSL)
+    elif planner_uc == 'RSR':
+        # Calculate intermediate values for RSR path
+        tmp0 = d - sa + sb
+        p_squared = 2 + (d * d) - (2 * c_ab) + (2 * d * (sb - sa))
+        if p_squared < 0:  # Path not feasible
+            return None
+        tmp1 = m.atan2((ca - cb), tmp0)
+        t = mod_to_pi(alpha - tmp1)
+        p = m.sqrt(p_squared)
+        q = mod_to_pi(-beta + tmp1)
 
-    <span class="c1"># Case LSR Dubins path (similar structure to LSL)
-</span>    <span class="k">elif</span> <span class="n">planner_uc</span> <span class="o">==</span> <span class="sh">'</span><span class="s">LSR</span><span class="sh">'</span><span class="p">:</span>
-        <span class="c1"># Calculate intermediate values for LSR path
-</span>        <span class="n">p_squared</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c_ab</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">sa</span> <span class="o">+</span> <span class="n">sb</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">p_squared</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Path not feasible
-</span>            <span class="k">return</span> <span class="bp">None</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">p_squared</span><span class="p">)</span>
-        <span class="n">tmp2</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">((</span><span class="o">-</span><span class="n">ca</span> <span class="o">-</span> <span class="n">cb</span><span class="p">),</span> <span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="n">sa</span> <span class="o">+</span> <span class="n">sb</span><span class="p">))</span> <span class="o">-</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">tmp2</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="o">-</span><span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">tmp2</span><span class="p">)</span>
+    # Case LSR Dubins path (similar structure to LSL)
+    elif planner_uc == 'LSR':
+        # Calculate intermediate values for LSR path
+        p_squared = -2 + (d * d) + (2 * c_ab) + (2 * d * (sa + sb))
+        if p_squared < 0:  # Path not feasible
+            return None
+        p = m.sqrt(p_squared)
+        tmp2 = m.atan2((-ca - cb), (d + sa + sb)) - m.atan2(-2.0, p)
+        t = mod_to_pi(-alpha + tmp2)
+        q = mod_to_pi(-mod_to_pi(beta) + tmp2)
 
-    <span class="c1"># Case RSL Dubins path (similar structure to LSR)
-</span>    <span class="k">elif</span> <span class="n">planner_uc</span> <span class="o">==</span> <span class="sh">'</span><span class="s">RSL</span><span class="sh">'</span><span class="p">:</span>
-        <span class="c1"># Calculate intermediate values for RSL path
-</span>        <span class="n">p_squared</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c_ab</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">sa</span> <span class="o">+</span> <span class="n">sb</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">p_squared</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Path not feasible
-</span>            <span class="k">return</span> <span class="bp">None</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">p_squared</span><span class="p">)</span>
-        <span class="n">tmp2</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">((</span><span class="n">ca</span> <span class="o">+</span> <span class="n">cb</span><span class="p">),</span> <span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">sa</span> <span class="o">-</span> <span class="n">sb</span><span class="p">))</span> <span class="o">-</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">tmp2</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="n">tmp2</span><span class="p">)</span>
+    # Case RSL Dubins path (similar structure to LSR)
+    elif planner_uc == 'RSL':
+        # Calculate intermediate values for RSL path
+        p_squared = (d * d) - 2 + (2 * c_ab) - (2 * d * (sa + sb))
+        if p_squared < 0:  # Path not feasible
+            return None
+        p = m.sqrt(p_squared)
+        tmp2 = m.atan2((ca + cb), (d - sa - sb)) - m.atan2(2.0, p)
+        t = mod_to_pi(alpha - tmp2)
+        q = mod_to_pi(beta - tmp2)
 
-    <span class="c1"># Case RLR Dubins path (similar structure to LSL)
-</span>    <span class="k">elif</span> <span class="n">planner_uc</span> <span class="o">==</span> <span class="sh">'</span><span class="s">RLR</span><span class="sh">'</span><span class="p">:</span>
-        <span class="c1"># Calculate intermediate values for RLR path
-</span>        <span class="n">tmp_rlr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">6.0</span> <span class="o">-</span> <span class="n">d</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">c_ab</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">sa</span> <span class="o">-</span> <span class="n">sb</span><span class="p">))</span> <span class="o">/</span> <span class="mf">8.0</span>
-        <span class="k">if</span> <span class="nf">abs</span><span class="p">(</span><span class="n">tmp_rlr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>  <span class="c1"># Path not feasible
-</span>            <span class="k">return</span> <span class="bp">None</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">m</span><span class="p">.</span><span class="nf">acos</span><span class="p">(</span><span class="n">tmp_rlr</span><span class="p">))</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="n">ca</span> <span class="o">-</span> <span class="n">cb</span><span class="p">,</span> <span class="n">d</span> <span class="o">-</span> <span class="n">sa</span> <span class="o">+</span> <span class="n">sb</span><span class="p">)</span> <span class="o">+</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">p</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">-</span> <span class="n">t</span> <span class="o">+</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+    # Case RLR Dubins path (similar structure to LSL)
+    elif planner_uc == 'RLR':
+        # Calculate intermediate values for RLR path
+        tmp_rlr = (6.0 - d * d + 2.0 * c_ab + 2.0 * d * (sa - sb)) / 8.0
+        if abs(tmp_rlr) > 1.0:  # Path not feasible
+            return None
+        p = mod_to_pi(2 * m.pi - m.acos(tmp_rlr))
+        t = mod_to_pi(alpha - m.atan2(ca - cb, d - sa + sb) + mod_to_pi(p / 2.0))
+        q = mod_to_pi(alpha - beta - t + mod_to_pi(p))
 
-    <span class="c1"># Case LRL Dubins path (similar structure to RLR)
-</span>    <span class="k">elif</span> <span class="n">planner_uc</span> <span class="o">==</span> <span class="sh">'</span><span class="s">LRL</span><span class="sh">'</span><span class="p">:</span>
-        <span class="c1"># Calculate intermediate values for LRL path
-</span>        <span class="n">tmp_lrl</span> <span class="o">=</span> <span class="p">(</span><span class="mf">6.</span> <span class="o">-</span> <span class="n">d</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">c_ab</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span> <span class="n">sa</span> <span class="o">+</span> <span class="n">sb</span><span class="p">))</span> <span class="o">/</span> <span class="mf">8.</span>
-        <span class="k">if</span> <span class="nf">abs</span><span class="p">(</span><span class="n">tmp_lrl</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Path not feasible
-</span>            <span class="k">return</span> <span class="bp">None</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">m</span><span class="p">.</span><span class="nf">acos</span><span class="p">(</span><span class="n">tmp_lrl</span><span class="p">))</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="n">ca</span> <span class="o">-</span> <span class="n">cb</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="n">sa</span> <span class="o">-</span> <span class="n">sb</span><span class="p">)</span> <span class="o">+</span> <span class="n">p</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">t</span> <span class="o">+</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+    # Case LRL Dubins path (similar structure to RLR)
+    elif planner_uc == 'LRL':
+        # Calculate intermediate values for LRL path
+        tmp_lrl = (6. - d * d + 2 * c_ab + 2 * d * (- sa + sb)) / 8.
+        if abs(tmp_lrl) > 1:  # Path not feasible
+            return None
+        p = mod_to_pi(2 * m.pi - m.acos(tmp_lrl))
+        t = mod_to_pi(-alpha - m.atan2(ca - cb, d + sa - sb) + p / 2.)
+        q = mod_to_pi(mod_to_pi(beta) - alpha - t + mod_to_pi(p))
 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">The given plan </span><span class="sh">"</span><span class="p">,</span> <span class="n">planner</span><span class="p">,</span> <span class="sh">"</span><span class="s"> is false.</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># Invalid planner input
-</span>
-    <span class="c1"># Create the Dubins path as a list of angles and distances
-</span>    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">]</span>
+    else:
+        print("The given plan ", planner, " is false.")  # Invalid planner input
 
-    <span class="c1"># Adjust angles if planner segments are lowercase (for reverse motion)
-</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">planner</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="nf">islower</span><span class="p">():</span>
-            <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    # Create the Dubins path as a list of angles and distances
+    path = [t, p, q]
 
-    <span class="c1"># Calculate the cost of the path (sum of absolute values of angles and distance)
-</span>    <span class="n">cost</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="nf">map</span><span class="p">(</span><span class="nb">abs</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+    # Adjust angles if planner segments are lowercase (for reverse motion)
+    for i in [0, 2]:
+        if planner[i].islower():
+            path[i] = (2 * m.pi) - path[i]
 
-    <span class="nf">return </span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">cost</span><span class="p">)</span>
+    # Calculate the cost of the path (sum of absolute values of angles and distance)
+    cost = sum(map(abs, path))
 
-<span class="c1"># Function to calculate the length of a Dubins path
-</span><span class="k">def</span> <span class="nf">dubins_path_length</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
-    <span class="c1"># Unpack start and end configurations
-</span>    <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">syaw</span><span class="p">)</span> <span class="o">=</span> <span class="n">start</span>
-    <span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">,</span> <span class="n">eyaw</span><span class="p">)</span> <span class="o">=</span> <span class="n">end</span>
+    return (path, mode, cost)
+
+# Function to calculate the length of a Dubins path
+def dubins_path_length(start, end, radius):
+    # Unpack start and end configurations
+    (sx, sy, syaw) = start
+    (ex, ey, eyaw) = end
     
-    <span class="c1"># Convert angles to radians
-</span>    <span class="n">syaw</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">syaw</span><span class="p">)</span>
-    <span class="n">eyaw</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">eyaw</span><span class="p">)</span>
+    # Convert angles to radians
+    syaw = m.radians(syaw)
+    eyaw = m.radians(eyaw)
     
-    <span class="c1"># Define the turning radius
-</span>    <span class="n">c</span> <span class="o">=</span> <span class="n">radius</span>
+    # Define the turning radius
+    c = radius
     
-    <span class="c1"># Calculate differences in coordinates
-</span>    <span class="n">ex</span> <span class="o">=</span> <span class="n">ex</span> <span class="o">-</span> <span class="n">sx</span>
-    <span class="n">ey</span> <span class="o">=</span> <span class="n">ey</span> <span class="o">-</span> <span class="n">sy</span>
+    # Calculate differences in coordinates
+    ex = ex - sx
+    ey = ey - sy
     
-    <span class="c1"># Project end point onto start orientation
-</span>    <span class="n">lex</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">syaw</span><span class="p">)</span> <span class="o">*</span> <span class="n">ex</span> <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">syaw</span><span class="p">)</span> <span class="o">*</span> <span class="n">ey</span>
-    <span class="n">ley</span> <span class="o">=</span> <span class="o">-</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">syaw</span><span class="p">)</span> <span class="o">*</span> <span class="n">ex</span> <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">syaw</span><span class="p">)</span> <span class="o">*</span> <span class="n">ey</span>
-    <span class="n">leyaw</span> <span class="o">=</span> <span class="n">eyaw</span> <span class="o">-</span> <span class="n">syaw</span>
+    # Project end point onto start orientation
+    lex = m.cos(syaw) * ex + m.sin(syaw) * ey
+    ley = - m.sin(syaw) * ex + m.cos(syaw) * ey
+    leyaw = eyaw - syaw
     
-    <span class="c1"># Calculate the total distance
-</span>    <span class="n">D</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">lex</span> <span class="o">**</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">ley</span> <span class="o">**</span> <span class="mf">2.0</span><span class="p">)</span>
+    # Calculate the total distance
+    D = m.sqrt(lex ** 2.0 + ley ** 2.0)
 
-    <span class="k">return</span> <span class="n">D</span>
+    return D
 
-<span class="c1"># Finds the Dubins path between two points
-</span><span class="k">def</span> <span class="nf">dubins_path</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+# Finds the Dubins path between two points
+def dubins_path(start, end, radius):
 
-    <span class="c1"># Calculate the length
-</span>    <span class="n">D</span> <span class="o">=</span> <span class="nf">dubins_path_length</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">D</span> <span class="o">/</span> <span class="n">radius</span>
+    # Calculate the length
+    D = dubins_path_length(start, end, radius)
+    d = D / radius
 
-    <span class="c1"># Define important angles
-</span>    <span class="n">theta</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="n">ley</span><span class="p">,</span> <span class="n">lex</span><span class="p">))</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="o">-</span> <span class="n">theta</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="nf">mod_to_pi</span><span class="p">(</span><span class="n">leyaw</span> <span class="o">-</span> <span class="n">theta</span><span class="p">)</span>
+    # Define important angles
+    theta = mod_to_pi(m.atan2(ley, lex))
+    alpha = mod_to_pi(- theta)
+    beta = mod_to_pi(leyaw - theta)
 
-    <span class="c1"># Iterate through all possible paths
-</span>    <span class="n">planners</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">LSL</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RSR</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LSR</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RSL</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RLR</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LRL</span><span class="sh">'</span><span class="p">]</span>
-    <span class="n">bcost</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="sh">"</span><span class="s">inf</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">bt</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bq</span><span class="p">,</span> <span class="n">bmode</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
-    <span class="k">for</span> <span class="n">planner</span> <span class="ow">in</span> <span class="n">planners</span><span class="p">:</span>
+    # Iterate through all possible paths
+    planners = ['LSL', 'RSR', 'LSR', 'RSL', 'RLR', 'LRL']
+    bcost = float("inf")
+    bt, bp, bq, bmode = None, None, None, None
+    for planner in planners:
 
-        <span class="c1"># find the solution for the Dubins path
-</span>        <span class="n">solution</span> <span class="o">=</span> <span class="nf">general_planner</span><span class="p">(</span><span class="n">planner</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        # find the solution for the Dubins path
+        solution = general_planner(planner, alpha, beta, d)
 
-        <span class="k">if</span> <span class="n">solution</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">continue</span>
+        if solution is None:
+            continue
 
-        <span class="c1"># Collect the data from the solution
-</span>        <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">cost</span><span class="p">)</span> <span class="o">=</span> <span class="n">solution</span>
-        <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="k">if</span> <span class="n">bcost</span> <span class="o">&gt;</span> <span class="n">cost</span><span class="p">:</span>
-            <span class="c1"># Best cost
-</span>            <span class="n">bt</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bq</span><span class="p">,</span> <span class="n">bmode</span> <span class="o">=</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">mode</span>
-            <span class="n">bcost</span> <span class="o">=</span> <span class="n">cost</span>
+        # Collect the data from the solution
+        (path, mode, cost) = solution
+        (t, p, q) = path
+        if bcost > cost:
+            # Best cost
+            bt, bp, bq, bmode = t, p, q, mode
+            bcost = cost
 
-    <span class="nf">return </span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">zip</span><span class="p">(</span><span class="n">bmode</span><span class="p">,</span> <span class="p">[</span><span class="n">bt</span><span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="n">bp</span><span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="n">bq</span><span class="o">*</span><span class="n">c</span><span class="p">],</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)))</span>
-</code></pre></div></div>
-<p>It’s more difficult to then actually create the final curve but the <code class="language-plaintext highlighter-rouge">gds_solution()</code> function can easily be extended to draw Dubins paths with Matplotlib<sup id="fnref:Matplotlib" role="doc-noteref"><a href="#fn:Matplotlib" class="footnote" rel="footnote">6</a></sup>, too, for example. We can wrap it all up into a single, simple to use function just like any other provided by the design library you might be using. In this case, I have been using the Nazca library<sup id="fnref:NazcaLib" role="doc-noteref"><a href="#fn:NazcaLib" class="footnote" rel="footnote">7</a></sup> which comes with several interconnects, including straights and circular arcs which are used often but very tedious and slow to work with alone. Using <code class="language-plaintext highlighter-rouge">dubin_p2p()</code> as shown below, we can simply define the start pin, the end pin, and our code will route a Dubins path between them using the straights and circular arcs provided by Nazca. Of course, this can be easily adapted to other tools like GDSFactory<sup id="fnref:GDSFactory" role="doc-noteref"><a href="#fn:GDSFactory" class="footnote" rel="footnote">8</a></sup>.</p>
+    return (list(zip(bmode, [bt*c, bp*c, bq*c], [c] * 3)))
+```
+-->
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Generate a Nazca cell for a given Dubins path solution
-</span><span class="k">def</span> <span class="nf">gds_solution</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pin1</span><span class="p">,</span> <span class="n">pin2</span><span class="p">,</span> <span class="n">solution</span><span class="p">):</span>
-    <span class="sh">"""</span><span class="s">
-    Analogously to plotSolution() we draw the trajectory of a 
+<p>It doesn’t take much time to either do an implementation from scratch or adapt preexisting code. We can then wrap it all up into a single, simple to use function just like any other provided by the design library you might be using. In this case, I have been using the Nazca library<sup id="fnref:NazcaLib" role="doc-noteref"><a href="#fn:NazcaLib" class="footnote" rel="footnote">6</a></sup> which comes with several interconnects, including straights and circular arcs which are used often but very tedious and slow to work with alone. Using <code class="language-plaintext highlighter-rouge">dubin_p2p()</code>, we can simply define the start pin, the end pin, and our code will route a Dubins path between them using the straights and circular arcs provided by Nazca. Of course, this can be easily adapted to other tools like GDSFactory<sup id="fnref:GDSFactory" role="doc-noteref"><a href="#fn:GDSFactory" class="footnote" rel="footnote">7</a></sup>.</p>
+
+<!--
+```python
+# Generate a Nazca cell for a given Dubins path solution
+def gds_solution(xs, pin1, pin2, solution):
+    """
+    We draw the trajectory of a 
     given solution for a Dubins path between
     two points, here, the pins, to be rendered in .gds!
-    </span><span class="sh">"""</span>
-    <span class="c1"># Get the pin vectors from nazca pin1 and pin2
-</span>    <span class="n">start</span> <span class="o">=</span> <span class="n">pin1</span><span class="p">.</span><span class="nf">xya</span><span class="p">()</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="n">pin2</span><span class="p">.</span><span class="nf">xya</span><span class="p">()</span>
+    """
+    # Get the pin vectors from nazca pin1 and pin2
+    start = pin1.xya()
+    end = pin2.xya()
 
-    <span class="c1"># Change the angle for the second pin
-</span>    <span class="n">new_end</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
-    <span class="n">new_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">180</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="nf">tuple</span><span class="p">(</span><span class="n">new_end</span><span class="p">)</span>
+    # Change the angle for the second pin
+    new_end = list(end)
+    new_end[2] = new_end[2] - 180
+    end = tuple(new_end)
         
-    <span class="c1"># Define the xs for the .gds file
-</span>    <span class="n">ic</span> <span class="o">=</span> <span class="nc">Interconnect</span><span class="p">(</span><span class="n">xs</span><span class="o">=</span><span class="n">xs</span><span class="p">)</span>
+    # Define the xs for the .gds file
+    ic = Interconnect(xs=xs)
 
-    <span class="c1"># Create the cell object for the path
-</span>    <span class="k">with</span> <span class="n">nd</span><span class="p">.</span><span class="nc">Cell</span><span class="p">(</span><span class="sh">"</span><span class="s">dubins-path</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">C</span><span class="p">:</span>
+    # Create the cell object for the path
+    with nd.Cell("dubins-path") as C:
 
-        <span class="c1"># Define important points
-</span>        <span class="n">radius</span> <span class="o">=</span> <span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">current_position</span> <span class="o">=</span> <span class="n">start</span>
-        <span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">syaw</span><span class="p">)</span> <span class="o">=</span> <span class="n">start</span>
-        <span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">,</span> <span class="n">eyaw</span><span class="p">)</span> <span class="o">=</span> <span class="n">end</span>
-        <span class="n">ex</span> <span class="o">=</span> <span class="n">ex</span> <span class="o">-</span> <span class="n">sx</span>
-        <span class="n">ey</span> <span class="o">=</span> <span class="n">ey</span> <span class="o">-</span> <span class="n">sy</span>
+        # Define important points
+        radius = solution[0][2]
+        current_position = start
+        (sx, sy, syaw) = start
+        (ex, ey, eyaw) = end
+        ex = ex - sx
+        ey = ey - sy
 
-        <span class="c1"># Draw the S, L, or R elements from the solution
-</span>        <span class="nf">for </span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span> <span class="ow">in</span> <span class="n">solution</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="sh">'</span><span class="s">L</span><span class="sh">'</span><span class="p">:</span>
-                <span class="c1"># Find the center of the circle
-</span>                <span class="n">center</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
-                    <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">90</span><span class="p">))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
+        # Draw the S, L, or R elements from the solution
+        for (mode, length, radius) in solution:
+            if mode == 'L':
+                # Find the center of the circle
+                center = (
+                    current_position[0] 
+                    + m.cos(m.radians(current_position[2] + 90)) * radius,
 
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">90</span><span class="p">))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="n">new_position</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">-</span> <span class="mi">90</span> <span class="o">+</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
+                    current_position[1]
+                    + m.sin(m.radians(current_position[2] + 90)) * radius,
+                )
+                new_position = (
+                    center[0] + m.cos(m.radians(current_position[2]
+                    - 90 + (180 * length / (m.pi * radius)))) * radius,
 
-                    <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">-</span> <span class="mi">90</span> <span class="o">+</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
+                    center[1] + m.sin(m.radians(current_position[2]
+                    - 90 + (180 * length / (m.pi * radius)))) * radius,
 
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))</span>
-                <span class="p">)</span>
-                <span class="n">arc_angle</span> <span class="o">=</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))</span>
-                <span class="c1"># Change this line if you want to use the function
-</span>                <span class="c1"># in, for example, Matplotlib
-</span>                <span class="n">ic</span><span class="p">.</span><span class="nf">bend</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">arc_angle</span><span class="p">).</span><span class="nf">put</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="sh">'</span><span class="s">R</span><span class="sh">'</span><span class="p">:</span>
-                <span class="c1"># Find the center of the circle
-</span>                <span class="n">center</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">90</span><span class="p">))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
+                    current_position[2] + (180 * length / (m.pi * radius))
+                )
+                arc_angle = (180 * length / (m.pi * radius))
+                # Change this line if you want to use the function
+                # in, for example, Matplotlib
+                ic.bend(radius=radius, angle=arc_angle).put()
+            elif mode == 'R':
+                # Find the center of the circle
+                center = (
+                    current_position[0]
+                    + m.cos(m.radians(current_position[2] - 90)) * radius,
 
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">90</span><span class="p">))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="n">new_position</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
+                    current_position[1]
+                    + m.sin(m.radians(current_position[2] - 90)) * radius,
+                )
+                new_position = (
+                    center[0] + m.cos(m.radians(current_position[2]
+                    + 90 - (180 * length / (m.pi * radius)))) * radius,
 
-                    <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))))</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
+                    center[1] + m.sin(m.radians(current_position[2]
+                    + 90 - (180 * length / (m.pi * radius)))) * radius,
 
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))</span>
-                <span class="p">)</span>
-                <span class="n">arc_angle</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))</span>
-                <span class="c1"># Change this line if you want to use the function
-</span>                <span class="c1"># in, for example, Matplotlib
-</span>                <span class="n">ic</span><span class="p">.</span><span class="nf">bend</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">arc_angle</span><span class="p">).</span><span class="nf">put</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="sh">'</span><span class="s">S</span><span class="sh">'</span><span class="p">:</span>
-                <span class="n">new_position</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="o">*</span> <span class="n">length</span><span class="p">,</span>
+                    current_position[2] - (180 * length / (m.pi * radius))
+                )
+                arc_angle = - (180 * length / (m.pi * radius))
+                # Change this line if you want to use the function
+                # in, for example, Matplotlib
+                ic.bend(radius=radius, angle=arc_angle).put()
+            elif mode == 'S':
+                new_position = (
+                    current_position[0]
+                    + m.cos(m.radians(current_position[2])) * length,
 
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="n">m</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="nf">radians</span><span class="p">(</span><span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="o">*</span> <span class="n">length</span><span class="p">,</span>
+                    current_position[1]
+                    + m.sin(m.radians(current_position[2])) * length,
 
-                    <span class="n">current_position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                <span class="p">)</span>
-                <span class="n">xl</span> <span class="o">=</span> <span class="n">current_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">yl</span> <span class="o">=</span> <span class="n">current_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">xl</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">yl</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-                <span class="c1"># Change this line if you want to use the function
-</span>                <span class="c1"># in, for example, Matplotlib
-</span>                <span class="n">ic</span><span class="p">.</span><span class="nf">strt</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">l</span><span class="p">).</span><span class="nf">put</span><span class="p">()</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Something ain</span><span class="sh">'</span><span class="s">t right, buddy.</span><span class="sh">"</span><span class="p">)</span>
+                    current_position[2],
+                )
+                xl = current_position[0] - new_position[0]
+                yl = current_position[1] - new_position[1]
+                l = m.sqrt(xl**2 + yl**2)
+                # Change this line if you want to use the function
+                # in, for example, Matplotlib
+                ic.strt(length=l).put()
+            else:
+                print("Something ain't right, buddy.")
                 
-            <span class="n">current_position</span> <span class="o">=</span> <span class="n">new_position</span>
-    <span class="k">return</span> <span class="n">C</span>
+            current_position = new_position
+    return C
+-->
 
-<span class="c1">#########################################################################
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#########################################################################
 # Use this when designing your PIC with Nazca!
 #########################################################################
 </span>
@@ -459,21 +469,21 @@
 
 <p><img src="/images/dubin/DubinAdvantage.PNG" alt="sleep_figure_1" /></p>
 
-<p>As one can see, not only do other interconnects lead to over-bending of the waveguides and thus a longer path and greater losses, they are also less reliable, predictable, <strong>often break the design rules to not violate the minimum bending radius</strong> as is indeed the case here. They <strong>even intersect each other!</strong> Meanwhile, the Dubins paths behave extremely predictably. They clearly show the shortest path without unnecessary bends and they do not intersect each other which allows for much denser layouts than would be possible with the other interconnects.</p>
+<p>As one can see, not only do other interconnects lead to over-bending of the waveguides and thus a longer path and greater losses, they are also less reliable, predictable, <strong>often break the design rules to not violate the minimum bending radius</strong> as is indeed the case here. They <strong>even intersect each other!</strong> Meanwhile, the Dubins paths behave extremely predictably. They clearly show the shortest path without unnecessary bends and they do not intersect each other which allows for much denser layouts than would be possible with the other interconnects. What I realized only after this was that there are indeed interconnects provided by Nazca which are essentially Dubins paths like <code class="language-plaintext highlighter-rouge">bend_strt_bend_p2p()</code> though not as general.</p>
 
-<p>There is a list of improvements one may make based on this. For one, the curvature of Dubins paths are not smooth which may lead to higher radiation losses. 
-Still, the hours of headaches I personally avoided just by using Dubins paths are insane. It is also simply much more enjoyable to use.</p>
+<p>Also, there is a list of improvements one may make based on this. For one, the curvature of Dubins paths are not smooth which may lead to higher radiation losses. The hours of headaches I personally avoided just by using Dubins paths are insane. It is also simply much more enjoyable to use.</p>
 
 <p>That’s my little tip for those working on photonic integrated circuit layouts. I hope it helps!</p>
 
-<h3 id="citing">Citing</h3>
-<p>If so, you can cite:</p>
-<div class="language-bibtex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">@article</span><span class="p">{</span><span class="nl">QWachDubin2024</span><span class="p">,</span>
-    <span class="na">author</span> <span class="p">=</span> <span class="s">{Quentin Wach}</span><span class="p">,</span>
-    <span class="na">title</span> <span class="p">=</span> <span class="s">{Dubins Paths for Waveguide Routing}</span><span class="p">,</span>
-    <span class="na">year</span> <span class="p">=</span> <span class="s">{2024}</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<!--### BibTeX
+```bibtex
+@article{QWachDubin2024,
+    author = {Quentin Wach},
+    title = {Dubins Paths for Waveguide Routing},
+    year = {2024}
+```
+} -->
+
 <h3 id="references">References</h3>
 <div class="footnotes" role="doc-endnotes">
   <ol>
@@ -491,9 +501,6 @@ Still, the hours of headaches I personally avoided just by using Dubins paths ar
     </li>
     <li id="fn:code1" role="doc-endnote">
       <p><a href="https://atsushisakai.github.io/PythonRobotics/modules/path_planning/dubins_path/dubins_path.html">Atsushi Sakai, <em>“Python Robotics: Dubins Path Planning”</em>, GitHub. (Accessed: Feb 20, 2024)</a> <a href="#fnref:code1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:Matplotlib" role="doc-endnote">
-      <p><a href="https://matplotlib.org/stable/">J. D. Hunter, <em>“Matplotlib: A 2D Graphics Environment”</em>, Computing in Science &amp; Engineering, vol. 9, no. 3, pp. 90-95, 2007.</a> <a href="#fnref:Matplotlib" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:NazcaLib" role="doc-endnote">
       <p><a href="https://nazca-design.org/">Nazca Design: Photonic IC Design Framework</a> <a href="#fnref:NazcaLib" class="reversefootnote" role="doc-backlink">&#8617;</a></p>

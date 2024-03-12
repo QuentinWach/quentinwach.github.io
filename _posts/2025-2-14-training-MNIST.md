@@ -1,9 +1,9 @@
 ---
 layout: post
 mathjax: true
-title:  "Analog Electronic Artificial Neural Networks"
-description: "As a proof of concept, a deep artificial neural network (DNN) is created, trained, and then reimplemented as an analog electronic circuit. The hardware is then tuned so that the performance of the digital original is matched. To do so, a Python library is developed which converts the DNN design into a analog hardware design using a hardware description language (HDL)."
-date:   2025-02-14 20:38:24 +0100
+title:  "Challenges of Analog AI Accelerators"
+description: "A deep artificial neural network (DNN) is trained and then reimplemented as an analog electronic circuit simulated with Python. The Python library is developed to converts the DNN design into an analog hardware design and simulate its operation. That is because an actual physical implementation is extremely costly due to the high cost of the individual components, notably the operational amplifiers, digital to analog converters and digital potentiometers. While a fully analog implementation of a neural network shows great promise in terms of energy efficiency and potentially speed, scaling this technology is not only challenging due to accumulating inaccuracies but also due to the high component costs."
+date:   2025-02-26 20:38:24 +0100
 author: ["Quentin Wach"]
 tags: ["machine learning", "aritificial intelligence", "python", "analog computing", "electronics", "neural networks", "hardware design", "computer engineering"]
 tag_search: true
@@ -12,7 +12,7 @@ image:          "/images/physics-processing-unit/quentinwach_A_modern_machine_br
 
 Read the <a href="/pdfs/Nanoscale_2024_2_13_SA.pdf"><button class="PDFButton">PDF</button></a>.
 
-_As a proof of concept, a deep artificial neural network (DNN) is created, trained, and then reimplemented as an analog electronic circuit. The hardware is then tuned so that the performance of the digital original is matched. To do so, a Python library is developed which converts the DNN design into a analog hardware design using a hardware description language (HDL)._
+_A deep artificial neural network (DNN) is trained and then reimplemented as an analog electronic circuit simulated with Python. The Python library is developed to converts the DNN design into an analog hardware design and simulate its operation. That is because an actual physical implementation is extremely costly due to the high cost of the individual components, notably the operational amplifiers, digital to analog converters and digital potentiometers. While a fully analog implementation of a neural network shows great promise in terms of energy efficiency and potentially speed, scaling this technology is not only challenging due to accumulating inaccuracies but also due to the high component costs._
 
 <div class="tag_list"> 
     <div class="tag">machine learning</div>
@@ -118,11 +118,30 @@ https://github.com/kitspace/awesome-electronics
 Why are OPAMPS so expensive?
 https://open.spotify.com/intl-de/track/164VgxTozx99XCinCB9ITR?si=d850164a39d54909
 
+
+Not only are OPAMPS expensive. Digital potentiometers are even more expensive! But how do we load in our data then?
+
+We can use the MCP4011-202E/MS digital potentiometer found on
+https://www.arrow.com/en/products/mcp4011-202ems/microchip-technology?region=nac&utm_currency=USD. Yet, with around 800 input signals, this would cost us roughly 400€ given the price of 0,50€ per potentiometer.
+
+Rather than building our own DAC (digital-to-analog converter) with so many outputs, we should attempt to find an already highly integrated pre-build DAC on the market. Typically, their output channel number is not greater than 32 or 64 though which means we'll need to multiplex.
+
+4 channels
+
+100 = 170€
+--> 340€ for 800 channels... This sucks...
+https://www.digikey.de/en/products/detail/microchip-technology/MCP4728T-E-UN/5358293
+
+
 Why are there so many fucking different OPAMS?
 See the blog on my HHI laptop.
 
 Why people don't think about analog computing. Yet it is everywhere!
 https://electronics.stackexchange.com/questions/595199/what-is-the-actual-niche-for-operational-amplifiers-these-days
+
+
+This paper shows how difficult it is to design, simulate, and actually build such an analog neural network as they only created a simulation as well! And they did so for a CMOS!
+https://drive.google.com/file/d/1aGEucNV2uK2J1UHzV5xi8G5DK6MYNnQh/view
 
 
 ### Analog Electronic Artificial Neuron
@@ -138,14 +157,14 @@ I wanted to keep this first experiment under a budget of 50€ because I am brok
 ## Dense Neural Network
 We can recognize handwritten numbers using deep neural networks[^1] quite easily using convolutional layers[^2] but I will focus only on densily connected neurons for now. The dataset commonly used for this task is the famous _MNIST_[^3] dataset. All of our code will be written in Python[^Python]. Let's begin with importing some libraries.
 
-```Python
+```python
 import numpy as np
 import PyTorch as torch
 import matplitlib.pyplot as plt
 ```
 
 We then define the architecture of our network:
-```Python
+```python
 # input layer
 
 # hidden layers
@@ -159,8 +178,61 @@ We then define the architecture of our network:
 
 
 
+The first Perceptron was, in fact, implemented using a custom analog computer at the time[^PerceptronAnalog] (See Veritasium.). 
+
+>"The perceptron was invented in 1943 by Warren McCulloch and Walter Pitts[^]. The first hardware implementation was Mark I Perceptron machine built in 1957 at the Cornell Aeronautical Laboratory by Frank Rosenblatt,[^] [...]" (Wikipedia[^].)
+
+
+<style>
+    img[alt=Omniman] { float: right; width: 50%; border-radius:15px; padding-left: 10px;, padding-bottom: 10px; padding-top: 10px;}
+</style>
+![Omniman](/images/omni_man_analog_meme.png)
+
+
+
+### Analog Circuits
+
+**Signal Generators.**
+As it turns out, signal generators, implementing functions with analog circuitry, is a non-trivial task in its own right which has its own research field dedicated to it. But since our goal here is a _"simple"_ ASIC with only a few non-linear functions, this should be manageable, right? _RIGHT?!_ 
+
+**Leaky ReLu.** 
+
+**Sigmoid.**
+
+
+### Creating the Printed Circuit Board (PCB)
+In order to learn how to create custom PCBs, I have been watching and working through [this course by Philip Salmony (Phil's Lab)](https://www.youtube.com/watch?v=aVUqaB0IMh4). The whole project is based on the STM32 microcontroller.
+
+If you are already proficient in PCB design, skip this section because I will be going through some fairly basic stuff, I am sure. That's because, at this point, wasn't trained to build one and so I will also share here how I learned to design PCBs.
+
+* What is a micro-controller?
+* What can the STM32 do / why did we choose it?
+* Why do we add each of these capacitors?
+* Why do we have a different source for analog voltage compared to the digital voltage?
+* Why do we add a ferrite bead? To dissipate heat? Why is that necessary?
+* Why is the internal crystal oscillator so bad that we have to add our own one? What does that mean?
+
+Integrated Development Environment for STM32: 
+
+
+
+### What's Next?
+The great challenge of analog designs overall is managing noise. This project did not bother with that problem at all since it is a rather tiny prototype. But in order to scale it from a few hundred neurons to millions, we will need to come up with a way to either eliminate the noise problem or make it a feature just like it is in the human brain. Both are interesting directions though the latter would make more sense if we actually move away from artificial neural networks to spiking neural networks. 
+
+Due to the cost of the components, miniaturization will also be essential. But so far, so good!
+
+<div style="{background-color: 'crimson'; border-radius: 15px;}">
+### Get One!
+Thank you for reading 😁. (Or even just scrolling through all of this.) If you found this interesting, I encourage you to go and check out
+    <div>
+    <button href="" class="PDFButton">all the files on Github (free)</button>
+    or
+    <button href="" class="PDFButton">get a working and tested board ($49,99 + shipping)</button>
+    </div>
+</div>
+
 ### References
 [^1]: A
 [^2]: B
 [^3]: C
-[^Python]: 
+[^Python]: Python

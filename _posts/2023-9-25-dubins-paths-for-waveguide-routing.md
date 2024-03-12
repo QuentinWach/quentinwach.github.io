@@ -11,9 +11,9 @@ tag_search: true
 toc: true
 toc_sticky: true
 ---
-Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.
+<!--Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.-->
 
-_What does the perfect waveguide routing look like? Traditional waveguide interconnects lack efficiency and optimization, leading to suboptimal photonic integrated circuits (PICs). Addressing key concerns like minimizing internal and radiation losses, reducing cross-talk, and avoiding unnecessary crossings, I explored the concept of finding the shortest path between two points in a PIC given a minimum bending radius. Dubins paths, already well known in robotics and control theory, emerged as a simple and highly practical solution._
+_(Updated: March 12, 2024.) What does the perfect waveguide routing look like? Traditional waveguide interconnects lack efficiency and optimization, leading to suboptimal photonic integrated circuits (PICs). Addressing key concerns like minimizing internal and radiation losses, reducing cross-talk, and avoiding unnecessary crossings, I explored the concept of finding the shortest path between two points in a PIC given a minimum bending radius. Dubins paths, already well known in robotics and control theory, emerged as a simple and highly practical solution._
 
 <div class="tag_list"> 
     <div class="tag">photonic integrated circuits</div>
@@ -60,7 +60,10 @@ You can see three examples of the possible paths in the figure I adapted here[^W
 Dubins did indeed prove that these trajectories are the shortest paths mathematically. The geometric construction is quite intuitive and a nice toy problem to figure out on ones own but it can quickly explode into multiple pages of pen and paper calculations and diagrams which is why I am not going to go into it here. Instead, I refer to a great overview and explanation of the synthesis of Dubins paths given by David A. Anisi[^DubinImplementPaper]. A wonderful and in-depth guide is also given by Andy G[^DubinGuide].
 
 ### 4 Code
-Let's go through some code to generate them, though. There is an abundance of implementations of Dubins paths available on the internet[^code1]. What I present here is a hacked together version. First, it's useful to define a little helper to keep all the angles within the range of $$ [ 0, 2 \pi ) $$:
+There is an abundance of implementations of Dubins paths available on the internet[^code1].
+
+<!--
+What I present here is a hacked together version. First, it's useful to define a little helper to keep all the angles within the range of $$ [ 0, 2 \pi ) $$:
 ```python
 import math as m
 
@@ -246,13 +249,16 @@ def dubins_path(start, end, radius):
 
     return (list(zip(bmode, [bt*c, bp*c, bq*c], [c] * 3)))
 ```
-It's more difficult to then actually create the final curve but the `gds_solution()` function can easily be extended to draw Dubins paths with Matplotlib[^Matplotlib], too, for example. We can wrap it all up into a single, simple to use function just like any other provided by the design library you might be using. In this case, I have been using the Nazca library[^NazcaLib] which comes with several interconnects, including straights and circular arcs which are used often but very tedious and slow to work with alone. Using `dubin_p2p()` as shown below, we can simply define the start pin, the end pin, and our code will route a Dubins path between them using the straights and circular arcs provided by Nazca. Of course, this can be easily adapted to other tools like GDSFactory[^GDSFactory].
+-->
 
+It doesn't take much time to either do an implementation from scratch or adapt preexisting code. We can then wrap it all up into a single, simple to use function just like any other provided by the design library you might be using. In this case, I have been using the Nazca library[^NazcaLib] which comes with several interconnects, including straights and circular arcs which are used often but very tedious and slow to work with alone. Using `dubin_p2p()`, we can simply define the start pin, the end pin, and our code will route a Dubins path between them using the straights and circular arcs provided by Nazca. Of course, this can be easily adapted to other tools like GDSFactory[^GDSFactory].
+
+<!--
 ```python
 # Generate a Nazca cell for a given Dubins path solution
 def gds_solution(xs, pin1, pin2, solution):
     """
-    Analogously to plotSolution() we draw the trajectory of a 
+    We draw the trajectory of a 
     given solution for a Dubins path between
     two points, here, the pins, to be rendered in .gds!
     """
@@ -346,7 +352,9 @@ def gds_solution(xs, pin1, pin2, solution):
                 
             current_position = new_position
     return C
+-->
 
+```python
 #########################################################################
 # Use this when designing your PIC with Nazca!
 #########################################################################
@@ -397,22 +405,21 @@ In the figure below, a comparison between a dense array of Dubins paths and arra
 
 ![sleep_figure_1](/images/dubin/DubinAdvantage.PNG)
 
-As one can see, not only do other interconnects lead to over-bending of the waveguides and thus a longer path and greater losses, they are also less reliable, predictable, **often break the design rules to not violate the minimum bending radius** as is indeed the case here. They **even intersect each other!** Meanwhile, the Dubins paths behave extremely predictably. They clearly show the shortest path without unnecessary bends and they do not intersect each other which allows for much denser layouts than would be possible with the other interconnects. 
+As one can see, not only do other interconnects lead to over-bending of the waveguides and thus a longer path and greater losses, they are also less reliable, predictable, **often break the design rules to not violate the minimum bending radius** as is indeed the case here. They **even intersect each other!** Meanwhile, the Dubins paths behave extremely predictably. They clearly show the shortest path without unnecessary bends and they do not intersect each other which allows for much denser layouts than would be possible with the other interconnects. What I realized only after this was that there are indeed interconnects provided by Nazca which are essentially Dubins paths like `bend_strt_bend_p2p()` though not as general.
 
-There is a list of improvements one may make based on this. For one, the curvature of Dubins paths are not smooth which may lead to higher radiation losses. 
-Still, the hours of headaches I personally avoided just by using Dubins paths are insane. It is also simply much more enjoyable to use. 
+Also, there is a list of improvements one may make based on this. For one, the curvature of Dubins paths are not smooth which may lead to higher radiation losses. The hours of headaches I personally avoided just by using Dubins paths are insane. It is also simply much more enjoyable to use. 
 
 That's my little tip for those working on photonic integrated circuit layouts. I hope it helps! 
 
-### Citing
-If so, you can cite:
+<!--### BibTeX
 ```bibtex
 @article{QWachDubin2024,
     author = {Quentin Wach},
     title = {Dubins Paths for Waveguide Routing},
     year = {2024}
-}
 ```
+} -->
+
 ### References
 [^DubinPaper]: [Dubins, L. E., _"On Curves of Minimal Length with a Constraint on Average Curvature, and with Prescribed Initial and Terminal Positions and Tangents"_. American Journal of Mathematics. 79 (3): 497–516, 1957](https://doi.org/10.2307/2372560)
 [^NazcaLib]: [Nazca Design: Photonic IC Design Framework](https://nazca-design.org/)
