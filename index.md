@@ -104,18 +104,27 @@ and **photonic computing** (How can we build faster and more energy efficient co
 
 I have been part of two [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, developing new building blocks to be used within our group, and running and automating large simulations.
 
-_More details coming._
-
-
 
 <!--### Artificial Intelligence
 Among others, PICs enable new computing technologies. That brought ...
 
 **Hardware for AI**...
 -->
+<!-- 
 ### Simulations & Programmatic Visualizations
 I like to model, simulate, and visualize complex and chaotic physical systems both for work as well as a hobby. For some time, I regularly shared simple animations online that have been viewed hundreds of thousands of times on Twitter and Reddit.
 
+Due to popular demand, I also created (from scratch) a [website to teach students how to create scientific figures and animations with Python for free](https://quentinwach.com/Animating-Science):
+
+<style>
+    img[alt=ScienceAnim] {float: center; width: 100%; border-radius: 15px; margin-top:10px;}
+</style>
+<a href="https://quentinwach.com/Animating-Science">
+![ScienceAnim](/images/science animations/top_pic_2.png)
+</a>
+-->
+
+<!-- ######################################################## -->
 <!--This lead to minor collaborations with the popular Python library for scientific graphs [Matplotlib]() and the YouTube Channel Veritasium with ... followers ... -->
 
 <!--
@@ -131,14 +140,6 @@ I like to model, simulate, and visualize complex and chaotic physical systems bo
     <img src="/images/science animations/movieComp.gif" alt="ScienceAnim" style="width: 30%;">
 </div>
 -->
-Due to popular demand, I also created (from scratch) a [website to teach students how to create scientific figures and animations with Python for free](https://quentinwach.com/Animating-Science):
-
-<style>
-    img[alt=ScienceAnim] {float: center; width: 100%; border-radius: 15px; margin-top:10px;}
-</style>
-<a href="https://quentinwach.com/Animating-Science">
-![ScienceAnim](/images/science animations/top_pic_2.png)
-</a>
 
 <!--
 **Art & Music.**
@@ -166,3 +167,5 @@ My professional performances and tracks/compositions I created in the past are m
 </div>
 
 -->
+
+_More details coming as I just started populating this website._
