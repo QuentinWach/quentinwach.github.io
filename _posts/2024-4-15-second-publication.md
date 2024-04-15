@@ -10,7 +10,7 @@ image:          "/images/NS_Title_Graphic_Square_3.png"
 tag_search:     true
 redirect:   "https://doi.org/10.1002/adpr.202200243"
 categories: "science-engineering"
-note: "Published soon w. minor changes. (Read the previous article.)"
+note: "Under peer-review. (Read the previous article.)"
 weight: 2
 progress: 0.99
 ---
