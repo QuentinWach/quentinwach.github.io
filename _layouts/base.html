@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body onload="document.body.style.opacity='1'">
+    {%- include header.html -%}
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div style="height: 50px;">
+          </br>
+        </div>
+        {{ content }}
+      </div>
+    </main>
+
+
+    {%- include footer.html -%}
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.tag-filter a').click(function(e){
+                e.preventDefault();
+                var tag = $(this).attr('href').substring(1);
+                $('.post').hide();
+                $('.post[data-tags~="' + tag + '"]').show();
+            });
+        });
+    </script>
+
+
+  </body>
+
+</html>

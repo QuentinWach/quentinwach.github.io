@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-04-16T00:30:43+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Q. Wach</title><subtitle></subtitle><entry><title type="html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</title><link href="http://localhost:4000/science-engineering/2024/04/07/second-publication.html" rel="alternate" type="text/html" title="Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures" /><published>2024-04-07T21:38:24+02:00</published><updated>2024-04-07T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/04/07/second-publication</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/04/07/second-publication.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[The charge transport in semiconductor quantum dots and nanorods is studied theoretically, predicting strong field-dependent nonlinear mobility effects and intra-pulse gain. We studied the temperature- and size-sensitive mobility spectra, crucial for applications like 6G tech and nano electronics in general.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" /><media:content medium="image" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Dubins Paths for Waveguide Routing</title><link href="http://localhost:4000/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html" rel="alternate" type="text/html" title="Dubins Paths for Waveguide Routing" /><published>2024-02-15T20:38:24+01:00</published><updated>2024-02-15T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html"><![CDATA[<!--Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.-->
+<p><span class="sidenote-left">
+<em>(Updated: March 12, 2024.)</em> I deleted the majority of the code I presented when I posted this first as it was quite hacky and all the recources can be found in the links below. It should also be added that, while much of the photonics community does not seem to be aware of Dubins paths and instead talk about s-bends and so on, I believe libraries already implement similar methods and Dubins paths are more or less just a generalization that can make life easier at times. It sure did for me and my work.
+</span></p>
+
+<p><em>What does the perfect waveguide routing look like? Traditional waveguide interconnects lack efficiency and optimization, leading to suboptimal photonic integrated circuits (PICs). Addressing key concerns like minimizing internal and radiation losses, reducing cross-talk, and avoiding unnecessary crossings, I explored the concept of finding the shortest path between two points in a PIC given a minimum bending radius. Dubins paths, already well known in robotics and control theory, emerged as a simple and highly practical solution.</em></p>
+
+<div class="tag_list"> 
+    <div class="tag">photonic integrated circuits</div>
+    <div class="tag">design automation</div>
+    <div class="tag">robotics</div>
+    <div class="tag">gds</div>
+</div>
+
+<h3 id="1-introduction">1 Introduction</h3>
+<p>I’ll try to keep this short and not ramble too much. I just want to get this out there since I found it rather useful and can’t believe it isn’t yet standard.</p>
+
+<p>When I started my work on layouts for photonic integrated circuit in September 2023, it became quickly obvious that the typical waveguide interconnects provided by libraries are not well behaved nor optimal as to improve the performance and compactness of the photonic integrated circuit. Most commonly, we have simple straights, circular arcs, all sorts of splines, as well as Euler-bends, in short: They are all simple analytical functions or splines that (try to) optimize themselves. All of these are either simple building blocks that leave most of the work to the designer who has to plan out and specify every route, or behave extremely poorly and lead to overly bendy results that may even cross each other.</p>
+
+<p>So in my first two weeks there, I was thinking about what we have to consider. Waveguides have to fullfil multiple criteria. They need to be…</p>
+
+<ul>
+  <li>As short as possible as to minimize internal losses.</li>
+  <li>As straight and continuos as possible as to minimize radiation losses.</li>
+  <li>As far away from other waveguides and structures as to minimize cross-talk.</li>
+  <li>Does not cross other waveguides unless close to a 90° angle if absolutely necessary.</li>
+</ul>
+
+<p>It became quickly obvious that trying to find an optimum for all these design parameters is impossible unless we either weigh their importance using a complicated metric we have to justify, or make much harder constraints. Since it is common to have a fixed minimum bending radius for waveguides, it makes sense to translate this here. I then boiled all of the considerations down to the single, I believe, most important question: <strong>“What is the shortest path between the pin or vector \(\vec{a}\) and pin or vector \(\vec{b}\) given a minimum bending radius?”</strong></p>
+
+<p>As it turns out, the answer is rather simple and long established in the field of robotics / control theory. <strong>Dubins paths!</strong></p>
+
+<h3 id="2-what-are-they">2 What are they?</h3>
+<p>Dubins paths are named after Lester Dubins, who introduced them in the 1950s<sup id="fnref:DubinPaper" role="doc-noteref"><a href="#fn:DubinPaper" class="footnote" rel="footnote">1</a></sup>. They refer to the shortest paths that a vehicle can take from one point to another while constrained to move at a specific minimum turning radius. These paths are thus commonly studied in the field of motion planning for vehicles, particularly in robotics and aerospace engineering.</p>
+
+<style>
+    img[alt=dubin1] { float: right; width: 65%; padding: 10px; }
+</style>
+
+<p><img src="/images/dubin/wikipedia_3.png" alt="dubin1" /></p>
+
+<p>These paths simply connect circular arcs with straights which leaves us with a couple of characteristic Dubins paths:</p>
+<ul>
+  <li><strong>LRL</strong> (Left-Right-Left)</li>
+  <li><strong>RLR</strong> (Right-Left-Right)</li>
+  <li><strong>LSL</strong> (Left-Straight-Left)</li>
+  <li><strong>RSR</strong> (Right-Straight-Right)</li>
+  <li><strong>LSR</strong> (Left-Straight-Right)</li>
+  <li><strong>RSL</strong> (Right-Straight-Left)</li>
+</ul>
+
+<p>You can see three examples of the possible paths in the figure I adapted here<sup id="fnref:WikiDubin" role="doc-noteref"><a href="#fn:WikiDubin" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<h3 id="3-geometric-construction">3 Geometric Construction</h3>
+<p>Dubins did indeed prove that these trajectories are the shortest paths mathematically. The geometric construction is quite intuitive and a nice toy problem to figure out on ones own but it can quickly explode into multiple pages of pen and paper calculations and diagrams which is why I am not going to go into it here. Instead, I refer to a great overview and explanation of the synthesis of Dubins paths given by David A. Anisi<sup id="fnref:DubinImplementPaper" role="doc-noteref"><a href="#fn:DubinImplementPaper" class="footnote" rel="footnote">3</a></sup>. A wonderful and in-depth guide is also given by Andy G<sup id="fnref:DubinGuide" role="doc-noteref"><a href="#fn:DubinGuide" class="footnote" rel="footnote">4</a></sup>.</p>
+
+<h3 id="4-code">4 Code</h3>
+<p>There is an abundance of implementations of Dubins paths available on the internet<sup id="fnref:code1" role="doc-noteref"><a href="#fn:code1" class="footnote" rel="footnote">5</a></sup>.</p>
+
+<!--
+What I present here is a hacked together version. First, it's useful to define a little helper to keep all the angles within the range of $$ [ 0, 2 \pi ) $$:
+```python
+import math as m
+
+# normalizes an angle to the range [0, 2*pi)
+def mod_to_pi(angle):
+    return angle - 2.0*m.pi*m.floor(angle/2.0/m.pi)
+```
+
+Next, we actually find our Dubins paths using a planner function `general_planner()` which creates and compares the lengths of all six possible routes using `dubins_path_length()`. The data of the solution is then returned with `dubins_path()`.
+```python
+import nazca as nd
+from nazca.interconnects import Interconnect
+
+# Function to find the optimal Dubins path between two points
+def general_planner(planner, alpha, beta, d):
+    """
+    Calculates the Dubins path between two points defined by their 
+    angles and distance given a plan.
+
+    Parameters:
+        planner (str): Type of Dubins path. Can be one of 'LSL', 'RSR',
+                        'LSR', 'RSL', 'RLR', or 'LRL'.
+        alpha (float): Starting orientation angle in radians.
+        beta (float): Ending orientation angle in radians.
+        d (float): Distance between the two points.
+
+    Returns:
+        tuple or None: A tuple containing the Dubins path as a list of
+        angles and distances, the mode of the planner, 
+        and the cost of the path. 
+        Returns None if the path is not feasible.
+    """
+
+    # Convert angles to sine and cosine
+    sa = m.sin(alpha)
+    sb = m.sin(beta)
+    ca = m.cos(alpha)
+    cb = m.cos(beta)
+    c_ab = m.cos(alpha - beta)
+    # Convert planner input to uppercase
+    planner_uc = planner.upper()
+    
+    # Case LSL Dubins path
+    if planner_uc == 'LSL':
+        # Calculate intermediate values for LSL path
+        tmp0 = d + sa - sb
+        p_squared = 2 + (d * d) - (2 * c_ab) + (2 * d * (sa - sb))
+        if p_squared < 0:  # Path not feasible
+            return None
+        tmp1 = m.atan2((cb - ca), tmp0)
+        t = mod_to_pi(-alpha + tmp1)
+        p = m.sqrt(p_squared)
+        q = mod_to_pi(beta - tmp1)
+
+    # Case RSR Dubins path (similar structure to LSL)
+    elif planner_uc == 'RSR':
+        # Calculate intermediate values for RSR path
+        tmp0 = d - sa + sb
+        p_squared = 2 + (d * d) - (2 * c_ab) + (2 * d * (sb - sa))
+        if p_squared < 0:  # Path not feasible
+            return None
+        tmp1 = m.atan2((ca - cb), tmp0)
+        t = mod_to_pi(alpha - tmp1)
+        p = m.sqrt(p_squared)
+        q = mod_to_pi(-beta + tmp1)
+
+    # Case LSR Dubins path (similar structure to LSL)
+    elif planner_uc == 'LSR':
+        # Calculate intermediate values for LSR path
+        p_squared = -2 + (d * d) + (2 * c_ab) + (2 * d * (sa + sb))
+        if p_squared < 0:  # Path not feasible
+            return None
+        p = m.sqrt(p_squared)
+        tmp2 = m.atan2((-ca - cb), (d + sa + sb)) - m.atan2(-2.0, p)
+        t = mod_to_pi(-alpha + tmp2)
+        q = mod_to_pi(-mod_to_pi(beta) + tmp2)
+
+    # Case RSL Dubins path (similar structure to LSR)
+    elif planner_uc == 'RSL':
+        # Calculate intermediate values for RSL path
+        p_squared = (d * d) - 2 + (2 * c_ab) - (2 * d * (sa + sb))
+        if p_squared < 0:  # Path not feasible
+            return None
+        p = m.sqrt(p_squared)
+        tmp2 = m.atan2((ca + cb), (d - sa - sb)) - m.atan2(2.0, p)
+        t = mod_to_pi(alpha - tmp2)
+        q = mod_to_pi(beta - tmp2)
+
+    # Case RLR Dubins path (similar structure to LSL)
+    elif planner_uc == 'RLR':
+        # Calculate intermediate values for RLR path
+        tmp_rlr = (6.0 - d * d + 2.0 * c_ab + 2.0 * d * (sa - sb)) / 8.0
+        if abs(tmp_rlr) > 1.0:  # Path not feasible
+            return None
+        p = mod_to_pi(2 * m.pi - m.acos(tmp_rlr))
+        t = mod_to_pi(alpha - m.atan2(ca - cb, d - sa + sb) + mod_to_pi(p / 2.0))
+        q = mod_to_pi(alpha - beta - t + mod_to_pi(p))
+
+    # Case LRL Dubins path (similar structure to RLR)
+    elif planner_uc == 'LRL':
+        # Calculate intermediate values for LRL path
+        tmp_lrl = (6. - d * d + 2 * c_ab + 2 * d * (- sa + sb)) / 8.
+        if abs(tmp_lrl) > 1:  # Path not feasible
+            return None
+        p = mod_to_pi(2 * m.pi - m.acos(tmp_lrl))
+        t = mod_to_pi(-alpha - m.atan2(ca - cb, d + sa - sb) + p / 2.)
+        q = mod_to_pi(mod_to_pi(beta) - alpha - t + mod_to_pi(p))
+
+    else:
+        print("The given plan ", planner, " is false.")  # Invalid planner input
+
+    # Create the Dubins path as a list of angles and distances
+    path = [t, p, q]
+
+    # Adjust angles if planner segments are lowercase (for reverse motion)
+    for i in [0, 2]:
+        if planner[i].islower():
+            path[i] = (2 * m.pi) - path[i]
+
+    # Calculate the cost of the path (sum of absolute values of angles and distance)
+    cost = sum(map(abs, path))
+
+    return (path, mode, cost)
+
+# Function to calculate the length of a Dubins path
+def dubins_path_length(start, end, radius):
+    # Unpack start and end configurations
+    (sx, sy, syaw) = start
+    (ex, ey, eyaw) = end
+    
+    # Convert angles to radians
+    syaw = m.radians(syaw)
+    eyaw = m.radians(eyaw)
+    
+    # Define the turning radius
+    c = radius
+    
+    # Calculate differences in coordinates
+    ex = ex - sx
+    ey = ey - sy
+    
+    # Project end point onto start orientation
+    lex = m.cos(syaw) * ex + m.sin(syaw) * ey
+    ley = - m.sin(syaw) * ex + m.cos(syaw) * ey
+    leyaw = eyaw - syaw
+    
+    # Calculate the total distance
+    D = m.sqrt(lex ** 2.0 + ley ** 2.0)
+
+    return D
+
+# Finds the Dubins path between two points
+def dubins_path(start, end, radius):
+
+    # Calculate the length
+    D = dubins_path_length(start, end, radius)
+    d = D / radius
+
+    # Define important angles
+    theta = mod_to_pi(m.atan2(ley, lex))
+    alpha = mod_to_pi(- theta)
+    beta = mod_to_pi(leyaw - theta)
+
+    # Iterate through all possible paths
+    planners = ['LSL', 'RSR', 'LSR', 'RSL', 'RLR', 'LRL']
+    bcost = float("inf")
+    bt, bp, bq, bmode = None, None, None, None
+    for planner in planners:
+
+        # find the solution for the Dubins path
+        solution = general_planner(planner, alpha, beta, d)
+
+        if solution is None:
+            continue
+
+        # Collect the data from the solution
+        (path, mode, cost) = solution
+        (t, p, q) = path
+        if bcost > cost:
+            # Best cost
+            bt, bp, bq, bmode = t, p, q, mode
+            bcost = cost
+
+    return (list(zip(bmode, [bt*c, bp*c, bq*c], [c] * 3)))
+```
+-->
+
+<p>It doesn’t take much time to either do an implementation from scratch or adapt preexisting code. We can then wrap it all up into a single, simple to use function just like any other provided by the design library you might be using. In this case, I have been using the Nazca library<sup id="fnref:NazcaLib" role="doc-noteref"><a href="#fn:NazcaLib" class="footnote" rel="footnote">6</a></sup> which comes with several interconnects, including straights and circular arcs which are used often but very tedious and slow to work with alone. Using <code class="language-plaintext highlighter-rouge">dubin_p2p()</code>, we can simply define the start pin, the end pin, and our code will route a Dubins path between them using the straights and circular arcs provided by Nazca. Of course, this can be easily adapted to other tools like GDSFactory<sup id="fnref:GDSFactory" role="doc-noteref"><a href="#fn:GDSFactory" class="footnote" rel="footnote">7</a></sup>.</p>
+
+<!--
+```python
+# Generate a Nazca cell for a given Dubins path solution
+def gds_solution(xs, pin1, pin2, solution):
+    """
+    We draw the trajectory of a 
+    given solution for a Dubins path between
+    two points, here, the pins, to be rendered in .gds!
+    """
+    # Get the pin vectors from nazca pin1 and pin2
+    start = pin1.xya()
+    end = pin2.xya()
+
+    # Change the angle for the second pin
+    new_end = list(end)
+    new_end[2] = new_end[2] - 180
+    end = tuple(new_end)
+        
+    # Define the xs for the .gds file
+    ic = Interconnect(xs=xs)
+
+    # Create the cell object for the path
+    with nd.Cell("dubins-path") as C:
+
+        # Define important points
+        radius = solution[0][2]
+        current_position = start
+        (sx, sy, syaw) = start
+        (ex, ey, eyaw) = end
+        ex = ex - sx
+        ey = ey - sy
+
+        # Draw the S, L, or R elements from the solution
+        for (mode, length, radius) in solution:
+            if mode == 'L':
+                # Find the center of the circle
+                center = (
+                    current_position[0] 
+                    + m.cos(m.radians(current_position[2] + 90)) * radius,
+
+                    current_position[1]
+                    + m.sin(m.radians(current_position[2] + 90)) * radius,
+                )
+                new_position = (
+                    center[0] + m.cos(m.radians(current_position[2]
+                    - 90 + (180 * length / (m.pi * radius)))) * radius,
+
+                    center[1] + m.sin(m.radians(current_position[2]
+                    - 90 + (180 * length / (m.pi * radius)))) * radius,
+
+                    current_position[2] + (180 * length / (m.pi * radius))
+                )
+                arc_angle = (180 * length / (m.pi * radius))
+                # Change this line if you want to use the function
+                # in, for example, Matplotlib
+                ic.bend(radius=radius, angle=arc_angle).put()
+            elif mode == 'R':
+                # Find the center of the circle
+                center = (
+                    current_position[0]
+                    + m.cos(m.radians(current_position[2] - 90)) * radius,
+
+                    current_position[1]
+                    + m.sin(m.radians(current_position[2] - 90)) * radius,
+                )
+                new_position = (
+                    center[0] + m.cos(m.radians(current_position[2]
+                    + 90 - (180 * length / (m.pi * radius)))) * radius,
+
+                    center[1] + m.sin(m.radians(current_position[2]
+                    + 90 - (180 * length / (m.pi * radius)))) * radius,
+
+                    current_position[2] - (180 * length / (m.pi * radius))
+                )
+                arc_angle = - (180 * length / (m.pi * radius))
+                # Change this line if you want to use the function
+                # in, for example, Matplotlib
+                ic.bend(radius=radius, angle=arc_angle).put()
+            elif mode == 'S':
+                new_position = (
+                    current_position[0]
+                    + m.cos(m.radians(current_position[2])) * length,
+
+                    current_position[1]
+                    + m.sin(m.radians(current_position[2])) * length,
+
+                    current_position[2],
+                )
+                xl = current_position[0] - new_position[0]
+                yl = current_position[1] - new_position[1]
+                l = m.sqrt(xl**2 + yl**2)
+                # Change this line if you want to use the function
+                # in, for example, Matplotlib
+                ic.strt(length=l).put()
+            else:
+                print("Something ain't right, buddy.")
+                
+            current_position = new_position
+    return C
+-->
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#########################################################################
+# Use this when designing your PIC with Nazca!
+#########################################################################
+</span>
+<span class="c1"># Create Dubins path between two pins in Nazca
+</span><span class="k">def</span> <span class="nf">dubin_p2p</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pin1</span><span class="p">,</span> <span class="n">pin2</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">
+    Finds and creates the shortest possible path between two vectors
+    (pin1 and pin2) with a minimum bending radius,
+    a so called </span><span class="sh">"</span><span class="s">Dubins path</span><span class="sh">"</span><span class="s">. This Dubins path is made of two
+    circular bends and a straight waveguide.
+    Returns a cell containing these waveguides.
+
+    IMPORTANT
+    =========
+    In this version, you NEED to specify to put the path at the starting
+    pin so if pin1=IO.pin[</span><span class="sh">"</span><span class="s">a0</span><span class="sh">"</span><span class="s">] you must add .put(IO.pin[</span><span class="sh">"</span><span class="s">a0</span><span class="sh">"</span><span class="s">]).
+    Else, the Dubins path will be generated correctly
+    but possibly at the wrong position. 
+    
+    PARAMETERS
+    ==========
+    xs:     Crosssection parameters.
+    pin1:   The start pin to which the Dubins path attaches.
+    pin2:   The end pin to where the Dubins path ends.
+    radius: The minimum bending radius for the Dubins paths.
+    width:  The width of the waveguides dubin_p2p creates.
+    </span><span class="sh">"""</span>
+    <span class="c1"># Get the pin vectors from pin1 and pin2
+</span>    <span class="n">START</span> <span class="o">=</span> <span class="n">pin1</span><span class="p">.</span><span class="nf">xya</span><span class="p">()</span>
+    <span class="n">END</span> <span class="o">=</span> <span class="n">pin2</span><span class="p">.</span><span class="nf">xya</span><span class="p">()</span>
+
+    <span class="c1"># Change the angle for the second pin
+</span>    <span class="n">new_end</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">END</span><span class="p">)</span>
+    <span class="n">new_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">180</span>
+    <span class="n">END</span> <span class="o">=</span> <span class="nf">tuple</span><span class="p">(</span><span class="n">new_end</span><span class="p">)</span>
+
+    <span class="c1"># Find the Dubins path between pin1 and pin2
+</span>    <span class="n">path</span> <span class="o">=</span> <span class="nf">dubins_path</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">START</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">END</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+
+    <span class="c1"># Create the Dubins path with nazca using bends and straights
+</span>    <span class="k">return</span> <span class="nf">gds_solution</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pin1</span><span class="p">,</span> <span class="n">pin2</span><span class="p">,</span> <span class="n">solution</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="5-conclusion">5 Conclusion</h3>
+<p>In the figure below, a comparison between a dense array of Dubins paths and arrays using Nazcas s-bends and cobra splines is made:</p>
+
+<p><img src="/images/dubin/DubinAdvantage.PNG" alt="sleep_figure_1" /></p>
+
+<p>As one can see, not only do other interconnects lead to over-bending of the waveguides and thus a longer path and greater losses, they are also less reliable, predictable, <strong>often break the design rules to not violate the minimum bending radius</strong> as is indeed the case here. They <strong>even intersect each other!</strong> Meanwhile, the Dubins paths behave extremely predictably. They clearly show the shortest path without unnecessary bends and they do not intersect each other which allows for much denser layouts than would be possible with the other interconnects. What I realized only after this was that there are indeed interconnects provided by Nazca which are essentially Dubins paths like <code class="language-plaintext highlighter-rouge">bend_strt_bend_p2p()</code> though not as general.</p>
+
+<p>Also, there is a list of improvements one may make based on this. For one, the curvature of Dubins paths are not smooth which may lead to higher radiation losses. The hours of headaches I personally avoided just by using Dubins paths are insane. It is also simply much more enjoyable to use.</p>
+
+<p>That’s my little tip for those working on photonic integrated circuit layouts. I hope it helps!</p>
+
+<!--### BibTeX
+```bibtex
+@article{QWachDubin2024,
+    author = {Quentin Wach},
+    title = {Dubins Paths for Waveguide Routing},
+    year = {2024}
+```
+} -->
+
+<h3 id="references">References</h3>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:DubinPaper" role="doc-endnote">
+      <p><a href="https://doi.org/10.2307/2372560">Dubins, L. E., <em>“On Curves of Minimal Length with a Constraint on Average Curvature, and with Prescribed Initial and Terminal Positions and Tangents”</em>. American Journal of Mathematics. 79 (3): 497–516, 1957</a> <a href="#fnref:DubinPaper" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:WikiDubin" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/Dubins_path">Wikipedia: Dubins Paths (Accessed: Feb 20, 2024)</a> <a href="#fnref:WikiDubin" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:DubinImplementPaper" role="doc-endnote">
+      <p><a href="https://people.kth.se/~anisi/articles/foi-r-0961-se.pdf">David A. Anisi, <em>“Optimal Motion Control of a Ground Vehicle”</em>, 2003</a> <a href="#fnref:DubinImplementPaper" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:DubinGuide" role="doc-endnote">
+      <p><a href="https://gieseanw.wordpress.com/2012/10/21/a-comprehensive-step-by-step-tutorial-to-computing-dubins-paths/">Andy G, <em>“A Comprehensive Step by Step Tutorial to Computing Dubins Paths”</em></a> <a href="#fnref:DubinGuide" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:code1" role="doc-endnote">
+      <p><a href="https://atsushisakai.github.io/PythonRobotics/modules/path_planning/dubins_path/dubins_path.html">Atsushi Sakai, <em>“Python Robotics: Dubins Path Planning”</em>, GitHub. (Accessed: Feb 20, 2024)</a> <a href="#fnref:code1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:NazcaLib" role="doc-endnote">
+      <p><a href="https://nazca-design.org/">Nazca Design: Photonic IC Design Framework</a> <a href="#fnref:NazcaLib" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:GDSFactory" role="doc-endnote">
+      <p><a href="https://github.com/gdsfactory/gdsfactory">GDSFactory, GitHub</a> <a href="#fnref:GDSFactory" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="physics" /><category term="photonics" /><category term="design" /><category term="routing" /><category term="gds" /><summary type="html"><![CDATA[What does the perfect waveguide routing look like? Dubins paths, already well known in robotics and control theory, turn out to be a simple and highly practical solution. This post notes a few useful recources and explains what the advantages of Dubins paths are compared to other waveguide interconnects that are often used.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/dubin/wikipedia_4.png" /><media:content medium="image" url="http://localhost:4000/images/dubin/wikipedia_4.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">From Art to Science</title><link href="http://localhost:4000/personal/2024/02/10/Who-am-I.html" rel="alternate" type="text/html" title="From Art to Science" /><published>2024-02-10T20:38:24+01:00</published><updated>2024-02-10T20:38:24+01:00</updated><id>http://localhost:4000/personal/2024/02/10/Who-am-I</id><content type="html" xml:base="http://localhost:4000/personal/2024/02/10/Who-am-I.html"><![CDATA[<!-- You might be wondering: "Who the hell is this guy?" And since I keep retelling certain stories over and over as an answer, here is a common one:
+-->
+<h3 id="among-artists">Among Artists</h3>
+<p>I come from a family of designers and artists. It was pretty much decided by every person I knew that given my seemingly natural talents given in these areas as well, I should become an artist, designer, or musician, or just all of the above. (You can see me doodling as a kid as well as a couple of sketches I did here.)</p>
+
+<p>After all, given the circumstances, I had all the tools, experience, connection, and motivation to quickly acquire all sorts of creative abilities. But drawing, painting, sculpting, … it was all a way for me to not just capture the beauty of the world but to understand it.</p>
+
+<style>
+    img[alt=Sketch2] { float: right; width: 50%; padding: 10px;}
+</style>
+
+<p><img src="/images/Sketch2.png" alt="Sketch2" /></p>
+
+<p>Of the art books we had, a collection of Leonardo Da Vinci’s works stood out to me and I related to this mindset from a young age as art was not meant to solely entertain but it was a tool to capture the beauty of the world, understanding it, recreating it.</p>
+
+<blockquote>
+  <p>“If you can create it, you understand it.” like Feynman said.</p>
+</blockquote>
+
+<p>Naturally, I liked to read every popular science and textbook I could find.</p>
+
+<h3 id="new-age-of-ai">New Age of AI</h3>
+<p>When I was 16, the new age of AI had just begun. It was clear to me that this was the future and like many curious, I had always been fascinated with science and the brain as well. A lot of the problems I had previously broken my head over were suddenly solved! Now everything seemed possible within my lifetime.</p>
+
+<p>I taught myself programming and started recreating AI publications I found on the Arxiv, including generative AI like Generative Adversarial Networks and its many variations that came out during those years. (I also ruined a bunch of hard drives and computers in the process.) If I had any ambition to become a great artist, this was the last bullet that killed it. I can do meaningful scientific research <em>and</em> push the boundaries of art and technology? Call me in.</p>
+
+<h3 id="studying-physics-in-berlin">Studying Physics in Berlin</h3>
+<p>Coding a lot, I realized I needed a more formal education in mathematics. At the same time, I was frustrated with my own understanding of the universe to such a painful degree that I knew I had to go to university and learn physics. I was helped with this decision knowing that many trained physicists were indeed AI researchers. So at 18, I moved across the country to the big most international city Germany had to offer: Berlin. Now was the time to actually become fluent in English as well, a subject I had no interest until I realized I wanted/needed to leave the country eventually.</p>
+
+<p>Now that I had my first research experience and feel confident working on a wide variety of science and engineering problems, I am about to make such a jump again.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>During all of this, people looked at me with big eyes not understanding how I could throw all my <em>talents</em> away. Many were convinced I would give up quickly again as well. But eventually, as I stuck with physics, my image changed in the eyes of others and I became the physics guy. Suddenly, people told me how they hated physics and that they, contrary to me, had a more “creative” brain. Left brain vs. right brain… We know the myth. But I hope my story here dispelled it to some degree.</p>
+
+<p>I seemingly chose to throw a lot of potential away to follow a more difficult path. But I saw neither fulfillment nor utility in a career of art, design, music, or entertainment.</p>
+
+<p>A difficult life full of challenges and meaning is better than an easy one without.</p>]]></content><author><name>Quentin Wach</name></author><category term="personal" /><summary type="html"><![CDATA[This is an introduction to where I come from. I was born into a family of artists and designers and developed these talents rapidly making money with paintings and music from an early age. Then I chose to study physics. Because a meaningful life full of challenges is better than an easy life without.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/Sketch3.png" /><media:content medium="image" url="http://localhost:4000/images/Sketch3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">PDFtoCards: Flashcards for Everything</title><link href="http://localhost:4000/science-engineering/2023/06/06/PDFtoCards.html" rel="alternate" type="text/html" title="PDFtoCards: Flashcards for Everything" /><published>2023-06-06T21:38:24+02:00</published><updated>2023-06-06T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2023/06/06/PDFtoCards</id><content type="html" xml:base="http://localhost:4000/science-engineering/2023/06/06/PDFtoCards.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="studying" /><category term="university" /><category term="ChatGPT" /><summary type="html"><![CDATA[Convert any book or article in PDF form to a deck of flashcards! Recognizes and understands text, equations, images, and (some) handwriting. Summarizes the PDF as questions and answers systematically. ChatGPT is used for understanding the content and MathPix to extract equations and images.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/PDFtoCards_1x1.png" /><media:content medium="image" url="http://localhost:4000/images/PDFtoCards_1x1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">THz Response of Charge Carriers in Nanoparticles</title><link href="http://localhost:4000/science-engineering/2023/01/01/first-paper.html" rel="alternate" type="text/html" title="THz Response of Charge Carriers in Nanoparticles" /><published>2023-01-01T20:38:24+01:00</published><updated>2023-01-01T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2023/01/01/first-paper</id><content type="html" xml:base="http://localhost:4000/science-engineering/2023/01/01/first-paper.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[Presenting a new quantum mechanical theory that models the THz mobility of charge carriers in low-dimensional semiconductors, revealing nonlinearities even at low field-strengths as well as a quantum mechanical equilibration current that counteracts the mobility at low frequencies.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/a.jpg" /><media:content medium="image" url="http://localhost:4000/images/a.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Essays: The Blank Spot</title><link href="http://localhost:4000/personal/2021/01/01/the-blank-spot.html" rel="alternate" type="text/html" title="Essays: The Blank Spot" /><published>2021-01-01T00:00:00+01:00</published><updated>2021-01-01T00:00:00+01:00</updated><id>http://localhost:4000/personal/2021/01/01/the-blank-spot</id><content type="html" xml:base="http://localhost:4000/personal/2021/01/01/the-blank-spot.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="personal" /><category term="essay" /><category term="writing" /><summary type="html"><![CDATA[Being done with lab work and not busy with research either, I spent some time writing short essays on various subjects aiming to ask questions like: _'Is science a young man's game?'_, _'What is the relationship between genius, creativity, and insanity?'_, and _'How can we make academic articles freely accessible?'_]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/blank_spot_1x1V2.png" /><media:content medium="image" url="http://localhost:4000/images/blank_spot_1x1V2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Simulating &amp;amp; Animating Science</title><link href="http://localhost:4000/science-engineering/2020/01/01/animating-science.html" rel="alternate" type="text/html" title="Simulating &amp;amp; Animating Science" /><published>2020-01-01T00:00:00+01:00</published><updated>2020-01-01T00:00:00+01:00</updated><id>http://localhost:4000/science-engineering/2020/01/01/animating-science</id><content type="html" xml:base="http://localhost:4000/science-engineering/2020/01/01/animating-science.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="science-engineering" /><category term="python" /><category term="animation" /><category term="matplotlib" /><category term="scipy" /><summary type="html"><![CDATA[A free collection of tutorials and simulation examples that aim to showcase and explain the animation capabilites one has using Python. This includes chemical reaction diffusion, the viral spread in pandemics, fractals, chaotic pendulums with springs, Conway's game of life, quantum states of hydrogen, galaxy collisions, and much more.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/science%20animations/happy4.gif" /><media:content medium="image" url="http://localhost:4000/images/science%20animations/happy4.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Generative Adversarial Network</title><link href="http://localhost:4000/science-engineering/2018/02/12/GAN.html" rel="alternate" type="text/html" title="Generative Adversarial Network" /><published>2018-02-12T20:38:24+01:00</published><updated>2018-02-12T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2018/02/12/GAN</id><content type="html" xml:base="http://localhost:4000/science-engineering/2018/02/12/GAN.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="AI" /><category term="artificial intelligence" /><summary type="html"><![CDATA[An implementation of Ian Goodfellow's seminal research paper using Keras that, in my opinion, sparked the modern generative AI revolution and is still relevant today. Back in 2016-2019, I was still very much interested in art and part of the then emerging generative art community some of which called it _neural photography_.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/MNIST-test.gif" /><media:content medium="image" url="http://localhost:4000/images/MNIST-test.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

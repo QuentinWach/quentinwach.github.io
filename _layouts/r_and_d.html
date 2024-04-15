@@ -1,0 +1,121 @@
+---
+layout: base
+mathjax: true
+---
+
+<div class="home">
+
+  {{ content }}
+
+  {% if site.paginate %}
+    {% assign posts = paginator.posts | sort:"weight"%}
+  {% else %}
+    {% assign posts = site.posts | sort:"weight"%}
+  {% endif %}
+
+
+  <!-- Define an empty array to store star counts -->
+  {% assign star_counts = "" | split: "|" %}
+
+  <!-- Fetch and collect the number of stars from the GitHub repos -->
+  {%- for post in posts -%}
+    {%- if post.github -%}
+
+      <!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="{{ post.github }}"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                {% assign star_counts = star_counts | push: star_count %}
+            });
+        });
+      </script>
+    {%- endif -%}
+  {%- endfor -%}
+
+
+  {%- if posts.size > 0 -%}
+    <ul class="post-list">
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      {%- for post in posts -%}
+      {% if post.categories contains "science-engineering" %}
+
+        <a href="{{ post.url | relative_url }}" class="box">
+          <li class="post-box">
+            <div class="post-box-img">
+              {%- if post.image -%}
+                  <img src="{{ post.image }}" alt="{{ post.title }}" class="post-image">
+              {%- endif -%}
+            </div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                <!-- <a class="post-link" href="{{ post.url | relative_url }}"> -->
+                  {{ post.title | escape }}
+                <!--</a>-->
+              </h4>
+
+              {%- if post.description -%}
+              <p class="post-summary">
+                {{ post.description | markdownify }}
+              </p>
+              {%- endif -%}
+
+              <span class="post-meta">{{ post.date | date: date_format }}</span>
+                
+              {%- if post.published -%}
+                <span class="post-meta"> • Peer-reviewed & published in </span> <span class="post-published">{{ post.published }}</span>
+              {%- endif -%}
+
+              {%- if post.github -%}
+              <span class="post-meta"> • </span>
+                <span class="github-stars" data-repo={{ post.github }}>
+                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
+
+                </span>
+                <span class="post-meta">on GitHub</span>
+              {%- endif -%}
+
+              {%- if post.note -%}
+              <span class="post-meta"> • </span>
+                <span class="material-symbols-outlined">sticky_note_2</span>
+                <span class="post-note">{{ post.note }}</span>
+              {%- endif -%}
+
+              {%- if post.progress -%}
+                <progress id="progressBar" value="{{ post.progress }}" max="1"></progress> {{ post.progress | times: 100 | round }}% complete.
+              {%- endif -%}
+            </div>
+          </li>
+        </a>
+        
+      {%- endif %}
+      {%- endfor -%}
+    </ul>
+
+    {% if site.paginate %}
+      <div class="pager">
+        <ul class="pagination">
+        {%- if paginator.previous_page %}
+          <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{ paginator.previous_page }}</a></li>
+        {%- else %}
+          <li><div class="pager-edge">•</div></li>
+        {%- endif %}
+          <li><div class="current-page">{{ paginator.page }}</div></li>
+        {%- if paginator.next_page %}
+          <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page }}</a></li>
+        {%- else %}
+          <li><div class="pager-edge">•</div></li>
+        {%- endif %}
+        </ul>
+      </div>
+    {%- endif %}
+
+  {%- endif -%}
+
+</div>
