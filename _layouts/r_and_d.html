@@ -60,6 +60,18 @@ mathjax: true
                 <!--</a>-->
               </h4>
 
+              {%- if post.authors.size > 1 -%}
+                <p class="post-summary" style="padding-top: 7px; padding-bottom: 0px; text-align: left;">
+                {%- for author in post.authors -%}
+                  {%- if forloop.last -%}
+                    {{ author }}
+                  {%- else -%}
+                    {{ author }}, {{}}
+                  {%- endif -%}
+                {%- endfor -%}  
+                </p>
+              {%- endif -%}
+
               {%- if post.description -%}
               <p class="post-summary">
                 {{ post.description | markdownify }}

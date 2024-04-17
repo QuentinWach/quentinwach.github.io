@@ -3,13 +3,12 @@ layout: post
 mathjax: true
 title:  "The Space of Neural Network Accelerators"
 description: "An overview and commentary of (mostly) commercial AI and neuromorphic hardware currently available comparing ASICs, FPGAs, GPUs, digital, analog, electronic, and photonic computing. I update these notes as I work on my own AI accelerator."
-date:   2026-02-10 20:38:24 +0100
+date:   2026-04-10 20:38:24 +0100
 author: ["Quentin Wach"]
 tags: ["machine learning", "aritificial intelligence", "python", "analog computing", "electronics", "neural networks", "hardware design", "computer engineering"]
 tag_search: true
 image:          "/images/AI_acc_comparison_QW_animated_WTtitle.gif"
-weight: 5
-github:
+weight: 4
 note: 
 categories: "science-engineering"
 ---
