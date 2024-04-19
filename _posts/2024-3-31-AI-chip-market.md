@@ -4,7 +4,7 @@ mathjax: true
 title:  "The Space of Neural Network Accelerators"
 description: "An overview and commentary of (mostly) commercial AI and neuromorphic hardware currently available comparing ASICs, FPGAs, GPUs, digital, analog, electronic, and photonic computing. I update these notes as I work on my own AI accelerator."
 date:   2026-04-10 20:38:24 +0100
-author: ["Quentin Wach"]
+authors: ["Quentin Wach"]
 tags: ["machine learning", "aritificial intelligence", "python", "analog computing", "electronics", "neural networks", "hardware design", "computer engineering"]
 tag_search: true
 image:          "/images/AI_acc_comparison_QW_animated_WTtitle.gif"
@@ -108,30 +108,78 @@ At this point, I want to highlight the title figure at the beginning of these no
 
 The sad truth as of now is that there seems to be a linear relationship between the amount of compute per second we can achieve and the energy required. To drive down the costs or AI developement and inference, we'd have to dramatically reduce the cost of energy, which would require an energy revolution in of itself, or rethink and rebuild our hardware on a much more fundamental level than is currently done (in the industry). That is precisely why I am writing these notes.
 
-### 3.1 GPUs
+### 3.1 Biology
+Comparisons to the human brain and how it developed are often made, especially now in context of LLMs and their extreme popularity and energy consumption. In the picture here, you can see a snapshot from a short conversation between Physicist Dillon Berger and Nick Lucid on Twitter.
+
+<style>
+    img[alt=dillon] { display: block; margin-left: auto; margin-right: auto; width: 70%; border-radius:5px; margin-bottom: 10px; margin-top: 25px;}
+</style>
+![dillon](/images/dillon_berger_energy_gpt.png)
+
+If we do indeed assume that humans typically consume 2000 kcal / day where 2000 kcal = 2326 Wh [^kcal_in_Watt]
+$$
+    (2326 \text{Wh} / 24 \text{h}) * 365 = a
+$$
+
+
+### 3.2 GPUs
 NVIDIA is the non-plus ultra for AI training at the largest scale. We see this reflected with commercial GPUs providing the fastest training. The drawback: These GPUs also consume by far the most power.
 
 In NVIDIA's most recent developer conference, Jensen Huang bragged about how hot these GPUs get. So hot, that they need to be liquid cooled (which poses new challenges in data centres). So hot, that the coolant coming out after just seconds could be used as a whirlpool, I remember him stating. Later on stage, he then continued talking about how NVIDIAs new accelerators are now much more energy efficient [^NVIDIAGTC2024]. It takes a special kind of genius to pull of such contradiction marketing. I am not even trying to be critical. It's rather humorous!
 
 Even with their incredible energy demands and the high training costs that follow, NVIDIAs glowing hot GPUs have a bright future.
 
-### 3.2 FPGAs
+### 3.3 FPGAs
 Still, if we were to compete, lowering energy consumption is the angle of attack. FPGAs are, in part, competitive enough in terms of speed yet at similar power consumption and much, much worse usability. Nonetheless, some argue for a future of FPGA data centres:
 
 >"Due to their software-defined nature, FPGAs offer easier design flows and shorter time to market accelerators than an application-specific integrated circuit (ASIC)." [^FPGACentres]
 
 I think that is questionable. [Why exactly? Why are people even using FPGAs? For what applications especially in AI?]
 
-### 3.3 ASICs
 
-### 3.4 TPUs
+### 3.4 ASICs
+Application-Specific Integrated Circuits (ASICs) represent a compelling avenue for addressing energy concerns in AI hardware. Unlike general-purpose GPUs, ASICs are tailored specifically for certain tasks, maximizing efficiency and performance for those tasks while minimizing power consumption.
+
+The beauty of ASICs lies in their optimization for a particular workload. By custom-designing circuits to execute specific operations efficiently, ASICs can achieve significantly higher energy efficiency compared to GPUs. While ASICs may entail higher initial development costs and longer time-to-market, the trade-off is often justified by the superior performance and energy efficiency they offer, especially in data center environments where power consumption is a critical concern.
+
+### 3.5 TPUs
+Tensor Processing Units (TPUs) represent another significant development in AI hardware optimization. Developed by Google, TPUs are designed specifically for accelerating machine learning workloads, particularly those that involve neural network inference and training.
+
+TPUs excel in energy efficiency and performance for certain types of AI workloads, particularly those associated with deep learning. By focusing on matrix multiplication operations fundamental to neural network computations, TPUs are able to achieve remarkable speedups while consuming significantly less power compared to traditional GPU-based solutions.
+
+Google's investment in TPUs underscores their commitment to advancing AI hardware capabilities while also addressing energy efficiency concerns. As AI applications continue to proliferate, TPUs are poised to play a crucial role in enabling efficient and scalable deployment of machine learning models in various domains.
+
+### 3.6 NPUs
+Neural Processing Units (NPUs) represent a specialized class of AI hardware optimized specifically for neural network computations. Similar to TPUs, NPUs are designed to accelerate the execution of machine learning workloads, with a focus on inference tasks commonly found in applications such as computer vision, natural language processing, and speech recognition.
+
+NPUs offer several advantages in terms of energy efficiency and performance compared to general-purpose processors like CPUs and GPUs. By incorporating dedicated hardware accelerators for key operations involved in neural network inference, such as convolutions and matrix multiplications, NPUs are able to achieve significant speedups while consuming less power.
+
+The rise of NPUs reflects a growing demand for specialized AI hardware tailored to the unique requirements of neural network workloads. As AI continues to permeate various industries and applications, NPUs are poised to play a crucial role in enabling efficient and scalable deployment of machine learning models on edge devices and in data center environments.
 
 
-### 3.5 NPUs
 
 
+#### FPGAs for Real-Time Applications with Limited Power-Budget:
++ Field-Programmable Gate Arrays (FPGAs) offer flexibility and programmability, making them an attractive choice for real-time applications where customization and adaptability are paramount.
++ In scenarios where power consumption must be tightly controlled, such as in embedded systems or edge computing devices, FPGAs provide a compelling solution due to their relatively lower power consumption compared to other accelerators.
++ Additionally, FPGAs excel in scenarios where rapid prototyping or iterative development is required, as they allow for quick implementation and modification of hardware designs without the need for costly fabrication processes.
++ Examples of real-time applications where FPGAs shine include signal processing, industrial automation, and real-time control systems in automotive and aerospace industries.
+
+
+#### ASICs for Data Centers:
++ Application-Specific Integrated Circuits (ASICs) are custom-designed chips optimized for specific tasks, offering unparalleled performance and energy efficiency for targeted workloads.
++ While ASICs typically entail high initial development costs and longer time-to-market compared to off-the-shelf solutions like GPUs, they are well-suited for deployment in data center environments where performance and energy efficiency are paramount.
++ In data centers handling large-scale AI workloads, ASICs can deliver significant cost savings and performance improvements over time, justifying the upfront i Investment in chip design and fabrication.
++ ASICs are particularly advantageous for tasks that are highly parallelizable and can benefit from custom hardware acceleration, such as deep learning inference and training in cloud-based AI services.
+
+#### GPUs for General-Purpose Applications:
++ Graphics Processing Units (GPUs) have emerged as the workhorse of AI acceleration, offering a balance of performance, versatility, and cost-effectiveness for a wide range of applications.
++ GPUs excel in scenarios where the workload is diverse or evolving, as they are capable of handling various computational tasks beyond AI, including graphics rendering, scientific simulations, and data analytics.
++ While GPUs may not achieve the same level of energy efficiency as ASICs for specific tasks, their widespread availability, developer support, and compatibility with existing software frameworks make them a practical choice for many AI applications.
++ Moreover, GPUs are suitable for scenarios where the workload may not justify the investment in custom hardware development, such as small-scale research projects, prototyping, or applications with changing requirements.
 
 >"It can be concluded that FPGAs are a feasible choice for a real-time application with a limited power-budget. ASICs are well suited for the use in data centers since the high initial costs and the longtime-to-market is an acceptable risk to achieve a higher performance and energy efficiency. For all other applications, GPUs is the most feasible choice." [^AIAcceleratorComp1]
+
 
 ### 3.6 Applications
 A figure from the paper showing how much it currently costs even to do just inference.
@@ -151,21 +199,10 @@ A. S. Luccioni et al. recently compared several machine learning tasks in terms 
 | Image Generation | 2.9 $$\pm$$ 3.3
 
 
-
-10^23 FLOP for 10^6 USD thus 10^17 FLOP / USD = 10^5 TFLOP / USD or rather 
-
-$$
-
-\$1 = 10^{17}~\text{FLOP} \\
-\$1 = 100 \cdot \text{PFLOP}
-
-$$
-
-
-
-AI Impacts writes
->"In November 2017, we estimate the price for one GFLOPS to be between $0.03 and $3 for single or double precision performance, using GPUs (therefore excluding some applications). Amortized over three years, this is $1.1 x 10-5 -$1.1 x 10-7 /GFLOPShour". [^AiImpacts]
-
+<span class="sidenote-left">
+    AI Impacts writes:
+    _"In November 2017, we estimate the price for one GFLOPS to be between $0.03 and $3 for single or double precision performance, using GPUs (therefore excluding some applications). Amortized over three years, this is $1.1 x 10-5 -$1.1 x 10-7 /GFLOPShour"._ [^AiImpacts]
+</span>
 
 <style>
     img[alt=BiologicalComputation] { float: left; width: 50%; border-radius:5px; margin-right: 10px;, margin-bottom: 10px; margin-top: 8px;}
@@ -255,3 +292,4 @@ Generative AI is the most energy consuming task yet th
 [^AIAcceleratorComp1]: [Baischer et al., _Learning on Hardware: A Tutorial on Neural Network Accelerators and Co-Processors_, https://arxiv.org/pdf/2104.09252.pdf, 2021](https://arxiv.org/pdf/2104.09252.pdf)
 [^TFormer1]: https://en.wikipedia.org/wiki/Data_center
 [^TFormer2]: https://www.olsun.com/power-integrator-data-center-2/
+[^kcal_in_Watt]: Feel free to convert back and forth between kcal and Wh yourself at [https://convertlive.com/u/convert/kilocalories-per-hour/to/watts#2000](https://convertlive.com/u/convert/kilocalories-per-hour/to/watts#2000).

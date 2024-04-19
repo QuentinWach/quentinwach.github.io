@@ -6,7 +6,7 @@ title:  "Imaginary Friends"
 subtitle: 'Notes On "Life Lies" and the Purpose of Faith'
 description: "Notes on life lies and the purpose of faith. Why I believe we lie to ourselves, how we do it, why it is fundamental and necessary to human nature, how it birthed religion, and why god and religious pracices can be useful for atheists."
 date:   2026-3-14 20:38:24 +0100
-author: Quentin Wach
+authors: ["Quentin Wach"]
 tags: ["philsophy", "theology", "anthropology"]
 image: "/images/divine_inspiration.jpg"
 tag_search: true
@@ -105,6 +105,13 @@ The phrase "dimestore atheism and the trappings of faith" juxtaposes these two c
 
 #### The Schizophrenic Fever Dream of Reality
 
+
+#### Figurative & Literal Truths
+Let me give an example. Ignoring the controversy in quantum mechanics regarding the measurement problem, let's assume that which had been established up until now and can still be argued, that is: the universe is fully deterministic, super-deterministic, in fact. That is a literal truth. But figuratively, it isn't as it makes no practical sense for us to act as if this was true. Because what would that imply? Many would argue that then there was no free will, and yes, that is another literal truth about the world. One may then argue that we are not responsible for our actions either since the universe is but a giant clock work! We have no choice! Literally true but it would be false to act like this. And so it is figuratively false.
+
+<span class="sidenote-left">
+A technical explanation for why it doesn't really matter why everything is super-determined is because of chaos. Chaos theory tells us that even many small systems can act completely unpredictabally beyond a short time horizons and that small changes in the initial conditions will have vastly different consequences. (The the Butterfly Effect [^ButterflyEffect].) A beautiful woman might stare at a mirror on a sunny day, yet that small reflection blinds a man down the street while driving and suddenly he runs you over as you attempt to cross the street. If the mirror had been at a slightly different angle, this would not have happend and you could have lived another 40 years. We can't live life as if it was fully determined nor as if it was fully random. Rather, it is a chaos we have to fight through.
+</span>
 
 # References
 [^BetrandRussel_God]: Bertrand Russell, _Why I am not a Christian_

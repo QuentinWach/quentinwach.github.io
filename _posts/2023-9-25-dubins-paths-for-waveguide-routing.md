@@ -4,7 +4,7 @@ mathjax: true
 title:  "Dubins Paths for Waveguide Routing"
 description: "What does the perfect waveguide routing look like? Dubins paths, already well known in robotics and control theory, turn out to be a simple and highly practical solution. This post notes a few useful recources and explains what the advantages of Dubins paths are compared to other waveguide interconnects that are often used."
 date:   2024-2-15 20:38:24 +0100
-author: Quentin Wach
+authors: ["Quentin Wach"]
 tags: ["physics", "photonics", "design", "routing", "gds"]
 image: "/images/dubin/wikipedia_4.png"
 tag_search: true

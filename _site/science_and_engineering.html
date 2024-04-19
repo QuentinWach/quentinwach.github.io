@@ -103,19 +103,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/PDFtoCards"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/Generative-Adversarial-Network"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -173,7 +160,7 @@
                   Augmenting Obsidian.md with AI: Automatic Linking, Tagging, and Grouping!
                 <!--</a>-->
               </h4><p class="post-summary">
-                <p>A simple, free and open Python script to quickly organize your markdown notes in Obsidian.md using OpenAI’s large language models. Any random, untagged, empty, or unlinked notes? No more. This little script will fill the gabs, connect what belongs together, and even create high level organizing nodes if a specific topic has a lot of notes. This is very powerful and a lot more features can be thought of.</p>
+                <p>A simple, free and open Python script to quickly organize your markdown notes in Obsidian.md using OpenAI’s large language models. Any random, untagged, empty, or unlinked notes? No more. This little script will fill the gaps, connect what belongs together, and even create high level organizing nodes if a specific topic has a lot of notes. This is very powerful and a lot more features can be thought of.</p>
 
               </p><span class="post-meta">Apr 16, 2024</span><span class="post-meta"> • </span>
                 <span class="github-stars" data-repo=QuentinWach/obsidian_ai>
@@ -204,12 +191,12 @@
 
         <a href="/science-engineering/2020/01/01/animating-science.html" class="box">
           <li class="post-box">
-            <div class="post-box-img"><img src="/images/science animations/happy4.gif" alt="Simulating & Animating Science" class="post-image"></div>
+            <div class="post-box-img"><img src="/images/science animations/happy4_c2.gif" alt="Simulating & Animating Science with Python" class="post-image"></div>
             <div class="post-box-txt">
               
               <h4 class="post-title">
                 <!-- <a class="post-link" href="/science-engineering/2020/01/01/animating-science.html"> -->
-                  Simulating &amp; Animating Science
+                  Simulating &amp; Animating Science with Python
                 <!--</a>-->
               </h4><p class="post-summary">
                 <p>A free collection of tutorials and simulation examples that aim to showcase and explain the animation capabilites one has using Python. This includes chemical reaction diffusion, the viral spread in pandemics, fractals, chaotic pendulums with springs, Conway’s game of life, quantum states of hydrogen, galaxy collisions, and much more.</p>
@@ -222,48 +209,6 @@
                 <span class="post-meta">on GitHub</span><span class="post-meta"> • </span>
                 <span class="material-symbols-outlined">sticky_note_2</span>
                 <span class="post-note">+100K views across the internet.</span></div>
-          </li>
-        </a>
-
-        <a href="/science-engineering/2023/06/06/PDFtoCards.html" class="box">
-          <li class="post-box">
-            <div class="post-box-img"><img src="/images/PDFtoCards_1x1.png" alt="PDFtoCards: Flashcards for Everything" class="post-image"></div>
-            <div class="post-box-txt">
-              
-              <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2023/06/06/PDFtoCards.html"> -->
-                  PDFtoCards: Flashcards for Everything
-                <!--</a>-->
-              </h4><p class="post-summary">
-                <p>Convert any book or article in PDF form to a deck of flashcards! Recognizes and understands text, equations, images, and (some) handwriting.  Summarizes the PDF as questions and answers systematically. ChatGPT is used for understanding the content and MathPix to extract equations and images.</p>
-
-              </p><span class="post-meta">Jun 6, 2023</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/PDFtoCards>
-                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
-
-                </span>
-                <span class="post-meta">on GitHub</span></div>
-          </li>
-        </a>
-
-        <a href="/science-engineering/2018/02/12/GAN.html" class="box">
-          <li class="post-box">
-            <div class="post-box-img"><img src="/images/MNIST-test.gif" alt="Generative Adversarial Network" class="post-image"></div>
-            <div class="post-box-txt">
-              
-              <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2018/02/12/GAN.html"> -->
-                  Generative Adversarial Network
-                <!--</a>-->
-              </h4><p class="post-summary">
-                <p>An implementation of Ian Goodfellow’s seminal research paper using Keras that, in my opinion, sparked the modern generative AI revolution and is still relevant today. Back in 2016-2019, I was still very much interested in art and part of the then emerging generative art community some of which called it <em>neural photography</em>.</p>
-
-              </p><span class="post-meta">Feb 12, 2018</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/Generative-Adversarial-Network>
-                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
-
-                </span>
-                <span class="post-meta">on GitHub</span></div>
           </li>
         </a>
 
@@ -282,6 +227,27 @@
               </p><span class="post-meta">Feb 15, 2024</span><span class="post-meta"> • </span>
                 <span class="material-symbols-outlined">sticky_note_2</span>
                 <span class="post-note">Used daily for better, quicker, and easier routing.</span></div>
+          </li>
+        </a>
+
+        <a href="/science-engineering/2018/02/12/GAN.html" class="box">
+          <li class="post-box">
+            <div class="post-box-img"><img src="/images/MNIST-test-c2.gif" alt="Generative Adversarial Network" class="post-image"></div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                <!-- <a class="post-link" href="/science-engineering/2018/02/12/GAN.html"> -->
+                  Generative Adversarial Network
+                <!--</a>-->
+              </h4><p class="post-summary">
+                <p>An implementation of Ian Goodfellow’s seminal research paper using Keras that, in my opinion, sparked the modern generative AI revolution and is still relevant today. Back in 2016-2019, I was still very much interested in art and part of the then emerging generative art community some of which called it <em>neural photography</em>.</p>
+
+              </p><span class="post-meta">Feb 12, 2018</span><span class="post-meta"> • </span>
+                <span class="github-stars" data-repo=QuentinWach/Generative-Adversarial-Network>
+                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
+
+                </span>
+                <span class="post-meta">on GitHub</span></div>
           </li>
         </a></ul>
 
