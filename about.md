@@ -80,7 +80,7 @@ Work-inspired side projects:
 </style>
 ![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024.png)
 
-I am physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with TUBs [Department of Nonlinear Optics](https://www.tu.berlin/en/nlo). And I am currently working as a research assistant with the [Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html).
+I am a physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with TUBs [Department of Nonlinear Optics](https://www.tu.berlin/en/nlo). And I am currently working as a research assistant with the [Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html).
 
 <!-- currently working on quantum mechanical descriptions of **_charge-carrier transport in nanostructures_**, research relevant to develop the next generation of solar cells, 6G internet, and various other technologies, while also creating **_integrated photonic circuits_** (schematics, layout, simulations, and testing), this time applying my knowledge to build 6G signal transcievers, enable quantum internet and computing applications, as well as accelerate artificial intelligence (AI) in the hybrid photonics group at [Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html) as a research assistant. -->
 
