@@ -61,8 +61,8 @@ Work-inspired side projects:
     img[alt=Profile] {
         float: right; 
         width: 200px; 
-        border-radius: 50%; 
-        margin-top: 10px; 
+        border-radius: 5px;
+        margin-top: 15px; 
         margin-left: 30px; 
         margin-bottom: 15px; 
         box-shadow: 0px 2px 6px #14518386;
@@ -70,7 +70,11 @@ Work-inspired side projects:
 
     @media only screen and (max-width: 600px) {
         img[alt=Profile] {
-            display: none;
+            margin-left: 30px;
+            width: 50%;
+            border-radius:5px;
+            margin-bottom: 10px;
+            margin-top: 25px;
         }
     }
 </style>
