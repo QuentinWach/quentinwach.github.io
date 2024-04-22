@@ -8,9 +8,8 @@ authors:         ["Quentin Wach", "Michael T. Quick", "Sabrine Ayari", "Alexande
 tags:           ["physics", "optics", "THz spectroscopy", "thesis", "density matrix", "quantum mechanics", "semiconductors", "nanoscience"]
 image:          "/images/NS_Title_Graphic_Square_3.png"
 tag_search:     true
-redirect:   "https://doi.org/10.1002/adpr.202200243"
+redirect:   "https://doi.org/10.1039/D4CP00952E"
 categories: "science-engineering"
-note: "Under peer-review. (Read the previous article.)"
+published: "Physical Chemistry Chemical Physics"
 weight: 2
-progress: 0.99
 ---

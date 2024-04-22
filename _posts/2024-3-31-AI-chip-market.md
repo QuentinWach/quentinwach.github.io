@@ -3,12 +3,12 @@ layout: post
 mathjax: true
 title:  "The Space of Neural Network Accelerators"
 description: "An overview and commentary of (mostly) commercial AI and neuromorphic hardware currently available comparing ASICs, FPGAs, GPUs, digital, analog, electronic, and photonic computing. I update these notes as I work on my own AI accelerator."
-date:   2026-04-10 20:38:24 +0100
+date:   2025-04-10 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["machine learning", "aritificial intelligence", "python", "analog computing", "electronics", "neural networks", "hardware design", "computer engineering"]
 tag_search: true
 image:          "/images/AI_acc_comparison_QW_animated_WTtitle.gif"
-weight: 4
+weight: 3
 note: 
 categories: "science-engineering"
 ---
@@ -59,7 +59,7 @@ This statement has been repeated over and over by engineers and technologists in
 _"Compute"_ or computing power is simply a general term to describe how much computations can be done in practice to solve our problems or, simplified even further, it is a measure of how powerful a computer is [^WikiCompute]. Today's GPUs reach several TFLOPs (Tera-FLOP) with a FLOP being a _"floating point operation"_. It has to be considered though that these can be 64-, 32-, 16-, 8-, or even just 4-bit operations! Nonetheless, 1 TFLOP = $$1\cdot10^{12}$$ FLOP. The question is now how many operations can be done per second as well what KIND of operations. Multiplication? Addition? Some functional transformation?
 <span class="sidenote-left">
     The **scaling hypothesis in AI** posits that as the amount of data and computational resources available for training a machine learning model increases, the performance of the model also improves, often in a predictable manner. This hypothesis suggests that many AI tasks, particularly those related to deep learning, benefit from scaling up both the size of the dataset used for training and the computational power available for training the model.
-    In practice, this means that larger neural networks trained on more extensive datasets tend to achieve better performance, such as higher accuracy or improved generalization, compared to smaller models trained on smaller datasets. The scaling hypothesis has been supported by empirical evidence in various domains, particularly in natural language processing, computer vision, and other areas where deep learning techniques are prevalent [^ScalingHypo].
+    In practice, this means that larger neural networks trained on more extensive datasets tend to achieve better performance, such as higher accuracy or improved generalization, compared to smaller models trained on smaller datasets. The scaling hypothesis has been supported by empirical evidence in various domains, particularly in natural language processing, computer vision, and other areas where deep learning techniques are prevalent [^ScalingHypo] [^ScalingHypo3] [^ScalingHypo2].
     <!--
     <style>
         img[alt=centerAI] { float: left; width: 100%; border-radius:5px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px;}
@@ -74,6 +74,8 @@ _"Compute"_ or computing power is simply a general term to describe how much com
     The amount of compute required to train (a) neural network and do inference (b) after training.
     This figure was created by myself but the data was compiled by Jaime Sevilla et al. [^AIDemand_Data_1] [^AIDemand_Data_2].
 </span>
+
+>"Extrapolating the spectacular performance of GPT-3 into the future suggests that the answer to life, the universe and everything is just 4.398 trillion parameters." Geoffrey Hinton [^HintonScaling].
 
 ### 2.1 Training
 Subplot (a) of the figure presented above shows the insane increase in training compute over time to create more and more capable AIs, rising orders of magnitude within years. 
@@ -293,3 +295,6 @@ Generative AI is the most energy consuming task yet th
 [^TFormer1]: https://en.wikipedia.org/wiki/Data_center
 [^TFormer2]: https://www.olsun.com/power-integrator-data-center-2/
 [^kcal_in_Watt]: Feel free to convert back and forth between kcal and Wh yourself at [https://convertlive.com/u/convert/kilocalories-per-hour/to/watts#2000](https://convertlive.com/u/convert/kilocalories-per-hour/to/watts#2000).
+[^ScalingHypo2]: Gwern actually wrote about the scaling hypothesis on his blog as well: [https://gwern.net/scaling-hypothesis](https://gwern.net/scaling-hypothesis)
+[^ScalingHypo3]: [J. Kaplan et al., _Scaling Laws for Neural Language Models_, ArXiv, 2020: https://arxiv.org/pdf/2001.08361.pdf](https://arxiv.org/pdf/2001.08361.pdf)
+[^HintonScaling]: [Geoffrey Hinton on Twitter in 2020: https://twitter.com/geoffreyhinton/status/1270814602931187715](https://twitter.com/geoffreyhinton/status/1270814602931187715)

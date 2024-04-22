@@ -115,7 +115,7 @@ All of engineering is based on material science and its limitations and many of 
 
 + (2022, Technical University Berlin.) Pulsed THz-Photoconductivity in Semiconductor Nanorods (B.Sc. Thesis)
 + [(2023, Advanced Photonics Research.) THz Response of Charge Carriers in Nanoparticles](https://onlinelibrary.wiley.com/doi/10.1002/adpr.202200243)
-+ (2024, Under peer-review.) Field-Dependent THz Transport in Semiconductor Nanostructures
++ [(2024, Physical Chemistry Chemical Physics) Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures](https://doi.org/10.1039/D4CP00952E)
 
 ##### Photonic Integrated Circuits
 Lithography techniques now allow us to reduce large, complicated, thus costly and time-consuming optical setups down to chips only a few mm in size. Such photonic integrated circuits are also essential for quantum computing, the quantum internet, and essentially all modern communication / data transmission technologies. (The reason you can read this blog is because of PICs that are used throughout the infrastructure of the internet.) Still, creating them comes with a lot of exciting challenges as the field is still very young compared to that of integrated _electronic_ circuits. Personally, I think a lot about **photonic design automation** (How can we design PICs better and faster?)
