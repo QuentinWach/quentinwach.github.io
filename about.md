@@ -120,7 +120,7 @@ All of engineering is based on material science and its limitations and many of 
 ##### Photonic Integrated Circuits
 Lithography techniques now allow us to reduce large, complicated, thus costly and time-consuming optical setups down to chips only a few mm in size. Such photonic integrated circuits are also essential for quantum computing, the quantum internet, and essentially all modern communication / data transmission technologies. (The reason you can read this blog is because of PICs that are used throughout the infrastructure of the internet.) Still, creating them comes with a lot of exciting challenges as the field is still very young compared to that of integrated _electronic_ circuits. Personally, I think a lot about **photonic design automation** (How can we design PICs better and faster?)
 
-* [(2024.) Dubins Paths for Waveguide Routing](https://quentinwach.com/2024/02/15/dubins-paths-for-waveguide-routing.html)
+* [(2024.) Dubins Paths for Waveguide Routing](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
 * (Undisclosed project I hope to share soon.)
 
 I have been part of three [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, developing new building blocks to be used within our group, and running and automating large simulations.

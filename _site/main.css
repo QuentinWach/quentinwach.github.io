@@ -161,14 +161,25 @@ div#disqus_thread iframe[sandbox] {
 
 p {
   /* font: "Gill Sans Nova", "Gill Sans MT", sans-serif;  */
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.2;
+  font-family: "Lora", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
   font-display: swap;
   text-align: justify;
-  color: #3f3f3f;
+  color: #000000;
 }
 
+li {
+  font-family: "Lora", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 550;
+}
  /**
   * Links
   */
@@ -913,6 +924,7 @@ h4.post-title {
   padding-left: 8px;
   padding-right: 8px;
   padding-bottom: 3px;
+  padding-top: 2px;
   margin-left: 2px;
   white-space:nowrap;
 }
@@ -1004,8 +1016,6 @@ h4.post-title {
 
 
 
-
-
 .github-stars {
   align-items: center;
   font-size: 14px;
@@ -1016,6 +1026,7 @@ h4.post-title {
   border-radius: 5px;
   padding-left: 4px;
   padding-right: 2px;
+  padding-top: 3px;
   margin-right: 4px;
   padding-bottom: 3px;
   margin-left: 2px;
