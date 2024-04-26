@@ -3,7 +3,7 @@ layout: post
 mathjax: true
 title:  "Analog Electronic Artificial Neural Network for Extreme Energy-Efficient Inference"
 description: "A dense artificial neural network is trained and then converted to an analog electronic circuit simulated with SPICE using Python. While a fully analog implementation of a neural network shows great promise in terms of energy efficiency and speed, a hybrid approach is necessary to make it programmable. This is an introduction. As such, I also discuss the advantages and problems of analog computing. (BM.1, the first version, is promising. BM.2 will be an 130 nm IC design. Work in progress.)"
-date:   2024-02-26 20:38:24 +0100
+date:   2025-02-26 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["machine learning", "aritificial intelligence", "python", "analog computing", "electronics", "neural networks", "hardware design", "computer engineering"]
 tag_search: true
