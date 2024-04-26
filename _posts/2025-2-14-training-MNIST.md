@@ -1,5 +1,5 @@
 ---
-layout: redirect
+layout: post
 mathjax: true
 title:  "Analog Electronic Artificial Neural Network for Extreme Energy-Efficient Inference"
 description: "A dense artificial neural network is trained and then converted to an analog electronic circuit simulated with SPICE using Python. While a fully analog implementation of a neural network shows great promise in terms of energy efficiency and speed, a hybrid approach is necessary to make it programmable. This is an introduction. As such, I also discuss the advantages and problems of analog computing. (BM.1, the first version, is promising. BM.2 will be an 130 nm IC design. Work in progress.)"
@@ -7,13 +7,19 @@ date:   2024-02-26 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["machine learning", "aritificial intelligence", "python", "analog computing", "electronics", "neural networks", "hardware design", "computer engineering"]
 tag_search: true
-redirect:   "/science_and_engineering"
 image:          "/images/physics-processing-unit/machine_brain_2.png"
 weight: 0
 note: "Releasing the first update soon. (Read the previous post.)"
 categories: "science-engineering"
 progress: 0.3
 ---
+
+
++ Convert dense neural network in PyTorch to analog electric circuit based on op-amps.
++ Implement non-linear activation functions as op-amp based neural network with linear activation functions.
++ Discussion of the Landauer limit: In order to increase compute / energy beyond the limit, we must either make computation reversible or reduce the number of bits used. One way to reduce the number of bits is to simply go partially or even fully analog. Or we can stick to digital and make the logic reversible, meaning, no bits are wasted. Correct?
+
+
 
 <!-- IMAGE: "/images/physics-processing-unit/quentinwach_A_modern_machine_brain_made_of_glass_metal_transist_c0e95e7c-154f-422d-b562-a1d5a2845fa7.png" -->
 <!-- Challenges of Analog AI Accelerators -->
