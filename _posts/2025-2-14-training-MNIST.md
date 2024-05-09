@@ -9,7 +9,7 @@ tags: ["machine learning", "aritificial intelligence", "python", "analog computi
 tag_search: true
 image:          "/images/physics-processing-unit/machine_brain_2.png"
 weight: 15
-note: "More information available upong resonable request."
+note: "More information available upon reasonable request."
 redirect: "/science_and_engineering"
 categories: "science-engineering"
 progress: 0.8
