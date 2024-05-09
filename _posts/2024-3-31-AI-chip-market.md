@@ -38,7 +38,7 @@ is speculated to arrive within only a couple of years from now. And with its eme
 writes Ruch et al. in 2011[^RuchBioAI].
 <button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-right">Where _"efficiency"_ means how much energy is consumed proportional to the power of the engine.</span>
-Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn't otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is _the_ enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought.
+Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn't otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is _the_ enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought. But it is essential for making technologies widely available and allow for future technologies to build upon it!
 
 In 2020-2023, the bottleneck for AI was arguably the amount of hardware available due to a global chip shortage so vast it made history[^ChipShortage][^ChipShortage2]. 
 In 2024, managing the voltage conversion is still a major issue for scaling up[^MuskVTransformers].
@@ -46,17 +46,13 @@ In 2024, managing the voltage conversion is still a major issue for scaling up[^
 <span class="sidenote-left">
     **Voltage transformers** play a crucial role in transmitting electrical power over long distances. To achieve this, voltage is stepped up for transmission and stepped down for safe use in homes, offices, and data centers. These transformers are bulky and expensive but necessary for safety and equipment protection. Demand for both types of transformers has surged since 2020 due to the needs of AI startups, data centers, and renewable energy sources like solar and wind farms[^TransformerBottleneck][^TFormer1][^TFormer2]. A topic worth its own article.
 </span>
+With these things hopefully more or more under control the future bottleneck will simply be the availability and cost of energy. In the short term, this means: how can we get the required energy cheapely? But as we continue to scale it also means: How can we make our hardware more energy efficient? How do we get to the top left quadrant of this figure? How do we achieve high performance for low power? Software optimization does not cut it. The hardware is too general to be efficient. And among other things the von-Neumann bottleneck[^vonNeumannBottle] fundamentally limits what these computers can do.
+<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-right">
+There is of course also a **data problem**. I think I heard Musk say recently that we can fit all of the books in the world on just a couple of harddrives if represented as tokens. So that amount of data doesn't seem enough. Our algorithms are still not good enough to generalize from that little data. The internet is far larger though. So then we may look at videos and podcasts etc. But will it be enough? Grog3 will require 100.000 H100s to train coherently. And at that point, there really is a lack of avaiable data, including text, video, and synthetic data. Much more is needed to satisfy the training needs of such large models. 
+</span>
 
-With these things hopefully more or more under control the future bottleneck will simply be the availability and cost of energy. In the short term, this means, how can we get the required energy cheapely? But as we continue to scale it also means: How can we make our hardware more energy efficient?
-
-And then there is a data problem. We can fit all of the books in the world on a single harddrive if represented as tokens. So then we may look at videos and podcasts etc. But will it be enough?
-
-Grog3 will require 100.000 H100s to train coherently. And at that point, there really is a lack of avaiable data, including text, video, and synthetic data. Much more is needed to satisfy the training needs of such large models. [Musk says that. And I heard Yan Le Cun say the same. But why exactly is that? I actually feel like this is a relatively trivial problem to solve.]
-
-
-How do we get to the top left quadrant of this figure? How do we achieve high performance for low power?
-
-Software optimization does not cut it. The hardware is too general to be efficient. And among other things the von-Neumann bottleneck[^vonNeumannBottle] fundamentally limits what these computers can do.
+AI software has become seriously awesome and...
 
 >"People who are really serious about software should make their own hardware." Alan Kay[^AKayHard].
 
@@ -68,7 +64,7 @@ This statement has been repeated over and over by engineers and technologists in
 
 >"I think compute is going to be the currency of the future. I think it’ll be maybe the most precious commodity in the world."[^SamAltmanLex1]
 
-_"Compute"_ or computing power is simply a general term to describe how much computations can be done in practice to solve our problems or, simplified even further, it is a measure of how powerful a computer is[^WikiCompute]. Today's GPUs reach several TFLOPs (Tera-FLOP) with a FLOP being a _"floating point operation"_. It has to be considered though that these can be 64-, 32-, 16-, 8-, or even just 4-bit operations! Nonetheless, 1 TFLOP = $$1\cdot10^{12}$$ FLOP. The question is now how many operations can be done per second as well what KIND of operations. Multiplication? Addition? Some functional transformation?
+_"Compute"_ or computing power is simply a general term to describe how much computations can be done in practice to solve our problems or, simplified even further, it is a measure of how powerful a computer is[^WikiCompute]. Today's GPUs reach several TFLOPs (Tera-FLOP) with a FLOP being a _"floating point operation"_. It has to be considered though that these can be 64-, 32-, 16-, 8-, or even just 4-bit operations! Nonetheless, 1 TFLOP = $$1\cdot10^{12}$$ FLOP. The question is now how many operations can be done per second.
 <button class="sidenote-button-left"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-left">
     The **scaling hypothesis in AI** posits that as the amount of data and computational resources available for training a machine learning model increases, the performance of the model also improves, often in a predictable manner. This hypothesis suggests that many AI tasks, particularly those related to deep learning, benefit from scaling up both the size of the dataset used for training and the computational power available for training the model.
