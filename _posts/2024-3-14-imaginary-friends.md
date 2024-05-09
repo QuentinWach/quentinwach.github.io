@@ -113,6 +113,7 @@ Let me give an example. Ignoring the controversy in quantum mechanics regarding 
 A technical explanation for why it doesn't really matter why everything is super-determined is because of chaos. Chaos theory tells us that even many small systems can act completely unpredictabally beyond a short time horizons and that small changes in the initial conditions will have vastly different consequences. (The the Butterfly Effect [^ButterflyEffect].) A beautiful woman might stare at a mirror on a sunny day, yet that small reflection blinds a man down the street while driving and suddenly he runs you over as you attempt to cross the street. If the mirror had been at a slightly different angle, this would not have happend and you could have lived another 40 years. We can't live life as if it was fully determined nor as if it was fully random. Rather, it is a chaos we have to fight through.
 </span>
 
+
 # References
 [^BetrandRussel_God]: Bertrand Russell, _Why I am not a Christian_
 [^RDawkins_God]: Richard Dawkins, _The God Delusion_

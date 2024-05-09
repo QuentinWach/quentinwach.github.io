@@ -120,13 +120,22 @@ All of engineering is based on material science and its limitations and many of 
 ##### Photonic Integrated Circuits
 Lithography techniques now allow us to reduce large, complicated, thus costly and time-consuming optical setups down to chips only a few mm in size. Such photonic integrated circuits are also essential for quantum computing, the quantum internet, and essentially all modern communication / data transmission technologies. (The reason you can read this blog is because of PICs that are used throughout the infrastructure of the internet.) Still, creating them comes with a lot of exciting challenges as the field is still very young compared to that of integrated _electronic_ circuits. Personally, I think a lot about **photonic design automation** (How can we design PICs better and faster?)
 
-* [(2024.) Dubins Paths for Waveguide Routing](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
-* (Undisclosed project I hope to share soon.)
+* [(Feb, 2024) Dubins Paths for Waveguide Routing](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
 
 I have been part of three [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, developing new building blocks to be used within our group, and running and automating large simulations.
 
 ##### Exotic Computing for Artificial Intelligence
+AI research is not only the fastest moving field of science today but promises to end the need of human involvement for scientific discoveries itself. This global race for AGI and super intelligence has sparked another fundamental revolution in computer hardware and architecture. That includes non-traditional, "exotic" approaches like neuromorphic computing, photonic computing, a revitalization of analog computing, quantum computing, thermodynamic computing, reversible computing, ... We are experiencing a new Cambrian age of computing and I âm working to contribute my share. I keep some updated of related projects public on my science and engineering projects page including:
+
+* [(April, 2024) The Space of Neural Network Accelerators](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
+
 _More information coming soon._
+
+<!--
+1180 people follow me on Twitter: [images and names of all the verified followers]
+45 people starred my software on GitHub: [images of people on GitHub]
+4 articles cite my 2 research papers on Google Scholar.
+--->
 
 <!--**Quantum computing**, **photonic computing**, **thermodynamic computing**, **biological computing**, or plain and simple **analog computing**... I love exploring old and new computer architectures and think of using strange new physics to do so.
 

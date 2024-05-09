@@ -1,4 +1,337 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-04-26T05:46:34+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Q. Wach</title><subtitle></subtitle><entry><title type="html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</title><link href="http://localhost:4000/science-engineering/2024/04/22/second-publication.html" rel="alternate" type="text/html" title="Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures" /><published>2024-04-22T21:38:24+02:00</published><updated>2024-04-22T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/04/22/second-publication</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/04/22/second-publication.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[The charge transport in semiconductor quantum dots and nanorods is studied theoretically, predicting strong field-dependent nonlinear mobility effects and intra-pulse gain. We studied the temperature- and size-sensitive mobility spectra, crucial for applications like 6G tech and nano electronics in general.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" /><media:content medium="image" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Augmenting Obsidian.md with AI: Automatic Linking, Tagging, and Grouping</title><link href="http://localhost:4000/science-engineering/2024/04/16/AI-obsidian.html" rel="alternate" type="text/html" title="Augmenting Obsidian.md with AI: Automatic Linking, Tagging, and Grouping" /><published>2024-04-16T00:00:00+02:00</published><updated>2024-04-16T00:00:00+02:00</updated><id>http://localhost:4000/science-engineering/2024/04/16/AI-obsidian</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/04/16/AI-obsidian.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="science-engineering" /><category term="python" /><category term="obsidian" /><category term="productivity" /><category term="AI" /><summary type="html"><![CDATA[A simple, free and open Python script to quickly organize your markdown notes in Obsidian.md using OpenAI's large language models. Any random, untagged, empty, or unlinked notes? No more. This little script will fill the gaps, connect what belongs together, and even create high level organizing nodes if a specific topic has a lot of notes.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/obsidian-AI/1x1_image.png" /><media:content medium="image" url="http://localhost:4000/images/obsidian-AI/1x1_image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Analog Electronic Artificial Neural Network for Extreme Energy-Efficient Inference</title><link href="http://localhost:4000/science-engineering/2024/02/26/training-MNIST.html" rel="alternate" type="text/html" title="Analog Electronic Artificial Neural Network for Extreme Energy-Efficient Inference" /><published>2024-02-26T20:38:24+01:00</published><updated>2024-02-26T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2024/02/26/training-MNIST</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/02/26/training-MNIST.html"><![CDATA[<ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-05-09T19:18:31+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Q. Wach</title><subtitle></subtitle><entry><title type="html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</title><link href="http://localhost:4000/science-engineering/2024/04/22/second-publication.html" rel="alternate" type="text/html" title="Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures" /><published>2024-04-22T21:38:24+02:00</published><updated>2024-04-22T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/04/22/second-publication</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/04/22/second-publication.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[The charge transport in semiconductor quantum dots and nanorods is studied theoretically, predicting strong field-dependent nonlinear mobility effects and intra-pulse gain. We studied the temperature- and size-sensitive mobility spectra, crucial for applications like 6G tech and nano electronics in general.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" /><media:content medium="image" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Augmenting Obsidian.md with AI: Automatic Linking, Tagging, and Grouping</title><link href="http://localhost:4000/science-engineering/2024/04/16/AI-obsidian.html" rel="alternate" type="text/html" title="Augmenting Obsidian.md with AI: Automatic Linking, Tagging, and Grouping" /><published>2024-04-16T00:00:00+02:00</published><updated>2024-04-16T00:00:00+02:00</updated><id>http://localhost:4000/science-engineering/2024/04/16/AI-obsidian</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/04/16/AI-obsidian.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="science-engineering" /><category term="python" /><category term="obsidian" /><category term="productivity" /><category term="AI" /><summary type="html"><![CDATA[A simple, free and open Python script to quickly organize your markdown notes in Obsidian.md using OpenAI's large language models. Any random, untagged, empty, or unlinked notes? No more. This little script will fill the gaps, connect what belongs together, and even create high level organizing nodes if a specific topic has a lot of notes.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/obsidian-AI/1x1_image.png" /><media:content medium="image" url="http://localhost:4000/images/obsidian-AI/1x1_image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Space of Neural Network Accelerators</title><link href="http://localhost:4000/science-engineering/2024/04/10/AI-chip-market.html" rel="alternate" type="text/html" title="The Space of Neural Network Accelerators" /><published>2024-04-10T21:38:24+02:00</published><updated>2024-04-10T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/04/10/AI-chip-market</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/04/10/AI-chip-market.html"><![CDATA[<style>
+    img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
+    img[alt=AIAccComp]:hover {
+                            transform: scale(1);
+                            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+                            z-index: 10000;
+    }
+</style>
+
+<p><img src="/images/AI_acc_comparison_QW_animated_WT.gif" alt="AIAccComp" />
+<span style="font-size: 14px;">
+    Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago <sup id="fnref:MFigure" role="doc-noteref"><a href="#fn:MFigure" class="footnote" rel="footnote">1</a></sup>.
+</span></p>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<p>Artificial general intelligence (AGI)
+<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-right">
+    Google’s Deep Mind characterizes current general AIs as <strong>emerging AGI</strong>. Level 1. Examples, their researchers say, include: ChatGPT, Bard, Llama 2, and Gemini <sup id="fnref:GoogleAGI" role="doc-noteref"><a href="#fn:GoogleAGI" class="footnote" rel="footnote">2</a></sup>.
+</span>
+is speculated to arrive within only a couple of years from now. And with its emergence comes a plethora of issues. In these notes, I want to focus not on the consequences of AGI, nor what algorithms and software will lead to it, but rather the bottlenecks and problems there are especially regarding its hardware.</p>
+
+<blockquote>
+  <p>“We may recall that the first steam engine had less than 0.1% efficiency and it took 200 years (1780 to 1980) to develop steam engines that reached biological efficiency.”</p>
+</blockquote>
+
+<p>writes Ruch et al. in 2011<sup id="fnref:RuchBioAI" role="doc-noteref"><a href="#fn:RuchBioAI" class="footnote" rel="footnote">3</a></sup>.
+<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-right">Where <em>“efficiency”</em> means how much energy is consumed proportional to the power of the engine.</span>
+Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn’t otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is <em>the</em> enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought.</p>
+
+<p>In 2020-2023, the bottleneck for AI was arguably the amount of hardware available due to a global chip shortage so vast it made history<sup id="fnref:ChipShortage" role="doc-noteref"><a href="#fn:ChipShortage" class="footnote" rel="footnote">4</a></sup><sup id="fnref:ChipShortage2" role="doc-noteref"><a href="#fn:ChipShortage2" class="footnote" rel="footnote">5</a></sup>. 
+In 2024, managing the voltage conversion is still a major issue for scaling up<sup id="fnref:MuskVTransformers" role="doc-noteref"><a href="#fn:MuskVTransformers" class="footnote" rel="footnote">6</a></sup>.
+<button class="sidenote-button-left"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-left">
+    <strong>Voltage transformers</strong> play a crucial role in transmitting electrical power over long distances. To achieve this, voltage is stepped up for transmission and stepped down for safe use in homes, offices, and data centers. These transformers are bulky and expensive but necessary for safety and equipment protection. Demand for both types of transformers has surged since 2020 due to the needs of AI startups, data centers, and renewable energy sources like solar and wind farms<sup id="fnref:TransformerBottleneck" role="doc-noteref"><a href="#fn:TransformerBottleneck" class="footnote" rel="footnote">7</a></sup><sup id="fnref:TFormer1" role="doc-noteref"><a href="#fn:TFormer1" class="footnote" rel="footnote">8</a></sup><sup id="fnref:TFormer2" role="doc-noteref"><a href="#fn:TFormer2" class="footnote" rel="footnote">9</a></sup>. A topic worth its own article.
+</span></p>
+
+<p>With these things hopefully more or more under control the future bottleneck will simply be the availability and cost of energy. In the short term, this means, how can we get the required energy cheapely? But as we continue to scale it also means: How can we make our hardware more energy efficient?</p>
+
+<p>And then there is a data problem. We can fit all of the books in the world on a single harddrive if represented as tokens. So then we may look at videos and podcasts etc. But will it be enough?</p>
+
+<p>Grog3 will require 100.000 H100s to train coherently. And at that point, there really is a lack of avaiable data, including text, video, and synthetic data. Much more is needed to satisfy the training needs of such large models. [Musk says that. And I heard Yan Le Cun say the same. But why exactly is that? I actually feel like this is a relatively trivial problem to solve.]</p>
+
+<p>How do we get to the top left quadrant of this figure? How do we achieve high performance for low power?</p>
+
+<p>Software optimization does not cut it. The hardware is too general to be efficient. And among other things the von-Neumann bottleneck<sup id="fnref:vonNeumannBottle" role="doc-noteref"><a href="#fn:vonNeumannBottle" class="footnote" rel="footnote">10</a></sup> fundamentally limits what these computers can do.</p>
+
+<blockquote>
+  <p>“People who are really serious about software should make their own hardware.” Alan Kay<sup id="fnref:AKayHard" role="doc-noteref"><a href="#fn:AKayHard" class="footnote" rel="footnote">11</a></sup>.</p>
+</blockquote>
+
+<h2 id="2-compute">2. Compute</h2>
+<blockquote>
+  <p>“The base metric is becoming compute. Not money.” Harrison Kinsley (aka Sentdex)<sup id="fnref:ComputeNotMoney1" role="doc-noteref"><a href="#fn:ComputeNotMoney1" class="footnote" rel="footnote">12</a></sup>.</p>
+</blockquote>
+
+<p>This statement has been repeated over and over by engineers and technologists in and outside of Silicon Valley, including Sam Altman saying</p>
+
+<blockquote>
+  <p>“I think compute is going to be the currency of the future. I think it’ll be maybe the most precious commodity in the world.”<sup id="fnref:SamAltmanLex1" role="doc-noteref"><a href="#fn:SamAltmanLex1" class="footnote" rel="footnote">13</a></sup></p>
+</blockquote>
+
+<p><em>“Compute”</em> or computing power is simply a general term to describe how much computations can be done in practice to solve our problems or, simplified even further, it is a measure of how powerful a computer is<sup id="fnref:WikiCompute" role="doc-noteref"><a href="#fn:WikiCompute" class="footnote" rel="footnote">14</a></sup>. Today’s GPUs reach several TFLOPs (Tera-FLOP) with a FLOP being a <em>“floating point operation”</em>. It has to be considered though that these can be 64-, 32-, 16-, 8-, or even just 4-bit operations! Nonetheless, 1 TFLOP = \(1\cdot10^{12}\) FLOP. The question is now how many operations can be done per second as well what KIND of operations. Multiplication? Addition? Some functional transformation?
+<button class="sidenote-button-left"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-left">
+    The <strong>scaling hypothesis in AI</strong> posits that as the amount of data and computational resources available for training a machine learning model increases, the performance of the model also improves, often in a predictable manner. This hypothesis suggests that many AI tasks, particularly those related to deep learning, benefit from scaling up both the size of the dataset used for training and the computational power available for training the model.
+    In practice, this means that larger neural networks trained on more extensive datasets tend to achieve better performance, such as higher accuracy or improved generalization, compared to smaller models trained on smaller datasets. The scaling hypothesis has been supported by empirical evidence in various domains, particularly in natural language processing, computer vision, and other areas where deep learning techniques are prevalent<sup id="fnref:ScalingHypo" role="doc-noteref"><a href="#fn:ScalingHypo" class="footnote" rel="footnote">15</a></sup><sup id="fnref:ScalingHypo3" role="doc-noteref"><a href="#fn:ScalingHypo3" class="footnote" rel="footnote">16</a></sup><sup id="fnref:ScalingHypo2" role="doc-noteref"><a href="#fn:ScalingHypo2" class="footnote" rel="footnote">17</a></sup>.
+    <!--
+    <style>
+        img[alt=centerAI] { float: left; width: 100%; border-radius:5px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px;}
+    </style>
+    ![centerAI](/images/scaling_hypothesis.jpg) -->
+</span></p>
+<style>
+    img[alt=centerAI] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
+    img:hover {
+                            transform: scale(1.9);
+                            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+                            z-index: 10000;
+}
+</style>
+
+<p><img src="/images/AI_compute.png" alt="centerAI" />
+<span style="font-size: 14px;">
+    The amount of compute required to train (a) neural network and do inference (b) after training.
+    This figure was created by myself but the data was compiled by Jaime Sevilla et al.<sup id="fnref:AIDemand_Data_1" role="doc-noteref"><a href="#fn:AIDemand_Data_1" class="footnote" rel="footnote">18</a></sup><sup id="fnref:AIDemand_Data_2" role="doc-noteref"><a href="#fn:AIDemand_Data_2" class="footnote" rel="footnote">19</a></sup>.
+</span></p>
+
+<blockquote>
+  <p>“Extrapolating the spectacular performance of GPT-3 into the future suggests that the answer to life, the universe and everything is just 4.398 trillion parameters.” Geoffrey Hinton<sup id="fnref:HintonScaling" role="doc-noteref"><a href="#fn:HintonScaling" class="footnote" rel="footnote">20</a></sup>.</p>
+</blockquote>
+
+<h3 id="21-training">2.1 Training</h3>
+<p>Subplot (a) of the figure presented above shows the insane increase in training compute over time to create more and more capable AIs, rising orders of magnitude within years.</p>
+
+<blockquote>
+  <p>“[…] since 2012, the amount of compute used in the largest AI training runs has been increasing exponentially with <strong>a 3.4-month doubling time</strong> (by comparison, Moore’s Law had a 2-year doubling period). Since 2012, this metric has grown by more than <strong>300,000x</strong> (a 2-year doubling period would yield only a 7x increase).” This was previously observed by OpenAI<sup id="fnref:OpenAIComputePost" role="doc-noteref"><a href="#fn:OpenAIComputePost" class="footnote" rel="footnote">21</a></sup>.</p>
+</blockquote>
+
+<p>As we can see in the figure above, this is not only true for the largest AIs but for AI in general!</p>
+
+<h3 id="22-inference">2.2 Inference</h3>
+<p><button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-right">
+    <style>
+        img[alt=NAchip] {float: right; width: 100%; border-radius:5px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px;}
+    </style>
+    In fact, the <strong>North American AI chipset market</strong> is growing much faster for edge compute (which is essentially infernce) compared to cloud compute (mostly training) <sup id="fnref:NAChipMarket1" role="doc-noteref"><a href="#fn:NAChipMarket1" class="footnote" rel="footnote">22</a></sup>.
+    <img src="/images/NA_AI_chipmarket.png" alt="NAchip" />
+    In a live stream, George Hotz mockingly said:
+    <em>“All those fucks are trying to make edge AI. […] Look! The AI inference market is bigger than the AI training market! So we should all go for the inference market! It’s way easier! […] Easier and bigger! […] There are a hundred little fucks who make inference chips that no one really wants and only one who is making training chips (NVIDIA).”</em> <sup id="fnref:GHotz_InferenceMarket" role="doc-noteref"><a href="#fn:GHotz_InferenceMarket" class="footnote" rel="footnote">23</a></sup>
+    <style>
+        img[alt=H100Buyers] {float: right; width: 100%; border-radius:5px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px;}
+    </style>
+    <img src="/images/H100_buyers.png" alt="H100Buyers" />
+    <em>Estimated 2023 H100 shipments by end customer as reported by Omida Research <sup id="fnref:OmidaH100Shipments" role="doc-noteref"><a href="#fn:OmidaH100Shipments" class="footnote" rel="footnote">24</a></sup>.</em>
+</span>
+Contrary to training, the compute for inference has hardly grown in comparison. That is because we want the inference to be fast and cheap in order for it to be practical. There can’t be a seconds of delay for the self-driving car. We don’t want our LLMs to spend hours computing an hour for our question and burn the energy of a small town for it. So with traditional hardware we are quite limited here and models are optimized to work within these boundaries. Imagine what we could do with better dedicated hardware though! Imagine LLMs would respond instantly and run locally on your phone. This will be necessary for robots especially. So while inference does not seem like a growth market at first glance, the demand is absolutely there.</p>
+
+<h2 id="3-applications">3. Applications</h2>
+<p>A figure from the paper showing how much it currently costs even to do just inference.
+A. S. Luccioni et al. recently compared several machine learning tasks in terms of their energy consumption and nicely showed that image generation is orders of magnitudes more costly during inference compared to other ML tasks like image classification or text generation<sup id="fnref:AI_EnergyInference" role="doc-noteref"><a href="#fn:AI_EnergyInference" class="footnote" rel="footnote">25</a></sup>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Inference Energy (kWh)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Text Classification</td>
+      <td>0.002 \(\pm\) 0.001</td>
+    </tr>
+    <tr>
+      <td>Extractive QA</td>
+      <td>0.003 \(\pm\) 0.001</td>
+    </tr>
+    <tr>
+      <td>Masked Language Modeling</td>
+      <td>0.003 \(\pm\) 0.001</td>
+    </tr>
+    <tr>
+      <td>Toke Classification</td>
+      <td>0.004 \(\pm\) 0.002</td>
+    </tr>
+    <tr>
+      <td>Image Classification</td>
+      <td>0.007 \(\pm\) 0.001</td>
+    </tr>
+    <tr>
+      <td>Object Detection</td>
+      <td>0.04 \(\pm\) 0.02</td>
+    </tr>
+    <tr>
+      <td>Text Generation</td>
+      <td>0.05 \(\pm\) 0.03</td>
+    </tr>
+    <tr>
+      <td>Summarization</td>
+      <td>0.49 \(\pm\) 0.01</td>
+    </tr>
+    <tr>
+      <td>Image Captioning</td>
+      <td>0.63 \(\pm\) 0.02</td>
+    </tr>
+    <tr>
+      <td>Image Generation</td>
+      <td>2.9 \(\pm\) 3.3</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="4-compute--energy--human-vs-gpt4">4. Compute / Energy:  Human vs. GPT4</h2>
+<p>At this point, I want to highlight the title figure at the beginning of these notes showing the speed in GOP/s over power in W of GPUs, FPGAs, digital and mixed signal ASICs. More than any other figure here, I think it gives a sense of how the different hardware compares.</p>
+
+<p>The sad truth as of now is that there seems to be a linear relationship between the amount of compute per second we can achieve and the energy required. To drive down the costs or AI developement and inference, we’d have to dramatically reduce the cost of energy, which would require an energy revolution in of itself, or rethink and rebuild our hardware on a much more fundamental level than is currently done (in the industry). That is precisely why I am writing these notes.</p>
+
+<p>Comparisons to the human brain and how it developed are often made, especially now in context of LLMs and their extreme popularity and energy consumption because it requires historic energy consumption to train useful LLMs. Even if we compare all the energy consumed by a human throughout their entire life, the difference is vast. Some napkin math:</p>
+
+<p>Assuming that the calorie intake is 2000 kcal / day \(\times\) 365 days where 1163 Wh = 1000 kcal<sup id="fnref:kcal_in_Watt" role="doc-noteref"><a href="#fn:kcal_in_Watt" class="footnote" rel="footnote">26</a></sup><sup id="fnref:kcal_in_Watt2" role="doc-noteref"><a href="#fn:kcal_in_Watt2" class="footnote" rel="footnote">27</a></sup>, that’s 730.000 kcal / year or \(8.5 \cdot 10^{-5}\) GWh/year per person. Now multiply this times the decades humans take to learn what LLMs know and we can maybe subtract or or two orders of magnitude in energy consumption. Still, in comparison, OpenAI used 50 GWh to train GPT4<sup id="fnref:GPT4_energy" role="doc-noteref"><a href="#fn:GPT4_energy" class="footnote" rel="footnote">28</a></sup>utilizing 25.000 NVIDIA A100 GPUs that run around 6.5 kW each.
+It doesn’t take a math genius to see that there are orders of magnitude in difference. And as a result, the training cost for GPT4 was around $100.000.000 over a period of around 100 days (roughly $65M for the pre-training alone) as stated Sam Altman himself<sup id="fnref:GPT4_price" role="doc-noteref"><a href="#fn:GPT4_price" class="footnote" rel="footnote">29</a></sup><sup id="fnref:GPT4_facts" role="doc-noteref"><a href="#fn:GPT4_facts" class="footnote" rel="footnote">30</a></sup>.</p>
+
+<h2 id="5-general-use-of-hardware">5. General Use of Hardware</h2>
+<h3 id="51-gpus-nvidia-leads-the-way">5.1 GPUs: NVIDIA Leads the Way</h3>
+<p>NVIDIA is the non-plus ultra for AI training at the largest scale. We see this reflected with commercial GPUs providing the fastest training. The drawback: These GPUs also consume by far the most power.</p>
+
+<p>In NVIDIA’s most recent developer conference, Jensen Huang bragged about how hot these GPUs get. So hot, that they need to be liquid cooled (which poses new challenges in data centres). So hot, that the coolant coming out after just seconds could be used as a whirlpool, I remember him stating. Later on stage, he then continued talking about how NVIDIAs new accelerators are now much more energy efficient<sup id="fnref:NVIDIAGTC2024" role="doc-noteref"><a href="#fn:NVIDIAGTC2024" class="footnote" rel="footnote">31</a></sup>. It takes a special kind of genius to pull of such contradiction marketing. I am not even trying to be critical. It’s rather humorous!</p>
+
+<p>Even with their incredible energy demands and the high training costs that follow, NVIDIAs glowing hot GPUs have a bright future.</p>
+
+<p>That is because GPUs offer versatility and power for a wide range of applications. GPUs excel in scenarios where the workload is diverse or evolving, as they are capable of handling various computational tasks beyond AI, including graphics rendering, scientific simulations, and data analytics, all of which can compliment each other. They are <em>the</em> research plattform. Additionally ,they are simply extremely widespread. Nearly every computer has a GPU. Many have NVIDIA GPUs. And NVIDIA made sure to build the entire stack from the bottom up to the higher software layers to make it as easy for developers and scientists to get as much performance without needing to write much code.</p>
+
+<h3 id="52-field-programmable-gate-arrays-fpgas-for-prototyping">5.2 Field-Programmable Gate Arrays (FPGAs) for Prototyping</h3>
+<p>If we were to compete, lowering energy consumption is the angle of attack. FPGAs are, in part, competitive enough in terms of speed yet at similar power consumption and much, much worse usability. Nonetheless, some argue for a future of FPGAs:</p>
+
+<blockquote>
+  <p>“Due to their software-defined nature, FPGAs offer easier design flows and shorter time to market accelerators than an application-specific integrated circuit (ASIC).”<sup id="fnref:FPGACentres" role="doc-noteref"><a href="#fn:FPGACentres" class="footnote" rel="footnote">32</a></sup></p>
+</blockquote>
+
+<p>The advantage lies for tasks that require less compute but desire better optimization in speed and energy efficiency hence inference. And FPGAs are typically easier to bring to market than ASICs. So in scenarios where power consumption must be tightly controlled, such as in embedded systems or edge computing devices, FPGAs may provide a compelling solution. But compelling enough?</p>
+
+<h3 id="53-application-specific-integrated-circuits-asics-for-on-the-edge-devices">5.3 Application-Specific Integrated Circuits (ASICs) for on the Edge Devices</h3>
+<p>ASICs after all are by far superior for addressing energy concerns in AI hardware. Unlike general-purpose GPUs, ASICs are tailored specifically for certain tasks, maximizing efficiency and performance for those tasks while minimizing power consumption. On the other hand, ASICs entail higher initial development costs and longer time-to-market. Since progress in AI is driven primarily by new developments in software, developing ASICs that are general enough to keep up with that progress but specific enough to actually have an advantage over GPUs is tricky.</p>
+
+<h3 id="54-tensor-processing-units-tpus-for-deep-learning-training">5.4 Tensor Processing Units (TPUs) for Deep Learning Training</h3>
+<p>Developed by Google, TPUs are designed specifically for accelerating machine learning workloads, particularly those that involve neural network inference and training by focusing on matrix multiplication operations fundamental to neural network computations. And by doing so, TPUs are able to achieve remarkable speedups while consuming significantly less power compared to traditional GPU-based solutions. As I see it, they are simply not as widely available and their lack of generality compared to GPUs may make the development of AI applications a bit more difficult compared to GPUs once again.</p>
+
+<h3 id="55-neural-processing-units-npus-for-inference">5.5 Neural Processing Units (NPUs) for Inference</h3>
+<p>Similarly, NPUs represent a specialized class of AI hardware optimized specifically for neural network computations. They are designed to accelerate the execution of machine learning workloads but, and this is the crucial difference, <strong>with a focus on inference tasks</strong> commonly found in applications such as computer vision, natural language processing, and speech recognition. By incorporating dedicated hardware accelerators for key operations involved in neural network inference, such as convolutions and matrix multiplications, NPUs are able to achieve significant speedups while consuming less power. So the idea is similar to TPUs but with a focus more on inference specifically for edge devices and private computers.</p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+<!--
++ Photonics is great at communication but has a lot of fundamental issues that keep it from being practical for computing in comparison electronics at least for now and likely the next 5-10 years. Integrating photonics as intra- and interconnects will be crucial for high-performance computing though. But it is not yet a bottleneck.
+
++ Thermodynamic computing, to me, seems mostly academic for now.
+
++ Quantum computing seems extremely promising but simply scaling this technology will take more decades as well.
+
++ Analog electronic computing on the other hand just works. The issue here is not the fundamental technology but rather our ability to design analog ICs quickly! It is my quess that analog electronics should also naturally play well with photonics. Very large scale integration (VLSI) is a resulting challenge. 
+  >"Conventional analog designs require schematic-entry based specification and **a custom layout design that requires many iterations to meet design goals**."[^ADesign]
+
++ While I believe GPUs will continue to dominate the training market for the next 3+ years while digital ASICs, and to some degree FPGAs, will increasingly dominate the market for AI inference. But if we take a larger view of humanity and the required compute in the next decades and centuries, analog computing will have to become a dominating force. Not for general computing but for AI acceleration. And not just inference but, importantly, training as well.
+-->
+
+<p>What I and others ask is <strong>what is the computer of the future?</strong> I started writing this down because there are so many approaches to AI accelerators. Most quite traditional, simply designing digital ASICs. Some more exotic. Yet they are all extremely confident in that <em>their</em> approach is what the future AI super-computer will look like. That is why one of my I will now be more focused on the physics of computing. I’ll try and look at it from a first-principles standpoint, look at where our corrent technological limitations and lie to then give my personal estimate on what is the most sensible solution we should be working on.
+<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-right">
+    <strong>Thank you</strong> for reading these notes of mine as I tried to clear up my thinking on the subject. In the end, it lead me to the believe that it is rather pointless to try and directly compare all the available hardware. There are too many nuances and the technical details matter a lot. Yet, it is unclear how and what exactly matters and will be the most important metric to focus on for future computers. It seems to be quite clear to me that current computer designs are primarily driven by the econonmy and not a long-term focus and reasoning from first principles. So I hope to do a better job and illuminate this subject a bit more in a future post that takes a more physics oriented approach. Another lesson I took away for my own work and design process is that I need to iterate faster so I can prove my designs wrong faster as well. <br /> - Quentin
+</span></p>
+
+<h3 id="references">References</h3>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:MFigure" role="doc-endnote">
+      <p>Adapted based on a figure originally linked to <a href="https://NICSEFC.EE.TSINGHUA.EDU.CN">https://NICSEFC.EE.TSINGHUA.EDU.CN</a>. Yet, I was not able to find it again as the link seemed to have been broken. <a href="#fnref:MFigure" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:GoogleAGI" role="doc-endnote">
+      <p>https://arxiv.org/pdf/2311.02462.pdf <a href="#fnref:GoogleAGI" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:RuchBioAI" role="doc-endnote">
+      <p><a href="chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://www.zurich.ibm.com/pdf/news/Towards_5D_Scaling.pdf">P. Ruch et al., <em>Toward five-dimensionalscaling: How densityimproves efficiency infuture computers</em>, IBM, 2011</a> <a href="#fnref:RuchBioAI" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:ChipShortage" role="doc-endnote">
+      <p>https://en.wikipedia.org/wiki/2020%E2%80%932023_global_chip_shortage <a href="#fnref:ChipShortage" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:ChipShortage2" role="doc-endnote">
+      <p>https://edition.cnn.com/2023/08/06/tech/ai-chips-supply-chain/index.html <a href="#fnref:ChipShortage2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:MuskVTransformers" role="doc-endnote">
+      <p>Interview with Elon Musk on X.com: https://twitter.com/i/spaces/1YqJDgRydwaGV/peek Musk mentioned the various bottlenecks of AI in other recent interviews as well. <a href="#fnref:MuskVTransformers" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:TransformerBottleneck" role="doc-endnote">
+      <p>https://finance.yahoo.com/news/electrical-transformers-could-giant-bottleneck-220423599.html <a href="#fnref:TransformerBottleneck" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:TFormer1" role="doc-endnote">
+      <p>https://en.wikipedia.org/wiki/Data_center <a href="#fnref:TFormer1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:TFormer2" role="doc-endnote">
+      <p>https://www.olsun.com/power-integrator-data-center-2/ <a href="#fnref:TFormer2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:vonNeumannBottle" role="doc-endnote">
+      <p>https://en.wikipedia.org/wiki/Von_Neumann_architecture <a href="#fnref:vonNeumannBottle" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:AKayHard" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a>, <em><a href="https://www.folklore.org/Creative_Think.html">Creative Think</a></em>, 1982 <a href="#fnref:AKayHard" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:ComputeNotMoney1" role="doc-endnote">
+      <p><a href="https://x.com/Sentdex/status/1773358212403654860?s=20">Harrison Kinsley on X.com: https://x.com/Sentdex/status/1773358212403654860?s=20</a> <a href="#fnref:ComputeNotMoney1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:SamAltmanLex1" role="doc-endnote">
+      <p>Sam Altman on the Lex Fridman podcast: <a href="https://lexfridman.com/sam-altman-2-transcript/">https://lexfridman.com/sam-altman-2-transcript/</a> <a href="#fnref:SamAltmanLex1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:WikiCompute" role="doc-endnote">
+      <p><a href="Wikipedia: Floating Point Operations Per Second, https://de.wikipedia.org/wiki/Floating_Point_Operations_Per_Second">Wikipedia: Floating Point Operations Per Second, https://de.wikipedia.org/wiki/Floating_Point_Operations_Per_Second</a> <a href="#fnref:WikiCompute" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:ScalingHypo" role="doc-endnote">
+      <p><a href="https://arxiv.org/pdf/1712.00409.pdf?source=content_type%3Areact%7Cfirst_level_url%3Aarticle%7Csection%3Amain_content%7Cbutton%3Abody_link">J. Hestness et al., <em>DEEPLEARNING SCALING IS PREDICTABLE, EMPIRICALLY</em>, https://arxiv.org/pdf/1712.00409.pdf?source=content_type%3Areact%7Cfirst_level_url%3Aarticle%7Csection%3Amain_content%7Cbutton%3Abody_link, 2017</a> <a href="#fnref:ScalingHypo" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:ScalingHypo3" role="doc-endnote">
+      <p><a href="https://arxiv.org/pdf/2001.08361.pdf">J. Kaplan et al., <em>Scaling Laws for Neural Language Models</em>, ArXiv, 2020: https://arxiv.org/pdf/2001.08361.pdf</a> <a href="#fnref:ScalingHypo3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:ScalingHypo2" role="doc-endnote">
+      <p>Gwern actually wrote about the scaling hypothesis on his blog as well: <a href="https://gwern.net/scaling-hypothesis">https://gwern.net/scaling-hypothesis</a> <a href="#fnref:ScalingHypo2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:AIDemand_Data_1" role="doc-endnote">
+      <p><a href="https://arxiv.org/pdf/2202.05924.pdf">Sevilla et al., <em>Compute Trends Across Three Eras of Machine Learning</em>, ArXiv, 2022</a> <a href="#fnref:AIDemand_Data_1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:AIDemand_Data_2" role="doc-endnote">
+      <p><a href="https://epochai.org/blog/compute-trends">Epoch AI, <em>Compute Trends</em>, https://epochai.org/blog/compute-trends</a> <a href="#fnref:AIDemand_Data_2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:HintonScaling" role="doc-endnote">
+      <p><a href="https://twitter.com/geoffreyhinton/status/1270814602931187715">Geoffrey Hinton on Twitter in 2020: https://twitter.com/geoffreyhinton/status/1270814602931187715</a> <a href="#fnref:HintonScaling" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:OpenAIComputePost" role="doc-endnote">
+      <p>OpenAI, AI and compute: https://openai.com/research/ai-and-compute <a href="#fnref:OpenAIComputePost" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:NAChipMarket1" role="doc-endnote">
+      <p>https://www.eetasia.com/ai-chip-market-to-reach-70b-by-2026/ <a href="#fnref:NAChipMarket1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:GHotz_InferenceMarket" role="doc-endnote">
+      <p>George Hotz, https://www.youtube.com/watch?v=iXupOjSZu1Y <a href="#fnref:GHotz_InferenceMarket" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:OmidaH100Shipments" role="doc-endnote">
+      <p>Omida Research. (I was unable to find the original source though similar data can be found here: https://www.tomshardware.com/tech-industry/nvidia-ai-and-hpc-gpu-sales-reportedly-approached-half-a-million-units-in-q3-thanks-to-meta-facebook) <a href="#fnref:OmidaH100Shipments" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:AI_EnergyInference" role="doc-endnote">
+      <p><a href="https://arxiv.org/pdf/2311.16863.pdf">Luccioni et al., <em>Power Hungry Processing: Watts Driving the Cost of AI Deployment?</em>, ArXiv, 2023</a> <a href="#fnref:AI_EnergyInference" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:kcal_in_Watt" role="doc-endnote">
+      <p>Feel free to convert back and forth between kcal and Wh yourself at <a href="https://convertlive.com/u/convert/kilocalories-per-hour/to/watts#2000">https://convertlive.com/u/convert/kilocalories-per-hour/to/watts#2000</a>. <a href="#fnref:kcal_in_Watt" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:kcal_in_Watt2" role="doc-endnote">
+      <p>https://de.wikipedia.org/wiki/Kalorie <a href="#fnref:kcal_in_Watt2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:GPT4_energy" role="doc-endnote">
+      <p>https://www.ri.se/en/news/blog/generative-ai-does-not-run-on-thin-air <a href="#fnref:GPT4_energy" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:GPT4_price" role="doc-endnote">
+      <p>Knight, Will. “OpenAI’s CEO Says the Age of Giant AI Models Is Already Over”. Wired. Archived from the original on April 18, 2023. Retrieved April 18, 2023 – via www.wired.com. https://www.wired.com/story/openai-ceo-sam-altman-the-age-of-giant-ai-models-is-already-over/ <a href="#fnref:GPT4_price" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:GPT4_facts" role="doc-endnote">
+      <p>https://patmcguinness.substack.com/p/gpt-4-details-revealed <a href="#fnref:GPT4_facts" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:NVIDIAGTC2024" role="doc-endnote">
+      <p><a href="https://www.youtube.com/watch?v=Y2F8yisiS6E&amp;list=PLZHnYvH1qtOYPPHRaHf9yPQkIcGpIUpdL">NVIDIA GTC March 2024 Keynote with Jensen Huang: https://www.youtube.com/watch?v=Y2F8yisiS6E&amp;list=PLZHnYvH1qtOYPPHRaHf9yPQkIcGpIUpdL</a> <a href="#fnref:NVIDIAGTC2024" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:FPGACentres" role="doc-endnote">
+      <p>https://www.allaboutcircuits.com/news/shifting-to-a-field-programable-gate-array-data-center-future/ <a href="#fnref:FPGACentres" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="machine learning" /><category term="aritificial intelligence" /><category term="python" /><category term="analog computing" /><category term="electronics" /><category term="neural networks" /><category term="hardware design" /><category term="computer engineering" /><summary type="html"><![CDATA[An overview and commentary of commercial and academic AI and neuromorphic hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/AI_acc_comparison_QW_animated_WTtitle.gif" /><media:content medium="image" url="http://localhost:4000/images/AI_acc_comparison_QW_animated_WTtitle.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Analog Electronic Artificial Neural Network for Extreme Energy-Efficient Inference</title><link href="http://localhost:4000/science-engineering/2024/02/26/training-MNIST.html" rel="alternate" type="text/html" title="Analog Electronic Artificial Neural Network for Extreme Energy-Efficient Inference" /><published>2024-02-26T20:38:24+01:00</published><updated>2024-02-26T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2024/02/26/training-MNIST</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/02/26/training-MNIST.html"><![CDATA[<ul>
   <li>Convert dense neural network in PyTorch to analog electric circuit based on op-amps.</li>
   <li>Implement non-linear activation functions as op-amp based neural network with linear activation functions.</li>
   <li>Discussion of the Landauer limit: In order to increase compute / energy beyond the limit, we must either make computation reversible or reduce the number of bits used. One way to reduce the number of bits is to simply go partially or even fully analog. Or we can stick to digital and make the logic reversible, meaning, no bits are wasted. Correct?</li>
@@ -981,4 +1314,4 @@ def gds_solution(xs, pin1, pin2, solution):
 
 <p>I seemingly chose to throw a lot of potential away to follow a more difficult path. But I saw neither fulfillment nor utility in a career of art, design, music, or entertainment.</p>
 
-<p>A difficult life full of challenges and meaning is better than an easy one without.</p>]]></content><author><name>Quentin Wach</name></author><category term="personal" /><summary type="html"><![CDATA[This is an introduction to where I come from. I was born into a family of artists and designers and developed these talents rapidly making money with paintings and music from an early age. Then I chose to study physics. Because a meaningful life full of challenges is better than an easy life without.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/Sketch3.png" /><media:content medium="image" url="http://localhost:4000/images/Sketch3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">PDFtoCards: Flashcards for Everything</title><link href="http://localhost:4000/science-engineering/2023/06/06/PDFtoCards.html" rel="alternate" type="text/html" title="PDFtoCards: Flashcards for Everything" /><published>2023-06-06T21:38:24+02:00</published><updated>2023-06-06T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2023/06/06/PDFtoCards</id><content type="html" xml:base="http://localhost:4000/science-engineering/2023/06/06/PDFtoCards.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="studying" /><category term="university" /><category term="ChatGPT" /><summary type="html"><![CDATA[Convert any book or article in PDF form to a deck of flashcards! Recognizes and understands text, equations, images, and (some) handwriting. Summarizes the PDF as questions and answers systematically. ChatGPT is used for understanding the content and MathPix to extract equations and images.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/PDFtoCards_1x1_v2.png" /><media:content medium="image" url="http://localhost:4000/images/PDFtoCards_1x1_v2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">THz Response of Charge Carriers in Nanoparticles</title><link href="http://localhost:4000/science-engineering/2023/01/01/first-paper.html" rel="alternate" type="text/html" title="THz Response of Charge Carriers in Nanoparticles" /><published>2023-01-01T20:38:24+01:00</published><updated>2023-01-01T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2023/01/01/first-paper</id><content type="html" xml:base="http://localhost:4000/science-engineering/2023/01/01/first-paper.html"><![CDATA[]]></content><author><name>Michael T. Quick</name></author><category term="science-engineering" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[Presenting a new quantum mechanical theory that models the THz mobility of charge carriers in low-dimensional semiconductors, revealing nonlinearities even at low field-strengths as well as a quantum mechanical equilibration current that counteracts the mobility at low frequencies.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/a.jpg" /><media:content medium="image" url="http://localhost:4000/images/a.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Essays: The Blank Spot</title><link href="http://localhost:4000/personal/2021/01/01/the-blank-spot.html" rel="alternate" type="text/html" title="Essays: The Blank Spot" /><published>2021-01-01T00:00:00+01:00</published><updated>2021-01-01T00:00:00+01:00</updated><id>http://localhost:4000/personal/2021/01/01/the-blank-spot</id><content type="html" xml:base="http://localhost:4000/personal/2021/01/01/the-blank-spot.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="personal" /><category term="essay" /><category term="writing" /><summary type="html"><![CDATA[Being done with lab work and not busy with research either, I spent some time writing short essays on various subjects aiming to ask questions like: _'Is science a young man's game?'_, _'What is the relationship between genius, creativity, and insanity?'_, and _'How can we make academic articles freely accessible?'_]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/blank_spot_1x1V2.png" /><media:content medium="image" url="http://localhost:4000/images/blank_spot_1x1V2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Simulating &amp;amp; Animating Science with Python</title><link href="http://localhost:4000/science-engineering/2020/01/01/animating-science.html" rel="alternate" type="text/html" title="Simulating &amp;amp; Animating Science with Python" /><published>2020-01-01T00:00:00+01:00</published><updated>2020-01-01T00:00:00+01:00</updated><id>http://localhost:4000/science-engineering/2020/01/01/animating-science</id><content type="html" xml:base="http://localhost:4000/science-engineering/2020/01/01/animating-science.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="science-engineering" /><category term="python" /><category term="animation" /><category term="matplotlib" /><category term="scipy" /><summary type="html"><![CDATA[A free collection of tutorials and simulation examples that aim to showcase and explain the animation capabilites one has using Python. This includes chemical reaction diffusion, the viral spread in pandemics, fractals, chaotic pendulums with springs, Conway's game of life, quantum states of hydrogen, galaxy collisions, and much more.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/science%20animations/happy4_c2.gif" /><media:content medium="image" url="http://localhost:4000/images/science%20animations/happy4_c2.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Generative Adversarial Network</title><link href="http://localhost:4000/science-engineering/2018/02/12/GAN.html" rel="alternate" type="text/html" title="Generative Adversarial Network" /><published>2018-02-12T20:38:24+01:00</published><updated>2018-02-12T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2018/02/12/GAN</id><content type="html" xml:base="http://localhost:4000/science-engineering/2018/02/12/GAN.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="science-engineering" /><category term="AI" /><category term="artificial intelligence" /><summary type="html"><![CDATA[An implementation of Ian Goodfellow's seminal research paper using Keras that, in my opinion, sparked the modern generative AI revolution and is still relevant today. Back in 2016-2019, I was still very much interested in art and part of the then emerging generative art community some of which called it _neural photography_.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/MNIST-test-c2.gif" /><media:content medium="image" url="http://localhost:4000/images/MNIST-test-c2.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>A difficult life full of challenges and meaning is better than an easy one without.</p>]]></content><author><name>Quentin Wach</name></author><category term="personal" /><summary type="html"><![CDATA[This is an introduction to where I come from. I was born into a family of artists and designers and developed these talents rapidly making money with paintings and music from an early age. Then I chose to study physics. Because a meaningful life full of challenges is better than an easy life without.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/Sketch3.png" /><media:content medium="image" url="http://localhost:4000/images/Sketch3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">PDFtoCards: Flashcards for Everything</title><link href="http://localhost:4000/science-engineering/2023/06/06/PDFtoCards.html" rel="alternate" type="text/html" title="PDFtoCards: Flashcards for Everything" /><published>2023-06-06T21:38:24+02:00</published><updated>2023-06-06T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2023/06/06/PDFtoCards</id><content type="html" xml:base="http://localhost:4000/science-engineering/2023/06/06/PDFtoCards.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="studying" /><category term="university" /><category term="ChatGPT" /><summary type="html"><![CDATA[Convert any book or article in PDF form to a deck of flashcards! Recognizes and understands text, equations, images, and (some) handwriting. Summarizes the PDF as questions and answers systematically. ChatGPT is used for understanding the content and MathPix to extract equations and images.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/PDFtoCards_1x1_v2.png" /><media:content medium="image" url="http://localhost:4000/images/PDFtoCards_1x1_v2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">THz Response of Charge Carriers in Nanoparticles</title><link href="http://localhost:4000/science-engineering/2023/01/01/first-paper.html" rel="alternate" type="text/html" title="THz Response of Charge Carriers in Nanoparticles" /><published>2023-01-01T20:38:24+01:00</published><updated>2023-01-01T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2023/01/01/first-paper</id><content type="html" xml:base="http://localhost:4000/science-engineering/2023/01/01/first-paper.html"><![CDATA[]]></content><author><name>Michael T. Quick</name></author><category term="science-engineering" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[Presenting a new quantum mechanical theory that models the THz mobility of charge carriers in low-dimensional semiconductors, revealing nonlinearities even at low field-strengths as well as a quantum mechanical equilibration current that counteracts the mobility at low frequencies.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/a.jpg" /><media:content medium="image" url="http://localhost:4000/images/a.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Essays: The Blank Spot</title><link href="http://localhost:4000/personal/2021/01/01/the-blank-spot.html" rel="alternate" type="text/html" title="Essays: The Blank Spot" /><published>2021-01-01T00:00:00+01:00</published><updated>2021-01-01T00:00:00+01:00</updated><id>http://localhost:4000/personal/2021/01/01/the-blank-spot</id><content type="html" xml:base="http://localhost:4000/personal/2021/01/01/the-blank-spot.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="personal" /><category term="essay" /><category term="writing" /><summary type="html"><![CDATA[Being done with lab work and not busy with research either, I spent some time writing short essays on various subjects aiming to ask questions like: _'Is science a young man's game?'_, _'What is the relationship between genius, creativity, and insanity?'_, and _'How can we make academic articles freely accessible?'_]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/blank_spot_1x1V2.png" /><media:content medium="image" url="http://localhost:4000/images/blank_spot_1x1V2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Simulating &amp;amp; Animating Science with Python</title><link href="http://localhost:4000/science-engineering/2020/01/01/animating-science.html" rel="alternate" type="text/html" title="Simulating &amp;amp; Animating Science with Python" /><published>2020-01-01T00:00:00+01:00</published><updated>2020-01-01T00:00:00+01:00</updated><id>http://localhost:4000/science-engineering/2020/01/01/animating-science</id><content type="html" xml:base="http://localhost:4000/science-engineering/2020/01/01/animating-science.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="science-engineering" /><category term="python" /><category term="animation" /><category term="matplotlib" /><category term="scipy" /><summary type="html"><![CDATA[A free collection of tutorials and simulation examples that aim to showcase and explain the animation capabilites one has using Python. This includes chemical reaction diffusion, the viral spread in pandemics, fractals, chaotic pendulums with springs, Conway's game of life, quantum states of hydrogen, galaxy collisions, and much more.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/science%20animations/happy4_c2.gif" /><media:content medium="image" url="http://localhost:4000/images/science%20animations/happy4_c2.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

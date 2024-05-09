@@ -9,10 +9,10 @@ tags: ["machine learning", "aritificial intelligence", "python", "analog computi
 tag_search: true
 image:          "/images/physics-processing-unit/machine_brain_2.png"
 weight: 15
-note: "Releasing the first update soon. (Read the previous post.)"
+note: "More information available upong resonable request."
 redirect: "/science_and_engineering"
 categories: "science-engineering"
-progress: 0.3
+progress: 0.8
 ---
 
 

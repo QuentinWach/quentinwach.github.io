@@ -116,11 +116,13 @@ div#disqus_thread iframe[sandbox] {
  /**
   * Images
   */
- img {
+img {
    max-width: 100%;
    vertical-align: middle;
+   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.0);
+   transition: all 0.3s ease-in-out;
  }
- 
+
  /**
   * Figures
   */
@@ -158,6 +160,7 @@ div#disqus_thread iframe[sandbox] {
    line-height:0.9;
    padding-top: 10px;
  }
+
 
 p {
   /* font: "Gill Sans Nova", "Gill Sans MT", sans-serif;  */
@@ -339,7 +342,7 @@ li {
   -webkit-backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.219);
   box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.6);
-  z-index: 1000;
+  z-index: 100;
   padding-top: 0px;
   margin-top: 0px;
   margin-left: 0px;
@@ -901,6 +904,7 @@ html {
   width: 250px;
   object-fit: scale-down;
   margin-left: 0px;
+  z-index: 1000;
 }
 
 a.box {
@@ -957,6 +961,37 @@ h4.post-title {
   filter: grayscale(0%);
   transition: opacity 200ms, display 200ms;
 }
+
+.sidenote-button-right {
+  position: absolute;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color:#ffffff83;
+  color: #00000083;
+  border: 0px solid #00000000;
+  opacity: 50%;
+}
+.sidenote-button-right:hover {
+  background-color:#ffffff;
+  color: #000000;
+}
+.sidenote-button-left {
+  position: absolute;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color:#ffffff83;
+  color: #00000083;
+  border: 0px solid #00000000;
+  opacity: 50%;
+}
+.sidenote-button-left:hover {
+  background-color:#ffffff;
+  color: #000000;
+}
 /*
 .sidenote-left:hover {
   opacity: 1;
@@ -985,7 +1020,22 @@ h4.post-title {
     animation: slideawayR 200ms;
   }
 }
-
+@media (min-width: 1450px) {
+  .sidenote-button-right {
+    display: none;
+  }
+  .sidenote-button-left {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  .sidenote-button-right {
+    display: none;
+  }
+  .sidenote-button-left {
+    display: none;
+  }
+}
 .site-header a {
   color: #000;
   text-decoration: none;
@@ -1039,8 +1089,9 @@ h4.post-title {
 .footnote {
   background-color: #a7a7a7;
   border-radius: 50px;
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: 2px;
   padding-bottom: 1px;
   color: white;
   font-style: normal;
@@ -1119,3 +1170,4 @@ progress[value]::-moz-progress-bar {
   background-color: #008d763d;
   border-radius: 15px;
 }
+
