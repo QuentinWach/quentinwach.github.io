@@ -127,7 +127,7 @@ I have been part of three [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so
 ##### Exotic Computing for Artificial Intelligence
 AI research is not only the fastest moving field of science today but promises to end the need of human involvement for scientific discoveries itself. This global race for AGI and super intelligence has sparked another fundamental revolution in computer hardware and architecture. That includes non-traditional, "exotic" approaches like neuromorphic computing, photonic computing, a revitalization of analog computing, quantum computing, thermodynamic computing, reversible computing, ... We are experiencing a new Cambrian age of computing and I âm working to contribute my share. I keep some updated of related projects public on my science and engineering projects page including:
 
-* [(April, 2024) The Space of Neural Network Accelerators](https://quentinwach.com/science-engineering/2024/04/10/AI-chip-market.html)
+* [(April, 2024) The Space of Neural Network Accelerators](/2024/04/10/AI-chip-market.html)
 
 _More information coming soon._
 

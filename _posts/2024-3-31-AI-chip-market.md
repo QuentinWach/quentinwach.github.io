@@ -10,7 +10,7 @@ tag_search: true
 image:          "/images/AI_acc_comparison_QW_animated_WTtitle.gif"
 weight: 20
 note: 
-categories: "science-engineering"
+categories:
 ---
 <style>
     img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
@@ -137,7 +137,11 @@ A. S. Luccioni et al. recently compared several machine learning tasks in terms 
 ## 4. Compute / Energy:  Human vs. GPT4
 At this point, I want to highlight the title figure at the beginning of these notes showing the speed in GOP/s over power in W of GPUs, FPGAs, digital and mixed signal ASICs. More than any other figure here, I think it gives a sense of how the different hardware compares. 
 
-The sad truth as of now is that there seems to be a linear relationship between the amount of compute per second we can achieve and the energy required. To drive down the costs or AI developement and inference, we'd have to dramatically reduce the cost of energy, which would require an energy revolution in of itself, or rethink and rebuild our hardware on a much more fundamental level than is currently done (in the industry). That is precisely why I am writing these notes.
+<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-right">
+I hope to soon go more into depth discussing limits like Landauer's principle[^LandauP] as it relates to this.
+</span>
+The sad truth as of now is that there seems to be a hard limit for the amount of compute per second we can achieve for the energy used. To drive down the costs or AI developement and inference, we'd have to dramatically reduce the cost of energy, which would require an energy revolution in of itself, or rethink and rebuild our hardware on a much more fundamental level than is currently done (in the industry). That is precisely why I am writing these notes.
 
 Comparisons to the human brain and how it developed are often made, especially now in context of LLMs and their extreme popularity and energy consumption because it requires historic energy consumption to train useful LLMs. Even if we compare all the energy consumed by a human throughout their entire life, the difference is vast. Some napkin math:
 
@@ -232,3 +236,4 @@ What I and others ask is **what is the computer of the future?** I started writi
 [^GPT4_energy]: https://www.ri.se/en/news/blog/generative-ai-does-not-run-on-thin-air
 [^GPT4_facts]: https://patmcguinness.substack.com/p/gpt-4-details-revealed
 [^TokenOverview]: https://www.educatingsilicon.com/2024/05/09/how-much-llm-training-data-is-there-in-the-limit/
+[^LandauP]: https://en.wikipedia.org/wiki/Landauer%27s_principle
