@@ -10,7 +10,7 @@ tag_search: true
 image:          "/images/AI_acc_comparison_QW_animated_WTtitle.gif"
 weight: 20
 note: 
-categories:
+categories: "random"
 ---
 <style>
     img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }

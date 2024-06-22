@@ -128,7 +128,38 @@
                 
             });
         });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
       </script><ul class="post-list">
+
+        <a href="/science-engineering/2024/04/16/LORENZ-Osc.html" class="box">
+          <li class="post-box">
+            <div class="post-box-img"><img src="/images/S_ad.jpg.png" alt="LORENZ Chaos Eurorack Synthesizer Module" class="post-image"></div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                <!-- <a class="post-link" href="/science-engineering/2024/04/16/LORENZ-Osc.html"> -->
+                  LORENZ Chaos Eurorack Synthesizer Module
+                <!--</a>-->
+              </h4><p class="post-summary">
+                <p>A fully analogue computer for music synthesis generating the chaotic dynamics of the Lorenz attractor and visualizing it on an integrated screen. Control the speed of the oscillations with three modes, all the parameters of the attractor and output the X, Y, and Z coordinate signals, and feed in your own signals into the three channels to be modulated chaotically.</p>
+
+              </p><span class="post-meta">Apr 16, 2024</span><span class="post-meta"> • </span>
+                <span class="material-symbols-outlined">sticky_note_2</span>
+                <span class="post-note">Buy it for 199€.</span></div>
+          </li>
+        </a>
 
         <a href="/science-engineering/2024/04/22/second-publication.html" class="box">
           <li class="post-box">
@@ -261,6 +292,27 @@
 
               </p><span class="post-meta">Jun 6, 2023</span><span class="post-meta"> • </span>
                 <span class="github-stars" data-repo=QuentinWach/PDFtoCards>
+                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
+
+                </span>
+                <span class="post-meta">on GitHub</span></div>
+          </li>
+        </a>
+
+        <a href="/science-engineering/2024/06/22/Sudoku.html" class="box">
+          <li class="post-box">
+            <div class="post-box-img"><img src="/images/sudoku_head.png" alt="Sudoku: Generator and Solver" class="post-image"></div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                <!-- <a class="post-link" href="/science-engineering/2024/06/22/Sudoku.html"> -->
+                  Sudoku: Generator and Solver
+                <!--</a>-->
+              </h4><p class="post-summary">
+                <p>A minimal Sudoku puzzle generator and solver based on the idea of backtracking.</p>
+
+              </p><span class="post-meta">Jun 22, 2024</span><span class="post-meta"> • </span>
+                <span class="github-stars" data-repo=QuentinWach/Sudoku>
                   <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
 
                 </span>

@@ -80,11 +80,13 @@ Work-inspired side projects:
 </style>
 ![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024.png)
 
-I am a physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with TUBs [Department of Nonlinear Optics](https://www.tu.berlin/en/nlo). And I am currently working as a research assistant with the [Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html).
+I am the founder of [Simia Engineering]() where we create various electronic products and build the hardware manufacturing infrastructure to enable the rise of artificial general/super intelligence. 
+
+I am trained as an applied/engineering physicist with a B.Sc. from the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) and later dropped out of the M.Sc. program for applied physics to start bridging the gab between theory and application. I have previous research experience associated with TUBs [Department of Nonlinear Optics](https://www.tu.berlin/en/nlo) and worked as a research assistant with the [Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html).
 
 <!-- currently working on quantum mechanical descriptions of **_charge-carrier transport in nanostructures_**, research relevant to develop the next generation of solar cells, 6G internet, and various other technologies, while also creating **_integrated photonic circuits_** (schematics, layout, simulations, and testing), this time applying my knowledge to build 6G signal transcievers, enable quantum internet and computing applications, as well as accelerate artificial intelligence (AI) in the hybrid photonics group at [Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html) as a research assistant. -->
 
-You can find a list and notes on some of my past activities below, including my research. I have a long existing passion for **_artificial intelligence / neuroscience_** and am really excited about technologies like [analog computing hardware to empower artificial intelligence](https://www.youtube.com/watch?v=GVsUOuSjvcg) and [neuromorphic computing](https://www.youtube.com/watch?v=Qow8pIvExH4) both in form of electronics as well as photonics. 
+<!-- You can find a list and notes on some of my past activities below, including my research. I have a long existing passion for **_artificial intelligence / neuroscience_** and am really excited about technologies like [analog computing hardware to empower artificial intelligence](https://www.youtube.com/watch?v=GVsUOuSjvcg) and [neuromorphic computing](https://www.youtube.com/watch?v=Qow8pIvExH4) both in form of electronics as well as photonics. -->
 
 
 <!--
@@ -111,7 +113,7 @@ Some people I loved/love working with and am very thankful to are
     img[alt=Nano] {float: right; width: 200px; border-radius: 10%; margin-left: 10px; box-shadow: 0px 0px 0px #14518386;}
 </style>
 ![Nano](/images/NS_Title_Graphic_Square_3.png) -->
-All of engineering is based on material science and its limitations and many of the most advanced modern technologies are nanotechnologies. That includes computers, solar cells, batteries, sensors, lasers, and so on. Thus for all of these technologies it is relevant to understand the material properties of the nanoscopic structures they utilize. For example, while we had no issue modelling electronic currents for the past century, now, structures within our computer processors are so small that electrons behave like quantum mechanical waves rather than particles making their behavior much more difficult to predict and understand. It is also extremely difficult to even measure the material properties of nanostructures. You can't really hold a probing needle on a particle 10.000x smaller than the diameter of a human hair. Using THz spectrosopy to probe the conductivity of nanoparticles for example is an essential new tool. And making sense of that physics, quantum mechanically, is what the majority of my research in the past has been focusing on. 
+All of engineering is based on material science and its limitations and many of the most advanced modern technologies are nanotechnologies. That includes computers, solar cells, batteries, sensors, lasers, and so on. It is relevant to understand the material properties of the nanoscopic structures they utilize. Structures within our computer processors are so small that electrons behave like quantum mechanical waves rather than particles making their behavior much more difficult to predict and understand. It is also extremely difficult to even measure the material properties of nanostructures. You can't really hold a probing needle on a particle 10.000x smaller than the diameter of a human hair. Using THz spectrosopy to probe the conductivity of nanoparticles is an essential new tool. And making sense of that physics, quantum mechanically, is what the majority of my research in the past has been focusing on. 
 
 + (2022, Technical University Berlin.) Pulsed THz-Photoconductivity in Semiconductor Nanorods (B.Sc. Thesis)
 + [(2023, Advanced Photonics Research.) THz Response of Charge Carriers in Nanoparticles](https://onlinelibrary.wiley.com/doi/10.1002/adpr.202200243)
@@ -124,10 +126,13 @@ Lithography techniques now allow us to reduce large, complicated, thus costly an
 
 I have been part of three [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, developing new building blocks to be used within our group, and running and automating large simulations.
 
-##### Exotic Computing for Artificial Intelligence
+##### Computer Science & Artificial Intelligence
 AI research is not only the fastest moving field of science today but promises to end the need of human involvement for scientific discoveries itself. This global race for AGI and super intelligence has sparked another fundamental revolution in computer hardware and architecture. That includes non-traditional, "exotic" approaches like neuromorphic computing, photonic computing, a revitalization of analog computing, quantum computing, thermodynamic computing, reversible computing, ... We are experiencing a new Cambrian age of computing and I âm working to contribute my share. I keep some updated of related projects public on my science and engineering projects page including:
 
-* [(April, 2024) The Space of Neural Network Accelerators](/2024/04/10/AI-chip-market.html)
+* [(April, 2024) The Space of Neural Network Accelerators](random/2024/04/10/AI-chip-market.html)
+* [(May, 2024) Infinite Hells](engineering/)
+* [(June, 2024) Bend and the Higher Order Virtual Machine]()
+* [(June, 2024) Founding of Endgame Engineering](engineering/)
 
 _More information coming soon._
 
