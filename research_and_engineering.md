@@ -1,17 +1,18 @@
 ---
 layout: r_and_d
-title: Science & Engineering
-permalink: /science_and_engineering
+title: Side-Projects
+permalink: /side-projects
 ---
 
-_Below you can find some of my academic research articles as well as private science/engineering notes and projects in no particular order. Some projects are a work in progress and not yet (fully) released. General topics I am currently working on include:_
+_The list below includes fun side-projects exclusively which I haven't been paid for or told to pursue by anyone but primarily did because... well, anyone needs a hobby. That includes private science/engineering notes and projects as well as academic research articles in no particular order._ <!--General topics I am currently working on include:-->
 
+<!--
 <div class="tag_list"> 
-    <div class="tag">artificial intelligence</div>
-    <div class="tag">analog computing</div>
-    <div class="tag">photonics</div>
-    <div class="tag">IC design & automation</div>
+    <div class="tag">integrated photonics</div>
+    <div class="tag">design automation</div>
+    <div class="tag">neurosymbolic artificial intelligence</div>
+    <div class="tag">analog computing & electronics</div>
 </div>    
-
+-->
 <div style="height: 20px;">
 </div>

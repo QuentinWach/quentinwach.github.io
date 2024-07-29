@@ -9,7 +9,7 @@ tags:           ["physics", "optics", "THz spectroscopy", "thesis", "density mat
 image:          "/images/NS_Title_Graphic_Square_3.png"
 tag_search:     true
 redirect:   "https://doi.org/10.1039/D4CP00952E"
-categories: "science-engineering"
+categories: ["science-engineering", "academia"]
 published: "PCCP"
 weight: 2
 ---

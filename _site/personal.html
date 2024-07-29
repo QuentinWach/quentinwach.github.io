@@ -47,7 +47,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/science_and_engineering">Science &amp; Engineering</a></div>
+        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -72,7 +72,33 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/Animating-Science"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Generative-Adversarial-Network"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -98,7 +124,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Generative-Adversarial-Network"]');
+            var repo = $('.github-stars[data-repo="QuentinWach/webiny"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -125,6 +151,19 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);

@@ -11,5 +11,5 @@ image:          "/images/a.jpg"
 tag_search:     true
 redirect:       https://doi.org/10.1002/adpr.202200243
 weight: 5
-categories: "science-engineering"
+categories: ["science-engineering", "academia"]
 ---

@@ -8,7 +8,7 @@ author: ["Quentin Wach"]
 tags: ["physics", "optics", "THz spectroscopy", "thesis", "density matrix", "quantum mechanics", "semiconductors", "nanoscience"]
 image: "/images/a.png"
 tag_search: true
-categories: "science-engineering"
+categories: ["science-engineering", "academia"]
 ---
 
 That abstract is from my B.Sc. thesis (which isn't publicly available) reads:
