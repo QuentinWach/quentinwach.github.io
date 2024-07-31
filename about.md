@@ -82,9 +82,9 @@ Work-inspired side projects:
 
 <!--I am the founder of [Simia Engineering]() where we create various electronic products and build the hardware manufacturing infrastructure to enable the rise of artificial general/super intelligence. -->
 
-I am a physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with the **[Department of Nonlinear Optics](https://www.tu.berlin/en/nlo)**. I am regularly contributing to **[open-source soft- and hardware](https://github.com/QuentinWach)** and currently working as a research assistant with the **[Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html)**, **generally active in areas involving a good understanding of both computers and physics.**
+I am a physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with the **[Department of Nonlinear Optics](https://www.tu.berlin/en/nlo)**. I am regularly contributing to **[open-source soft- and hardware](https://github.com/QuentinWach)** and currently working as a research assistant with the **[Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html)**, **generally active in areas requiring a good understanding of both computers and physics.**
 
-Like designing opto-electronic integrated circuits, developing design, analysis, and automation tools, writing computer simulations to answer questions in physics, training deep neural networks, and more. **I am simply trying to make myself useful**. 
+Like designing opto-electronic integrated circuits, developing design, analysis, and automation tools, writing computer simulations to answer questions in physics, training deep neural networks, and more. **I simply try to make myself useful**. 
 
 You can find a list and notes on some of my past activities below, including my peer-reviewed and published research. 
 
