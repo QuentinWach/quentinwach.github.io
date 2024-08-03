@@ -138,14 +138,13 @@ Lithography techniques now allow us to reduce large, complicated, thus costly an
 * [(Feb, 2024) Dubins Paths for Waveguide Routing](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
 * [(July, 2024) IC3D: Creating 3D Animations from Complex Photonics .gds-Files](https://github.com/QuentinWach/IC3D)
 
-
 I have been part of more than five [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, establishing and enforcing design standards, developing new building blocks to be used within our group, and running and automating large simulations.
 
 ##### Computing
 AI research is not only the fastest moving field of science today but promises to end the need of human involvement for scientific discoveries itself. This global race for AGI and super intelligence has sparked another fundamental revolution in computer hardware and architecture. That includes non-traditional, "exotic" approaches like neuromorphic computing, photonic computing, a revitalization of analog computing, quantum computing, thermodynamic computing, reversible computing, ... We are experiencing a new Cambrian age of computing and I âm working to contribute my share. I keep some updated of related projects public on my science and engineering projects page including:
 
 * [(April, 2024) The Space of Neural Network Accelerators](random/2024/04/10/AI-chip-market.html)
-
+* [(July, 2024) The Hack Computer Architecture](https://quentinwach.com/Hack-Computer/)
 
 _More information coming soon._
 
