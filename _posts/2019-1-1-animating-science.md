@@ -7,7 +7,7 @@ date:   2020-1-1
 author: ["Quentin Wach"]
 tags: ["python", "animation", "matplotlib", "scipy"]
 tag_search: true
-image:          "/images/science animations/happy4_c2.gif"
+image:          "/images/science animations/happy4_c3.gif"
 redirect:       "https://github.com/QuentinWach/Animating-Science"
 weight: 10
 github: QuentinWach/Animating-Science
