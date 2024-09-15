@@ -80,9 +80,7 @@ mathjax: true
             <div class="post-box-txt">
               
               <h4 class="post-title">
-                <!-- <a class="post-link" href="{{ post.url | relative_url }}"> -->
-                  {{ post.title | escape }}
-                <!--</a>-->
+                {{ post.title | escape }}
               </h4>
 
               {%- if post.description -%}
@@ -92,6 +90,11 @@ mathjax: true
               {%- endif -%}
 
               <span class="post-meta">{{ post.date | date: date_format }}</span>
+
+              <!-- Add word count and read time -->
+              {% assign words = post.content | number_of_words %}
+              {% assign read_time = words | divided_by: 200 | at_least: 1 %}
+              <span class="post-meta"> • {{ words }} words • {{ read_time }} min read</span>
                 
               {%- if post.published -%}
                 <span class="post-meta"> • Peer-reviewed & published in </span> <span class="post-published">{{ post.published }}</span>
