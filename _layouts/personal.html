@@ -5,13 +5,38 @@ mathjax: true
 
 <div class="home">
 
+
   {{ content }}
+
 
   {% if site.paginate %}
     {% assign posts = paginator.posts | sort: "date" | reverse %}
   {% else %}
     {% assign posts = site.posts | sort: "date" | reverse %}
   {% endif %}
+
+
+  <!-- New tag section -->
+  <div class="tag-container">
+    {% assign all_tags = "" | split: "" %}
+    {% for post in posts %}
+      {% if post.categories contains "personal" %}
+        {% assign all_tags = all_tags | concat: post.tags | uniq %}
+      {% endif %}
+    {% endfor %}
+
+    {% for tag in all_tags %}
+      {% assign count = 0 %}
+      {% for post in posts %}
+        {% if post.categories contains "personal" and post.tags contains tag %}
+          {% assign count = count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+      <button class="tag-bubble" data-tag="{{ tag }}">
+        {{ tag }} ({{ count }})
+      </button>
+    {% endfor %}
+  </div>
 
 
   <!-- Define an empty array to store star counts -->
@@ -45,7 +70,7 @@ mathjax: true
       {%- for post in posts -%}
       {% if post.categories contains "personal" %}
 
-        <a href="{{ post.url | relative_url }}" class="box">
+        <a href="{{ post.url | relative_url }}" class="box post-item" data-tags="{{ post.tags | join: ',' }}">
           <li class="post-box">
             <div class="post-box-img">
               {%- if post.image -%}
@@ -116,3 +141,36 @@ mathjax: true
   {%- endif -%}
 
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tagButtons = document.querySelectorAll('.tag-bubble');
+    const postItems = document.querySelectorAll('.post-item');
+    let activeTags = new Set();
+
+    tagButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const tag = this.getAttribute('data-tag');
+        if (activeTags.has(tag)) {
+          activeTags.delete(tag);
+          this.classList.remove('active');
+        } else {
+          activeTags.add(tag);
+          this.classList.add('active');
+        }
+        filterPosts();
+      });
+    });
+
+    function filterPosts() {
+      postItems.forEach(item => {
+        const postTags = item.getAttribute('data-tags').split(',');
+        if (activeTags.size === 0 || [...activeTags].every(tag => postTags.includes(tag))) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>

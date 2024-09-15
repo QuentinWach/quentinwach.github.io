@@ -57,12 +57,84 @@
         </div>
         <div class="home">
 
+
   <p><em>I try to keep things mostly technical on this site but below you can find some more rough notes. While I write daily and have written and published much more in the past, I am not yet sure where to organize these articles.</em></p>
-<div style="height: 20px;">
-</div>
+
+<!-- <div style="height: 20px;">
+</div> -->
+
 
 
   
+
+
+  <!-- New tag section -->
+  <div class="tag-container">
+    
+    
+
+    
+      
+      
+      <button class="tag-bubble" data-tag="machine learning">
+        machine learning (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="artificial intelligence">
+        artificial intelligence (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="electronics">
+        electronics (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="neural networks">
+        neural networks (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="hardware design">
+        hardware design (2)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="computer engineering">
+        computer engineering (2)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="physics">
+        physics (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="photonics">
+        photonics (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="routing">
+        routing (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="gds">
+        gds (1)
+      </button>
+    
+  </div>
 
 
   <!-- Define an empty array to store star counts -->
@@ -111,6 +183,19 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -125,19 +210,6 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -213,7 +285,7 @@
         });
       </script><ul class="post-list">
 
-        <a href="/personal/2024/04/10/AI-chip-market.html" class="box">
+        <a href="/personal/2024/04/10/AI-chip-market.html" class="box post-item" data-tags="machine learning,artificial intelligence,electronics,neural networks,hardware design,computer engineering">
           <li class="post-box">
             <div class="post-box-img"><img src="/images/AI_acc_comparison_QW_animated_WTtitle.gif" alt="Neural Network Accelerators (2024)" class="post-image"></div>
             <div class="post-box-txt">
@@ -229,7 +301,7 @@
           </li>
         </a>
 
-        <a href="/personal/2024/02/15/dubins-paths-for-waveguide-routing.html" class="box">
+        <a href="/personal/2024/02/15/dubins-paths-for-waveguide-routing.html" class="box post-item" data-tags="physics,photonics,routing,gds,hardware design,computer engineering">
           <li class="post-box">
             <div class="post-box-img"><img src="/images/dubin/wikipedia_4.png" alt="Dubins Paths for Waveguide Routing" class="post-image"></div>
             <div class="post-box-txt">
@@ -248,6 +320,39 @@
         </a></ul>
 
     </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tagButtons = document.querySelectorAll('.tag-bubble');
+    const postItems = document.querySelectorAll('.post-item');
+    let activeTags = new Set();
+
+    tagButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const tag = this.getAttribute('data-tag');
+        if (activeTags.has(tag)) {
+          activeTags.delete(tag);
+          this.classList.remove('active');
+        } else {
+          activeTags.add(tag);
+          this.classList.add('active');
+        }
+        filterPosts();
+      });
+    });
+
+    function filterPosts() {
+      postItems.forEach(item => {
+        const postTags = item.getAttribute('data-tags').split(',');
+        if (activeTags.size === 0 || [...activeTags].every(tag => postTags.includes(tag))) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>
 
       </div>
     </main><footer class="site-footer h-card">

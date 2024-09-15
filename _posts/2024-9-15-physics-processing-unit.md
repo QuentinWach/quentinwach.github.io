@@ -1,17 +1,18 @@
 ---
-layout: post
+layout: personal
 mathjax: true
 title:  "Physics Processing Units"
 description: "The first dedicated physics processing unit, the Ageia PhysX PPU, was released in 2006 yet the market for it was killed quickly by NVIDIA. In the decades after, only few attempts were made to build hardware for physics acceleration like the Intel Xeon Phi. Game developers stopped pushing the boundaries and integrating physics on a fundamental level despite the often fundamental importance for game play and scientist have been struggling with the complexities of implementing the often complex math to GPUs only to realize that this hardware was never meant for these applications."
-date:   2024-09-14 20:38:24 +0100
+date:   2025-09-14 20:38:24 +0100
 authors: ["Quentin Wach"]
-tags: ["physics", "hardware design", "computer engineering"]
+tags: ["physics", "hardware design", "computer engineering", "electronics"]
 tag_search: true
 image:     "/images/ppu.png"
 weight:
 note: 
-categories:
+categories: "personal"
 ---
+<!--
 <style>
     img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
     img[alt=AIAccComp]:hover {
@@ -24,178 +25,101 @@ categories:
 <span style="font-size: 14px;">
     Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago [^MFigure].
 </span>
-
-## 1. Introduction
-Artificial general intelligence (AGI)
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">
-    Google's Deep Mind characterizes current general AIs as **emerging AGI**. Level 1. Examples, their researchers say, include: ChatGPT, Bard, Llama 2, and Gemini [^GoogleAGI].
-</span>
-is speculated to arrive within only a couple of years from now. And with its emergence comes a plethora of issues. In these notes, I want to focus not on the consequences of AGI, nor what algorithms and software will lead to it, but rather the bottlenecks and problems there are especially regarding its hardware.
-
->"We may recall that the first steam engine had less than 0.1% efficiency and it took 200 years (1780 to 1980) to develop steam engines that reached biological efficiency."
-
-writes Ruch et al. in 2011[^RuchBioAI].
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">Where _"efficiency"_ means how much energy is consumed proportional to the power of the engine.</span>
-Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn't otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is _the_ enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought. But it is essential for making technologies widely available and allow for future technologies to build upon it!
-
-In 2020-2023, the bottleneck for AI was arguably the amount of hardware available due to a global chip shortage so vast it made history[^ChipShortage][^ChipShortage2]. 
-In 2024, managing the voltage conversion is still a major issue for scaling up[^MuskVTransformers].
-<button class="sidenote-button-left"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-left">
-    **Voltage transformers** play a crucial role in transmitting electrical power over long distances. To achieve this, voltage is stepped up for transmission and stepped down for safe use in homes, offices, and data centers. These transformers are bulky and expensive but necessary for safety and equipment protection. Demand for both types of transformers has surged since 2020 due to the needs of AI startups, data centers, and renewable energy sources like solar and wind farms[^TransformerBottleneck][^TFormer1][^TFormer2]. A topic worth its own article.
-</span>
-With these things hopefully more or more under control the future bottleneck will simply be the availability and cost of energy. In the short term, this means: how can we get the required energy cheapely? But as we continue to scale it also means: How can we make our hardware more energy efficient? How do we get to the top left quadrant of this figure? How do we achieve high performance for low power? Software optimization does not cut it. The hardware is too general to be efficient. And among other things the von-Neumann bottleneck[^vonNeumannBottle] fundamentally limits what these computers can do.
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">
-There is of course also a **data problem**. Our algorithms are still not good enough to generalize from as little data as humans do. And books don't contain as much as one might expect though it is of a high quality. The internet is far larger though. So then we may look at videos and podcasts etc. But will it be enough? Grog3 will require 100.000 H100s to train coherently. And at that point, there really is a lack of avaiable data, including text, video, and synthetic data. Much more is needed to satisfy the training needs of such large models. Read[^TokenOverview] to learn more about how much training data is out there.
-</span>
-
-AI software has become seriously awesome and...
-
->"People who are really serious about software should make their own hardware." Alan Kay[^AKayHard].
-
-
-## 2. Compute
->"The base metric is becoming compute. Not money." Harrison Kinsley (aka Sentdex)[^ComputeNotMoney1].
-
-This statement has been repeated over and over by engineers and technologists in and outside of Silicon Valley, including Sam Altman saying
-
->"I think compute is going to be the currency of the future. I think it’ll be maybe the most precious commodity in the world."[^SamAltmanLex1]
-
-_"Compute"_ or computing power is simply a general term to describe how much computations can be done in practice to solve our problems or, simplified even further, it is a measure of how powerful a computer is[^WikiCompute]. Today's GPUs reach several TFLOPs (Tera-FLOP) with a FLOP being a _"floating point operation"_. It has to be considered though that these can be 64-, 32-, 16-, 8-, or even just 4-bit operations! Nonetheless, 1 TFLOP = $$1\cdot10^{12}$$ FLOP. The question is now how many operations can be done per second.
-<button class="sidenote-button-left"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-left">
-    The **scaling hypothesis in AI** posits that as the amount of data and computational resources available for training a machine learning model increases, the performance of the model also improves, often in a predictable manner. This hypothesis suggests that many AI tasks, particularly those related to deep learning, benefit from scaling up both the size of the dataset used for training and the computational power available for training the model.
-    In practice, this means that larger neural networks trained on more extensive datasets tend to achieve better performance, such as higher accuracy or improved generalization, compared to smaller models trained on smaller datasets. The scaling hypothesis has been supported by empirical evidence in various domains, particularly in natural language processing, computer vision, and other areas where deep learning techniques are prevalent[^ScalingHypo][^ScalingHypo3][^ScalingHypo2].
-    <!--
-    <style>
-        img[alt=centerAI] { float: left; width: 100%; border-radius:5px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px;}
-    </style>
-    ![centerAI](/images/scaling_hypothesis.jpg) -->
-</span>
-<style>
-    img[alt=centerAI] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
-    img:hover {
-                            transform: scale(1.9);
-                            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
-                            z-index: 10000;
-}
-</style>
-![centerAI](/images/AI_compute.png)
-<span style="font-size: 14px;">
-    The amount of compute required to train (a) neural network and do inference (b) after training.
-    This figure was created by myself but the data was compiled by Jaime Sevilla et al.[^AIDemand_Data_1][^AIDemand_Data_2].
-</span>
-
->"Extrapolating the spectacular performance of GPT-3 into the future suggests that the answer to life, the universe and everything is just 4.398 trillion parameters." Geoffrey Hinton[^HintonScaling].
-
-### 2.1 Training
-Subplot (a) of the figure presented above shows the insane increase in training compute over time to create more and more capable AIs, rising orders of magnitude within years. 
-
->"[...] since 2012, the amount of compute used in the largest AI training runs has been increasing exponentially with **a 3.4-month doubling time** (by comparison, Moore’s Law had a 2-year doubling period). Since 2012, this metric has grown by more than **300,000x** (a 2-year doubling period would yield only a 7x increase)." This was previously observed by OpenAI[^OpenAIComputePost].
-
-As we can see in the figure above, this is not only true for the largest AIs but for AI in general!
-
-
-### 2.2 Inference
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">
-    <style>
-        img[alt=NAchip] {float: right; width: 100%; border-radius:5px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px;}
-    </style>
-    In fact, the **North American AI chipset market** is growing much faster for edge compute (which is essentially infernce) compared to cloud compute (mostly training) [^NAChipMarket1].
-    ![NAchip](/images/NA_AI_chipmarket.png)
-    In a live stream, George Hotz mockingly said:
-    _"All those fucks are trying to make edge AI. [...] Look! The AI inference market is bigger than the AI training market! So we should all go for the inference market! It's way easier! [...] Easier and bigger! [...] There are a hundred little fucks who make inference chips that no one really wants and only one who is making training chips (NVIDIA)."_ [^GHotz_InferenceMarket]
-    <style>
-        img[alt=H100Buyers] {float: right; width: 100%; border-radius:5px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px;}
-    </style>
-    ![H100Buyers](/images/H100_buyers.png)
-    _Estimated 2023 H100 shipments by end customer as reported by Omida Research [^OmidaH100Shipments]._
-</span>
-Contrary to training, the compute for inference has hardly grown in comparison. That is because we want the inference to be fast and cheap in order for it to be practical. There can't be a seconds of delay for the self-driving car. We don't want our LLMs to spend hours computing an hour for our question and burn the energy of a small town for it. So with traditional hardware we are quite limited here and models are optimized to work within these boundaries. Imagine what we could do with better dedicated hardware though! Imagine LLMs would respond instantly and run locally on your phone. This will be necessary for robots especially. So while inference does not seem like a growth market at first glance, the demand is absolutely there.
-
-## 3. Applications
-A figure from the paper showing how much it currently costs even to do just inference.
-A. S. Luccioni et al. recently compared several machine learning tasks in terms of their energy consumption and nicely showed that image generation is orders of magnitudes more costly during inference compared to other ML tasks like image classification or text generation[^AI_EnergyInference]:
-
-| Task  |  Inference Energy (kWh) |
-|-------------------------------------------|
-| Text Classification | 0.002 $$\pm$$ 0.001
-| Extractive QA | 0.003 $$\pm$$ 0.001
-| Masked Language Modeling | 0.003 $$\pm$$ 0.001
-| Toke Classification | 0.004 $$\pm$$ 0.002
-| Image Classification | 0.007 $$\pm$$ 0.001
-| Object Detection | 0.04 $$\pm$$ 0.02
-| Text Generation | 0.05 $$\pm$$ 0.03
-| Summarization | 0.49 $$\pm$$ 0.01
-| Image Captioning | 0.63 $$\pm$$ 0.02
-| Image Generation | 2.9 $$\pm$$ 3.3
-
-## 4. Compute / Energy:  Human vs. GPT4
-At this point, I want to highlight the title figure at the beginning of these notes showing the speed in GOP/s over power in W of GPUs, FPGAs, digital and mixed signal ASICs. More than any other figure here, I think it gives a sense of how the different hardware compares. 
-
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">
-I hope to soon go more into depth discussing limits like Landauer's principle[^LandauP] as it relates to this.
-</span>
-The sad truth as of now is that there seems to be a hard limit for the amount of compute per second we can achieve for the energy used. To drive down the costs or AI developement and inference, we'd have to dramatically reduce the cost of energy, which would require an energy revolution in of itself, or rethink and rebuild our hardware on a much more fundamental level than is currently done (in the industry). That is precisely why I am writing these notes.
-
-Comparisons to the human brain and how it developed are often made, especially now in context of LLMs and their extreme popularity and energy consumption because it requires historic energy consumption to train useful LLMs. Even if we compare all the energy consumed by a human throughout their entire life, the difference is vast. Some napkin math:
-
-Assuming that the calorie intake is 2000 kcal / day $$\times$$ 365 days where 1163 Wh = 1000 kcal[^kcal_in_Watt][^kcal_in_Watt2], that's 730.000 kcal / year or $$8.5 \cdot 10^{-5}$$ GWh/year per person. Now multiply this times the decades humans take to learn what LLMs know and we can maybe subtract or or two orders of magnitude in energy consumption. Still, in comparison, OpenAI used 50 GWh to train GPT4[^GPT4_energy]utilizing 25.000 NVIDIA A100 GPUs that run around 6.5 kW each.
-It doesn't take a math genius to see that there are orders of magnitude in difference. And as a result, the training cost for GPT4 was around $100.000.000 over a period of around 100 days (roughly $65M for the pre-training alone) as stated Sam Altman himself[^GPT4_price][^GPT4_facts]. 
-
-## 5. General Use of Hardware
-### 5.1 GPUs: NVIDIA Leads the Way
-NVIDIA is the non-plus ultra for AI training at the largest scale. We see this reflected with commercial GPUs providing the fastest training. The drawback: These GPUs also consume by far the most power.
-
-In NVIDIA's most recent developer conference, Jensen Huang bragged about how hot these GPUs get. So hot, that they need to be liquid cooled (which poses new challenges in data centres). So hot, that the coolant coming out after just seconds could be used as a whirlpool, I remember him stating. Later on stage, he then continued talking about how NVIDIAs new accelerators are now much more energy efficient[^NVIDIAGTC2024]. It takes a special kind of genius to pull of such contradiction marketing. I am not even trying to be critical. It's rather humorous!
-
-Even with their incredible energy demands and the high training costs that follow, NVIDIAs glowing hot GPUs have a bright future.
-
-That is because GPUs offer versatility and power for a wide range of applications. GPUs excel in scenarios where the workload is diverse or evolving, as they are capable of handling various computational tasks beyond AI, including graphics rendering, scientific simulations, and data analytics, all of which can compliment each other. They are _the_ research plattform. Additionally ,they are simply extremely widespread. Nearly every computer has a GPU. Many have NVIDIA GPUs. And NVIDIA made sure to build the entire stack from the bottom up to the higher software layers to make it as easy for developers and scientists to get as much performance without needing to write much code.
-
-### 5.2 Field-Programmable Gate Arrays (FPGAs) for Prototyping
-If we were to compete, lowering energy consumption is the angle of attack. FPGAs are, in part, competitive enough in terms of speed yet at similar power consumption and much, much worse usability. Nonetheless, some argue for a future of FPGAs:
-
->"Due to their software-defined nature, FPGAs offer easier design flows and shorter time to market accelerators than an application-specific integrated circuit (ASIC)."[^FPGACentres]
-
-The advantage lies for tasks that require less compute but desire better optimization in speed and energy efficiency hence inference. And FPGAs are typically easier to bring to market than ASICs. So in scenarios where power consumption must be tightly controlled, such as in embedded systems or edge computing devices, FPGAs may provide a compelling solution. But compelling enough?
-
-### 5.3 Application-Specific Integrated Circuits (ASICs) for on the Edge Devices
-ASICs after all are by far superior for addressing energy concerns in AI hardware. Unlike general-purpose GPUs, ASICs are tailored specifically for certain tasks, maximizing efficiency and performance for those tasks while minimizing power consumption. On the other hand, ASICs entail higher initial development costs and longer time-to-market. Since progress in AI is driven primarily by new developments in software, developing ASICs that are general enough to keep up with that progress but specific enough to actually have an advantage over GPUs is tricky.
-
-### 5.4 Tensor Processing Units (TPUs) for Deep Learning Training 
-Developed by Google, TPUs are designed specifically for accelerating machine learning workloads, particularly those that involve neural network inference and training by focusing on matrix multiplication operations fundamental to neural network computations. And by doing so, TPUs are able to achieve remarkable speedups while consuming significantly less power compared to traditional GPU-based solutions. As I see it, they are simply not as widely available and their lack of generality compared to GPUs may make the development of AI applications a bit more difficult compared to GPUs once again.
-
-### 5.5 Neural Processing Units (NPUs) for Inference
-Similarly, NPUs represent a specialized class of AI hardware optimized specifically for neural network computations. They are designed to accelerate the execution of machine learning workloads but, and this is the crucial difference, **with a focus on inference tasks** commonly found in applications such as computer vision, natural language processing, and speech recognition. By incorporating dedicated hardware accelerators for key operations involved in neural network inference, such as convolutions and matrix multiplications, NPUs are able to achieve significant speedups while consuming less power. So the idea is similar to TPUs but with a focus more on inference specifically for edge devices and private computers. 
-
-## 6. Conclusion
-<!--
-+ Photonics is great at communication but has a lot of fundamental issues that keep it from being practical for computing in comparison electronics at least for now and likely the next 5-10 years. Integrating photonics as intra- and interconnects will be crucial for high-performance computing though. But it is not yet a bottleneck.
-
-+ Thermodynamic computing, to me, seems mostly academic for now.
-
-+ Quantum computing seems extremely promising but simply scaling this technology will take more decades as well.
-
-+ Analog electronic computing on the other hand just works. The issue here is not the fundamental technology but rather our ability to design analog ICs quickly! It is my quess that analog electronics should also naturally play well with photonics. Very large scale integration (VLSI) is a resulting challenge. 
-  >"Conventional analog designs require schematic-entry based specification and **a custom layout design that requires many iterations to meet design goals**."[^ADesign]
-
-+ While I believe GPUs will continue to dominate the training market for the next 3+ years while digital ASICs, and to some degree FPGAs, will increasingly dominate the market for AI inference. But if we take a larger view of humanity and the required compute in the next decades and centuries, analog computing will have to become a dominating force. Not for general computing but for AI acceleration. And not just inference but, importantly, training as well.
 -->
 
-What I and others ask is **what is the computer of the future?** I started writing this down because there are so many approaches to AI accelerators. Most quite traditional, simply designing digital ASICs. Some more exotic. Yet they are all extremely confident in that _their_ approach is what the future AI super-computer will look like. That is why one of my I will now be more focused on the physics of computing. I'll try and look at it from a first-principles standpoint, look at where our corrent technological limitations and lie to then give my personal estimate on what is the most sensible solution we should be working on.
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">
-    **Thank you** for reading these notes of mine as I tried to clear up my thinking on the subject. In the end, it lead me to the believe that it is rather pointless to try and directly compare all the available hardware. There are too many nuances and the technical details matter a lot. Yet, it is unclear how and what exactly matters and will be the most important metric to focus on for future computers. It seems to be quite clear to me that current computer designs are primarily driven by the econonmy and not a long-term focus and reasoning from first principles. So I hope to do a better job and illuminate this subject a bit more in a future post that takes a more physics oriented approach. Another lesson I took away for my own work and design process is that I need to iterate faster so I can prove my designs wrong faster as well. <br> - Quentin
+<span class="sidenote-left">
+I increasingly see it as my mission to create **world simulators**. To recreate reality and allow for virtual worlds with levels of detail that we can't even imagine today. That is why I am exploring the history and state-of-the-art regarding physics simulation and physics hardware acceleration here.
+_(Updated: September 15, 2024.)_
 </span>
 
 
+
+
+
+## 1. Introduction
+
+
+
+### 1.1 History of Physics and Computing
+Progress in the sciences and progress in computer science and engineering have been linked to each other since the invention of the abacus[^abacus]. It is common knowledge that computers were enabled by discoveries in physics but much of the discoveries in physics such as the vacuum tube[^vacuum_tube], the transistor[^transistor][^transistor_2], various lithography techniques and so on. Yet, physics itself, the other sciences, and the progress in engineering have been accelerated with the creation of increasingly powerful computing hardware and software as well. 
+
+Computer simulations have opened up a new platform for research and development that offers various advantages compared to experiments and experimental _simulations_ using analog systems/models: 
++ **Flexibility / controllability**: Programmers have full control over the computer simulations they create.
++ **Cost**: Proprietary software solutions and hardware allow for quick testing without the otherwise high material and development costs.
++ **Safety**: Simulations don't pose dangers like radiation poisoning e.g. in the case of atomic experiments. 
++ **Speed**: Depending on the state of hardware and software simulations can be run much faster than real experiments and often in parallel.
+
+
+### 1.2 Recent Developments
+There have been a few attempts at dedicated PPUs for accelerating physics calculations in games and simulations. Ageia PhysX PPU was arguably the first dedicated physics processor, released in 2006. It was designed to offload physics calculations from the CPU [4]. NVIDIA PhysX: After NVIDIA acquired Ageia in 2008, they integrated PhysX technology into their GPUs, allowing physics acceleration on NVIDIA graphics cards rather than a separate PPU [4].
+
+
+
+Havok FX: Havok developed a physics engine that could utilize GPU acceleration, though it wasn't a dedicated PPU [4].
+
+
+
+Intel Xeon Phi: While not exclusively for physics, these many-core processors were designed for highly parallel workloads including scientific simulations [5].
+
+
+
+Modern CPUs: Current high-end CPUs from Intel and AMD have many cores and specialized instructions that can be utilized for physics calculations [6]. For example, AMD has published the FEMFX deformable physics library optimized for their CPUs [8].
+
+
+
+GPUs: Modern GPUs are often used for physics acceleration in games and simulations due to their highly parallel architecture [2].
+
+
+
+FPGAs and ASICs: For specialized applications, field-programmable gate arrays or application-specific integrated circuits can be designed to accelerate physics computations [1].
+
+
+
+While dedicated PPUs are no longer common, physics acceleration is now typically handled by a combination of multi-core CPUs and GPUs in modern systems. Game engines and simulation software can distribute physics workloads across available computing resources [8].
+
+
+## The Need for PPUs
+Ageia's PPU answered a huge demand for physics acceleration at a time where games rapidly became more realistic and neither CPUs nor GPUs could keep up with the software innovations. NVIDIA quickly acquired Ageia to incorporate their ideas into their GPUs as well as the PhysX software which is an industry standard still today and was recently open-sourced[^PhysX_open_source] as part of NVIDIA's Omniverse initiative[^NVIDIA_Omniverse]. 
+
+<!-- 
+Why is NVIDIA working on the Omniverse?
+- Training AI!
+- Empowering Science!
+- Solving everything! This is THE endgame!
+-->
+
+
+<!--
+Why is Facebook working on the Metaverse?
+- Because Virtual Reality is the final computing platform!
+-->
+
+<!-- 
+Why does VR require sophisticated physics?
+- For now, because it is disturbing and feels unnatural to users if the virtual world does not also follow actual laws of physics.
+- In the future: Because VR will largely if not completely replace the material world we live in. So our digital physics better be up for the task!
+-->
+
+
+## Arguments Against Physics Hardware Acceleration
+There are _no_ arguments against physics hardware acceleration.
+
+## Conclusion
+
+
+>"See a need, fill a need!" said Bigwell in Pixar's _Robots_ (2005)[^Pixar_Robots].
+
 ### References
+[^abacus]: [Abacus, https://en.wikipedia.org/wiki/Abacus](https://en.wikipedia.org/wiki/Abacus)
+[^vacuum_tube]: [Vacuum Tube, https://en.wikipedia.org/wiki/Vacuum_tube](https://en.wikipedia.org/wiki/Vacuum_tube)
+[^transistor]: [Transistor, https://en.wikipedia.org/wiki/Transistor](https://en.wikipedia.org/wiki/Transistor)
+[^transistor_2]: [History of the Transistor, https://en.wikipedia.org/wiki/History_of_the_transistor](https://en.wikipedia.org/wiki/History_of_the_transistor)
+
+[^PhysX_open_source]: [PhysX, https://github.com/NVIDIA-Omniverse/PhysX](https://github.com/NVIDIA-Omniverse/PhysX)
+[^NVIDIA_Omniverse]: [NVIDIA Omniverse, https://www.nvidia.com/en-us/omniverse/](https://www.nvidia.com/en-us/omniverse/)
+
+[^Pixar_Robots]: [Pixar's _Robots_ (2005)](https://en.wikipedia.org/wiki/Robots_(2005_film)).
+
 [^1]: A
 [^2]: B
 [^3]: C
