@@ -10,7 +10,7 @@ tag_search: true
 image:          "/images/blank_spot_1x1V2.png"
 redirect:       "https://quentinwach.substack.com/"
 weight:
-categories: "personal"
+categories:
 ---
 
 <!-- "/images/blank_spot_1x1V2.png" -->

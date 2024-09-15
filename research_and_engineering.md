@@ -4,7 +4,7 @@ title: Side-Projects
 permalink: /side-projects
 ---
 
-_The list below includes fun side-projects exclusively which I haven't been paid for or told to pursue by anyone but primarily did because... well, anyone needs a hobby. That includes private science/engineering notes and projects as well as academic research articles in no particular order._ <!--General topics I am currently working on include:-->
+_The list below includes fun side-projects exclusively which I haven't been paid for or told to pursue by anyone but primarily did because... well, anyone needs a hobby. Note though that I threw out most projects that probably aren't all that interesting to others and would only be a distraction here._ <!--General topics I am currently working on include:-->
 
 <!--
 <div class="tag_list"> 

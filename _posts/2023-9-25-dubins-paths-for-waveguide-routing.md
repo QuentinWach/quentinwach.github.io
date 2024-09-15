@@ -12,7 +12,7 @@ toc: true
 toc_sticky: true
 weight: 60
 note: "Used daily for better, quicker, and easier routing."
-categories: "science-engineering"
+categories: "personal"
 ---
 <!--Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.-->
 <span class="sidenote-left">
