@@ -8,9 +8,9 @@ mathjax: true
   {{ content }}
 
   {% if site.paginate %}
-    {% assign posts = paginator.posts | sort:"weight"%}
+    {% assign posts = paginator.posts | sort: "date" | reverse %}
   {% else %}
-    {% assign posts = site.posts | sort:"weight"%}
+    {% assign posts = site.posts | sort: "date" | reverse %}
   {% endif %}
 
 

@@ -9,6 +9,8 @@ tags: ["essay", "writing"]
 tag_search: true
 image:          "/images/blank_spot_1x1V2.png"
 redirect:       "https://quentinwach.substack.com/"
-weight: 65
+weight:
 categories: "personal"
 ---
+
+<!-- "/images/blank_spot_1x1V2.png" -->

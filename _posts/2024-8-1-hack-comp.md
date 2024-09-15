@@ -10,7 +10,7 @@ image:          "images/hack_computer.png"
 tag_search:     true
 redirect:       "https://www.quentinwach.com/computer-engineering"
 github:         QuentinWach/computer-engineering
-categories:     "science-engineering"
+categories:     
 note: 
 weight: 58
 ---

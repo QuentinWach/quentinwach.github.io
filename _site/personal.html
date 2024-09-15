@@ -3,18 +3,18 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Q. Wach</title>
+<title>Blog | Q. Wach</title>
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="Q. Wach" />
+<meta property="og:title" content="Blog" />
 <meta property="og:locale" content="en_US" />
 <link rel="canonical" href="http://localhost:4000/personal" />
 <meta property="og:url" content="http://localhost:4000/personal" />
 <meta property="og:site_name" content="Q. Wach" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Q. Wach" />
+<meta property="twitter:title" content="Blog" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","headline":"Q. Wach","url":"http://localhost:4000/personal"}</script>
+{"@context":"https://schema.org","@type":"WebPage","headline":"Blog","url":"http://localhost:4000/personal"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/main.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -47,7 +47,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
+        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/personal">Blog</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -57,7 +57,7 @@
         </div>
         <div class="home">
 
-  <p><em>Well, well, well! You found my super secret personal page. Below you can find some more personal notes. Some writing about me as well as essays on science, meta-science, philosophy… whatever I might think of.</em></p>
+  <p><em>Below you can find some more rough notes on miscellaneous topics.</em></p>
 <div style="height: 20px;">
 </div>
 
@@ -69,6 +69,71 @@
   
 
   <!-- Fetch and collect the number of stars from the GitHub repos --><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/image-ranker"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/computer-engineering"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/webiny"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
@@ -85,7 +150,33 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
+            var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/obsidian_ai"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/PDFtoCards"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -120,99 +211,21 @@
                 
             });
         });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/obsidian_ai"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/webiny"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/PDFtoCards"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/computer-engineering"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
       </script><ul class="post-list">
 
-        <a href="/personal/2021/01/01/the-blank-spot.html" class="box">
+        <a href="/personal/2024/04/10/AI-chip-market.html" class="box">
           <li class="post-box">
-            <div class="post-box-img"><img src="/images/blank_spot_1x1V2.png" alt="Essays: The Blank Spot" class="post-image"></div>
+            <div class="post-box-img"><img src="/images/AI_acc_comparison_QW_animated_WTtitle.gif" alt="Neural Network Accelerators (2024)" class="post-image"></div>
             <div class="post-box-txt">
               
               <h4 class="post-title">
-                <!-- <a class="post-link" href="/personal/2021/01/01/the-blank-spot.html"> -->
-                  Essays: The Blank Spot
+                <!-- <a class="post-link" href="/personal/2024/04/10/AI-chip-market.html"> -->
+                  Neural Network Accelerators (2024)
                 <!--</a>-->
               </h4><p class="post-summary">
-                <p>Being done with lab work and not busy with research either, I spent some time writing short essays on various subjects aiming to ask questions like: <em>‘Is science a young man’s game?’</em>, <em>‘What is the relationship between genius, creativity, and insanity?’</em>, and <em>‘How can we make academic articles freely accessible?’</em></p>
+                <p>An overview and commentary of commercial and academic AI and neuromorphic hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum.</p>
 
-              </p><span class="post-meta">Jan 1, 2021</span></div>
+              </p><span class="post-meta">Apr 10, 2024</span></div>
           </li>
         </a>
 
@@ -229,6 +242,22 @@
                 <p>This is an introduction to where I come from. I was born into a family of artists and designers and developed these talents rapidly making money with paintings and music from an early age. Then I chose to study physics. Because a meaningful life full of challenges is better than an easy life without.</p>
 
               </p><span class="post-meta">Feb 10, 2024</span></div>
+          </li>
+        </a>
+
+        <a href="/personal/2021/01/01/the-blank-spot.html" class="box">
+          <li class="post-box">
+            <div class="post-box-img"><img src="/images/blank_spot_1x1V2.png" alt="Essays: The Blank Spot" class="post-image"></div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                <!-- <a class="post-link" href="/personal/2021/01/01/the-blank-spot.html"> -->
+                  Essays: The Blank Spot
+                <!--</a>-->
+              </h4><p class="post-summary">
+                <p>Being done with lab work and not busy with research either, I spent some time writing short essays on various subjects aiming to ask questions like: <em>‘Is science a young man’s game?’</em>, <em>‘What is the relationship between genius, creativity, and insanity?’</em>, and <em>‘How can we make academic articles freely accessible?’</em></p>
+
+              </p><span class="post-meta">Jan 1, 2021</span></div>
           </li>
         </a></ul>
 
@@ -249,12 +278,8 @@
     </div>
 
     <div class="social-links">
-      Hey, you scrolled all the way to the bottom! <br>
-
-      Maybe you are interested in my more <a href="/personal" class="button">personal blog posts</a>, too.<br>
-      
-      Or reach out to me on social media: <br>
-      <br><ul class="social-media-list"><li><a href="https://www.twitter.com/quentinwach"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">quentinwach</span></a></li></ul>
+      Hey, thank you for visiting!
+      You can reach out to me on social media<ul class="social-media-list"><li><a href="https://www.twitter.com/quentinwach"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">quentinwach</span></a></li></ul>
 </div>
 
   </div>

@@ -47,7 +47,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
+        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/personal">Blog</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -94,7 +94,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
+            var repo = $('.github-stars[data-repo="QuentinWach/image-ranker"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -108,6 +108,19 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/Animating-Science"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -146,19 +159,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/webiny"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/PDFtoCards"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -172,7 +172,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
+            var repo = $('.github-stars[data-repo="QuentinWach/webiny"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -199,6 +199,19 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/computer-engineering"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -262,20 +275,20 @@
           </li>
         </a>
 
-        <a href="/science-engineering/2024/07/23/terra.html" class="box">
+        <a href="/science-engineering/2024/08/28/image-ranker.html" class="box">
           <li class="post-box">
-            <div class="post-box-img"><img src="images/terra.png" alt="TERRA: The Tiny Terrain Generator" class="post-image"></div>
+            <div class="post-box-img"><img src="images/imagerank3.png" alt="Image Ranker: A Web App for Pairwise Image Ranking" class="post-image"></div>
             <div class="post-box-txt">
               
               <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2024/07/23/terra.html"> -->
-                  TERRA: The Tiny Terrain Generator
+                <!-- <a class="post-link" href="/science-engineering/2024/08/28/image-ranker.html"> -->
+                  Image Ranker: A Web App for Pairwise Image Ranking
                 <!--</a>-->
               </h4><p class="post-summary">
-                <p>This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.</p>
+                <p>Training generative image models requires a way to compare images and provide feedback on which images are better. I built a web app to do just that.</p>
 
-              </p><span class="post-meta">Jul 23, 2024</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/terra>
+              </p><span class="post-meta">Aug 28, 2024</span><span class="post-meta"> • </span>
+                <span class="github-stars" data-repo=QuentinWach/image-ranker>
                   <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
 
                 </span>
@@ -306,20 +319,20 @@
           </li>
         </a>
 
-        <a href="/science-engineering/2018/02/12/GAN.html" class="box">
+        <a href="/science-engineering/2024/07/23/terra.html" class="box">
           <li class="post-box">
-            <div class="post-box-img"><img src="/images/MNIST-test-c2.gif" alt="Generative Adversarial Network" class="post-image"></div>
+            <div class="post-box-img"><img src="images/terra.png" alt="TERRA: The Tiny Terrain Generator" class="post-image"></div>
             <div class="post-box-txt">
               
               <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2018/02/12/GAN.html"> -->
-                  Generative Adversarial Network
+                <!-- <a class="post-link" href="/science-engineering/2024/07/23/terra.html"> -->
+                  TERRA: The Tiny Terrain Generator
                 <!--</a>-->
               </h4><p class="post-summary">
-                <p>An implementation of Ian Goodfellow’s seminal research paper using Keras that, in my opinion, sparked the modern generative AI revolution and is still relevant today. Back in 2016-2019, I was still very much interested in art and part of the then emerging generative art community some of which called it <em>neural photography</em>.</p>
+                <p>This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.</p>
 
-              </p><span class="post-meta">Feb 12, 2018</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/Generative-Adversarial-Network>
+              </p><span class="post-meta">Jul 23, 2024</span><span class="post-meta"> • </span>
+                <span class="github-stars" data-repo=QuentinWach/terra>
                   <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
 
                 </span>
@@ -348,69 +361,6 @@
           </li>
         </a>
 
-        <a href="/science-engineering/2024/07/27/webiny.html" class="box">
-          <li class="post-box">
-            <div class="post-box-img"><img src="images/webiny.png" alt="Webiny" class="post-image"></div>
-            <div class="post-box-txt">
-              
-              <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2024/07/27/webiny.html"> -->
-                  Webiny
-                <!--</a>-->
-              </h4><p class="post-summary">
-                <p>A minimal single-tab web browser written in Python without caching, cookies, chronic logins, etc. It only took 30 min to make but it’s a nice little tool for when you want to focus and not get distracted while still having access to the internet.</p>
-
-              </p><span class="post-meta">Jul 27, 2024</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/webiny>
-                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
-
-                </span>
-                <span class="post-meta">on GitHub</span></div>
-          </li>
-        </a>
-
-        <a href="/science-engineering/2023/06/06/PDFtoCards.html" class="box">
-          <li class="post-box">
-            <div class="post-box-img"><img src="/images/PDFtoCards_1x1_v2.png" alt="PDFtoCards: Flashcards for Everything" class="post-image"></div>
-            <div class="post-box-txt">
-              
-              <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2023/06/06/PDFtoCards.html"> -->
-                  PDFtoCards: Flashcards for Everything
-                <!--</a>-->
-              </h4><p class="post-summary">
-                <p>Convert any book or article in PDF form to a deck of flashcards! Recognizes and understands text, equations, images, and (some) handwriting.  Summarizes the PDF as questions and answers systematically. ChatGPT is used for understanding the content and MathPix to extract equations and images.</p>
-
-              </p><span class="post-meta">Jun 6, 2023</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/PDFtoCards>
-                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
-
-                </span>
-                <span class="post-meta">on GitHub</span></div>
-          </li>
-        </a>
-
-        <a href="/science-engineering/2024/06/22/Sudoku.html" class="box">
-          <li class="post-box">
-            <div class="post-box-img"><img src="/images/sudoku_head.png" alt="Sudoku: Generator and Solver" class="post-image"></div>
-            <div class="post-box-txt">
-              
-              <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2024/06/22/Sudoku.html"> -->
-                  Sudoku: Generator and Solver
-                <!--</a>-->
-              </h4><p class="post-summary">
-                <p>Generate Sudokus of any difficulty, generate beautiful images of them or just save them as .txt files, and solve them using a backtracking algorithm. I then ask: Can neurosymbolic AIs learn Sudoku, too?</p>
-
-              </p><span class="post-meta">Jun 22, 2024</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/Sudoku>
-                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
-
-                </span>
-                <span class="post-meta">on GitHub</span></div>
-          </li>
-        </a>
-
         <a href="/science-engineering/2024/07/23/IC3D.html" class="box">
           <li class="post-box">
             <div class="post-box-img"><img src="images/xyz2.png" alt="IC3D: Render .gds Files in 3D" class="post-image"></div>
@@ -425,27 +375,6 @@
 
               </p><span class="post-meta">Jul 23, 2024</span><span class="post-meta"> • </span>
                 <span class="github-stars" data-repo=QuentinWach/IC3D>
-                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
-
-                </span>
-                <span class="post-meta">on GitHub</span></div>
-          </li>
-        </a>
-
-        <a href="/science-engineering/2024/08/01/hack-comp.html" class="box">
-          <li class="post-box">
-            <div class="post-box-img"><img src="images/hack_computer.png" alt="Building a 16-Bit Computer: From NAND to Pong" class="post-image"></div>
-            <div class="post-box-txt">
-              
-              <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2024/08/01/hack-comp.html"> -->
-                  Building a 16-Bit Computer: From NAND to Pong
-                <!--</a>-->
-              </h4><p class="post-summary">
-                <p>Verilog implementation and detailed explanation of the Hack computer architecture with the help of Logisim, Icarus Verilog, and GTKWave. A .gds mask layout can be generated with the OpenLane 130 nm PDK.</p>
-
-              </p><span class="post-meta">Aug 1, 2024</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo=QuentinWach/computer-engineering>
                   <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
 
                 </span>
@@ -488,12 +417,8 @@
     </div>
 
     <div class="social-links">
-      Hey, you scrolled all the way to the bottom! <br>
-
-      Maybe you are interested in my more <a href="/personal" class="button">personal blog posts</a>, too.<br>
-      
-      Or reach out to me on social media: <br>
-      <br><ul class="social-media-list"><li><a href="https://www.twitter.com/quentinwach"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">quentinwach</span></a></li></ul>
+      Hey, thank you for visiting!
+      You can reach out to me on social media<ul class="social-media-list"><li><a href="https://www.twitter.com/quentinwach"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">quentinwach</span></a></li></ul>
 </div>
 
   </div>

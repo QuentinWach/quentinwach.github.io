@@ -56,7 +56,7 @@ Work-inspired side projects:
 + Again unprompted, I also developed, implemented, and integrated a global auto-routing algorithm which is optimized to minimize waveguide losses, crosstalk, save hours if not days of work as well as enable the design of complex heterogenic PIC structures with >1000 components which was utterly unthinkable before. -->
 
 <!-- MACHINE LEANRNING | HARDWARE ARCHITECTURE | NEUROMORPHIC COMPUTING | NANOTECHNOLOGY | NANOPHOTONIC -->
-
+<!--
 <style>
     img[alt=Profile] {
         float: right; 
@@ -79,15 +79,13 @@ Work-inspired side projects:
     }
 </style>
 ![Profile](/images/Quentin_Fotoshoot_AI_Jan_2024.png)
+-->
 
 <!--I am the founder of [Simia Engineering]() where we create various electronic products and build the hardware manufacturing infrastructure to enable the rise of artificial general/super intelligence. -->
 
 I am a physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with the **[Department of Nonlinear Optics](https://www.tu.berlin/en/nlo)**. I am regularly contributing to **[open-source soft- and hardware](https://github.com/QuentinWach)** and currently working as a research assistant with the **[Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html)**, **generally active in areas requiring a good understanding of both computers and physics.**
 
 Like designing opto-electronic integrated circuits, developing design, analysis, and automation tools, writing computer simulations to answer questions in physics, training deep neural networks, and more. **I simply try to make myself useful**. 
-
-You can find a list and notes on some of my past activities below, including my peer-reviewed and published research. 
-
 
 <!--technologies like analog computing hardware to empower artificial intelligence and neuromorphic computing both in form of electronics as well as photonics.-->
 
@@ -124,29 +122,31 @@ Some people I loved/love working with and am very thankful to are
 </style>
 ![Nano](/images/NS_Title_Graphic_Square_3.png) -->
 <!--All of engineering is based on material science and its limitations and many of the most advanced modern technologies are nanotechnologies. That includes computers, solar cells, batteries, sensors, lasers, and so on. It is relevant to understand the material properties of the nanoscopic structures they utilize. -->
-
-
-Structures within our computer processors, solar cells, lasers, batteries etc. are so small that electrons often behave like quantum mechanical waves rather than particles making their behavior much more difficult to predict and understand. It is also extremely difficult to even measure the material properties of nanostructures. You can't really hold a probing needle on a particle 10.000x smaller than the diameter of a human hair. Using THz spectrosopy to probe the conductivity of nanoparticles is an essential new tool. And making sense of that physics, quantum mechanically, is what the majority of my research in the past has been focusing on. 
+Structures within our computer processors, solar cells, lasers, batteries etc. are so small that electrons often behave like quantum mechanical waves rather than particles making their behavior much more difficult to predict. Since it isn't possible to hold a probing needle on a particle 10.000x smaller than the diameter of a human hair, using THz spectrosopy is an essential new tool to probe the conductivity of nanoparticles. Making sense of that physics, quantum mechanically, is what the majority of my research in the past has been focusing on. 
 
 + (2022, Technical University Berlin.) Pulsed THz-Photoconductivity in Semiconductor Nanorods (B.Sc. Thesis)
 + [(2023, Advanced Photonics Research.) THz Response of Charge Carriers in Nanoparticles](https://onlinelibrary.wiley.com/doi/10.1002/adpr.202200243)
 + [(2024, Physical Chemistry Chemical Physics.) Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures](https://doi.org/10.1039/D4CP00952E)
 
 ##### Photonic Integrated Circuits
-Lithography techniques now allow us to reduce large, complicated, thus costly and time-consuming optical setups down to chips only a few mm in size. Such photonic integrated circuits are also essential for quantum computing, the quantum internet, and essentially all modern communication / data transmission technologies. Still, creating them comes with a lot of exciting challenges as the field is still very young compared to that of integrated _electronic_ circuits. Personally, I think a lot about **photonic design automation** (How can we design PICs better and faster?)
+Lithography techniques now allow us to reduce large, complicated, thus costly and time-consuming optical setups down to chips only a few mm in size. Such photonic integrated circuits are essential for computing and modern communication / data transmission technologies. Still, creating them comes with a lot of exciting challenges as the field is still very young compared to that of integrated _electronic_ circuits. Personally, I think a lot about **photonic design automation** (How can we design PICs better and faster?)
 
-* [(Feb, 2024) Dubins Paths for Waveguide Routing](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
-* [(July, 2024) IC3D: Creating 3D Animations from Complex Photonics .gds-Files](https://github.com/QuentinWach/IC3D)
++ [(Feb, 2024) Dubins Paths for Waveguide Routing](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
++ [(July, 2024) IC3D: Creating 3D Animations from Complex Photonics .gds-Files](https://github.com/QuentinWach/IC3D)
 
 I have been part of more than five [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, establishing and enforcing design standards, developing new building blocks to be used within our group, and running and automating large simulations.
 
-##### Computing
+<!--
+##### AI
 AI research is not only the fastest moving field of science today but promises to end the need of human involvement for scientific discoveries itself. This global race for AGI and super intelligence has sparked another fundamental revolution in computer hardware and architecture. That includes non-traditional, "exotic" approaches like neuromorphic computing, photonic computing, a revitalization of analog computing, quantum computing, thermodynamic computing, reversible computing, ... We are experiencing a new Cambrian age of computing and I âm working to contribute my share. I keep some updated of related projects public on my science and engineering projects page including:
 
-* [(April, 2024) The Space of Neural Network Accelerators](random/2024/04/10/AI-chip-market.html)
-* [(August, 2024) Building a 16-Bit Computer: From NAND to Pong](https://quentinwach.com/computer-engineering/0_Overview.html)
++ [(April, 2024) Neural Network Accelerators (2024)](personal/2024/04/10/AI-chip-market.html)
++ (September, 2024) [Image Ranker: A Web App for Building RLHF Image Datasets](https://www.github.com/QuentinWach/image-ranker)
 
-_More information coming soon._
+##### Computer Engineering
++ (August, 2024) Building a 16-Bit Computer: From NAND to Pong
++ (October, 2024) [Physics Processing Unit: A Computer Architecture for Physics Simulations](https://www.github.com/QuentinWach/ppu)
+-->
 
 <!--
 1180 people follow me on Twitter: [images and names of all the verified followers]

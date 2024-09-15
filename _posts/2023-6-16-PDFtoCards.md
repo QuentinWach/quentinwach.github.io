@@ -10,7 +10,7 @@ image:          "/images/PDFtoCards_1x1_v2.png"
 tag_search:     true
 redirect:       "https://github.com/QuentinWach/PDFtoCards"
 github: QuentinWach/PDFtoCards
-categories: "science-engineering"
+categories: 
 note: 
 weight: 55
 ---

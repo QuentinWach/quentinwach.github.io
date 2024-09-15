@@ -1,16 +1,16 @@
 ---
 layout: post
 mathjax: true
-title:  "Neural Network Accelerators (2024)"
-description: "An overview and commentary of commercial and academic AI and neuromorphic hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum."
-date:   2024-04-10 20:38:24 +0100
+title:  "Physics Processing Units"
+description: "The first dedicated physics processing unit, the Ageia PhysX PPU, was released in 2006 yet the market for it was killed quickly by NVIDIA. In the decades after, only few attempts were made to build hardware for physics acceleration like the Intel Xeon Phi. Game developers stopped pushing the boundaries and integrating physics on a fundamental level despite the often fundamental importance for game play and scientist have been struggling with the complexities of implementing the often complex math to GPUs only to realize that this hardware was never meant for these applications."
+date:   2024-09-14 20:38:24 +0100
 authors: ["Quentin Wach"]
-tags: ["machine learning", "aritificial intelligence", "python", "analog computing", "electronics", "neural networks", "hardware design", "computer engineering"]
+tags: ["physics", "hardware design", "computer engineering"]
 tag_search: true
-image:          "/images/AI_acc_comparison_QW_animated_WTtitle.gif"
+image:     "/images/ppu.png"
 weight:
 note: 
-categories: "personal"
+categories:
 ---
 <style>
     img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
