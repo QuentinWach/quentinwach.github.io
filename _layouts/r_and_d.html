@@ -86,9 +86,15 @@ mathjax: true
 
               {%- if post.github -%}
               <span class="post-meta"> • </span>
-                <span class="github-stars" data-repo={{ post.github }}>
-                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
-
+                <span class="github-stars" data-repo="{{ post.github }}">
+                  <span class="material-symbols-rounded">star</span>
+                  <span class="star-count">
+                    {% if site.data.github_stars[post.github] %}
+                      {{ site.data.github_stars[post.github] }}
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </span>
                 </span>
                 <span class="post-meta">on GitHub</span>
               {%- endif -%}

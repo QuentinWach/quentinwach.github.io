@@ -1,0 +1,24 @@
+name: Update GitHub Stars
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC
+
+jobs:
+  update-stars:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Update star counts
+      run: ruby scripts/update_github_stars.rb
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add _data/github_stars.yml
+        git commit -m "Update GitHub star counts" || echo "No changes to commit"
+        git push

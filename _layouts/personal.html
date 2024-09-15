@@ -5,16 +5,13 @@ mathjax: true
 
 <div class="home">
 
-
   {{ content }}
-
 
   {% if site.paginate %}
     {% assign posts = paginator.posts | sort: "date" | reverse %}
   {% else %}
     {% assign posts = site.posts | sort: "date" | reverse %}
   {% endif %}
-
 
   <!-- New tag section -->
   <div class="tag-container">
@@ -37,7 +34,6 @@ mathjax: true
       </button>
     {% endfor %}
   </div>
-
 
   <!-- Define an empty array to store star counts -->
   {% assign star_counts = "" | split: "|" %}
