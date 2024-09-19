@@ -1,5 +1,5 @@
 ---
-layout: personal
+layout: post
 mathjax: true
 title:  "A First Taste of Shaders"
 description: "Where I finally got around to writing my first shaders, explaining briefly what they are and then moving on to writing two simple ones in GLSL."

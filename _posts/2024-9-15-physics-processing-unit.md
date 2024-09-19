@@ -1,5 +1,5 @@
 ---
-layout: personal
+layout: post
 mathjax: true
 title:  "Physics Processing Units"
 description: "The first dedicated physics processing unit, the Ageia PhysX PPU, was released in 2006 yet the market for it was killed quickly by NVIDIA. In the decades after, only few attempts were made to build hardware for physics acceleration like the Intel Xeon Phi. Game developers stopped pushing the boundaries and integrating physics on a fundamental level despite the often fundamental importance for game play and scientist have been struggling with the complexities of implementing the often complex math to GPUs only to realize that this hardware was never meant for these applications."
