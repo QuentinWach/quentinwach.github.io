@@ -8,8 +8,8 @@
 <meta property="og:title" content="Neural Network Accelerators (2024)" />
 <meta name="author" content="Quentin Wach" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="An overview and commentary of commercial and academic AI and neuromorphic hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum." />
-<meta property="og:description" content="An overview and commentary of commercial and academic AI and neuromorphic hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum." />
+<meta name="description" content="An short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum." />
+<meta property="og:description" content="An short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum." />
 <link rel="canonical" href="http://localhost:4000/personal/2024/04/10/AI-chip-market.html" />
 <meta property="og:url" content="http://localhost:4000/personal/2024/04/10/AI-chip-market.html" />
 <meta property="og:site_name" content="Q. Wach" />
@@ -20,7 +20,7 @@
 <meta property="twitter:image" content="http://localhost:4000/images/AI_acc_comparison_QW_animated_WTtitle.gif" />
 <meta property="twitter:title" content="Neural Network Accelerators (2024)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Quentin Wach"},"dateModified":"2024-04-10T21:38:24+02:00","datePublished":"2024-04-10T21:38:24+02:00","description":"An overview and commentary of commercial and academic AI and neuromorphic hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum.","headline":"Neural Network Accelerators (2024)","image":"http://localhost:4000/images/AI_acc_comparison_QW_animated_WTtitle.gif","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/personal/2024/04/10/AI-chip-market.html"},"url":"http://localhost:4000/personal/2024/04/10/AI-chip-market.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Quentin Wach"},"dateModified":"2024-04-10T21:38:24+02:00","datePublished":"2024-04-10T21:38:24+02:00","description":"An short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum.","headline":"Neural Network Accelerators (2024)","image":"http://localhost:4000/images/AI_acc_comparison_QW_animated_WTtitle.gif","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/personal/2024/04/10/AI-chip-market.html"},"url":"http://localhost:4000/personal/2024/04/10/AI-chip-market.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/main.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -70,9 +70,9 @@
       
       
         • 
-        21
+        22
        min read for 
-        3954
+        4046
        words •
       <time class="dt-published" datetime="2024-04-10T21:38:24+02:00" itemprop="datePublished">
         Apr 10, 2024
@@ -108,8 +108,6 @@ is speculated to arrive within only a couple of years from now. And with its eme
 </blockquote>
 
 <p>writes Ruch et al. in 2011<sup id="fnref:RuchBioAI" role="doc-noteref"><a href="#fn:RuchBioAI" class="footnote" rel="footnote">3</a></sup>.
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">Where <em>“efficiency”</em> means how much energy is consumed proportional to the power of the engine.</span>
 Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn’t otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is <em>the</em> enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought. But it is essential for making technologies widely available and allow for future technologies to build upon it!</p>
 
 <p>In 2020-2023, the bottleneck for AI was arguably the amount of hardware available due to a global chip shortage so vast it made history<sup id="fnref:ChipShortage" role="doc-noteref"><a href="#fn:ChipShortage" class="footnote" rel="footnote">4</a></sup><sup id="fnref:ChipShortage2" role="doc-noteref"><a href="#fn:ChipShortage2" class="footnote" rel="footnote">5</a></sup>. 
@@ -196,11 +194,15 @@ There is of course also a <strong>data problem</strong>. Our algorithms are stil
     <img src="/images/H100_buyers.png" alt="H100Buyers" />
     <em>Estimated 2023 H100 shipments by end customer as reported by Omida Research <sup id="fnref:OmidaH100Shipments" role="doc-noteref"><a href="#fn:OmidaH100Shipments" class="footnote" rel="footnote">25</a></sup>.</em>
 </span>
-Contrary to training, the compute for inference has hardly grown in comparison. That is because we want the inference to be fast and cheap in order for it to be practical. There can’t be a seconds of delay for the self-driving car. We don’t want our LLMs to spend hours computing an hour for our question and burn the energy of a small town for it. So with traditional hardware we are quite limited here and models are optimized to work within these boundaries. Imagine what we could do with better dedicated hardware though! Imagine LLMs would respond instantly and run locally on your phone. This will be necessary for robots especially. So while inference does not seem like a growth market at first glance, the demand is absolutely there.</p>
+Contrary to training, the compute for inference has hardly grown in comparison. That is because we want the inference to be fast and cheap in order for it to be practical. There can’t be a seconds of delay for the self-driving car. We don’t want our LLMs to spend hours computing an hour for our question and burn the energy of a small town for it. So with traditional hardware we are quite limited here and models are optimized to work within these boundaries. Imagine what we could do with better dedicated hardware though! Imagine LLMs would respond instantly and run locally on your phone. This will be necessary for robots especially. So while inference does not seem like a growth market at first glance, the demand is absolutely there.
+<button class="sidenote-button-left"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-left">
+    Update: OpenAI released the o1 model recently which uses chain-of-thought self-prompting to deliver higher quality answers at the cost of a longer waiting time and significantly higher token consumption<sup id="fnref:OpenAI_o1" role="doc-noteref"><a href="#fn:OpenAI_o1" class="footnote" rel="footnote">26</a></sup>. A new scaling law was discovered similar to the training scaling laws that shows that the accuracy rises as we spend more time “thinking”. The financial price for using these models is huge. We can therefore expect a much greater demand for better inference. Where I had doubt before if inference hardware made sense, I don’t have this doubt anymore! <em>September 18, 2024</em>
+</span></p>
 
 <h2 id="3-applications">3. Applications</h2>
 <p>A figure from the paper showing how much it currently costs even to do just inference.
-A. S. Luccioni et al. recently compared several machine learning tasks in terms of their energy consumption and nicely showed that image generation is orders of magnitudes more costly during inference compared to other ML tasks like image classification or text generation<sup id="fnref:AI_EnergyInference" role="doc-noteref"><a href="#fn:AI_EnergyInference" class="footnote" rel="footnote">26</a></sup>:</p>
+A. S. Luccioni et al. recently compared several machine learning tasks in terms of their energy consumption and nicely showed that image generation is orders of magnitudes more costly during inference compared to other ML tasks like image classification or text generation<sup id="fnref:AI_EnergyInference" role="doc-noteref"><a href="#fn:AI_EnergyInference" class="footnote" rel="footnote">27</a></sup>:</p>
 
 <table>
   <thead>
@@ -258,20 +260,20 @@ A. S. Luccioni et al. recently compared several machine learning tasks in terms 
 
 <p><button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-right">
-I hope to soon go more into depth discussing limits like Landauer’s principle<sup id="fnref:LandauP" role="doc-noteref"><a href="#fn:LandauP" class="footnote" rel="footnote">27</a></sup> as it relates to this.
+I hope to soon go more into depth discussing limits like Landauer’s principle<sup id="fnref:LandauP" role="doc-noteref"><a href="#fn:LandauP" class="footnote" rel="footnote">28</a></sup> as it relates to this.
 </span>
 The sad truth as of now is that there seems to be a hard limit for the amount of compute per second we can achieve for the energy used. To drive down the costs or AI developement and inference, we’d have to dramatically reduce the cost of energy, which would require an energy revolution in of itself, or rethink and rebuild our hardware on a much more fundamental level than is currently done (in the industry). That is precisely why I am writing these notes.</p>
 
 <p>Comparisons to the human brain and how it developed are often made, especially now in context of LLMs and their extreme popularity and energy consumption because it requires historic energy consumption to train useful LLMs. Even if we compare all the energy consumed by a human throughout their entire life, the difference is vast. Some napkin math:</p>
 
-<p>Assuming that the calorie intake is 2000 kcal / day \(\times\) 365 days where 1163 Wh = 1000 kcal<sup id="fnref:kcal_in_Watt" role="doc-noteref"><a href="#fn:kcal_in_Watt" class="footnote" rel="footnote">28</a></sup><sup id="fnref:kcal_in_Watt2" role="doc-noteref"><a href="#fn:kcal_in_Watt2" class="footnote" rel="footnote">29</a></sup>, that’s 730.000 kcal / year or \(8.5 \cdot 10^{-5}\) GWh/year per person. Now multiply this times the decades humans take to learn what LLMs know and we can maybe subtract or or two orders of magnitude in energy consumption. Still, in comparison, OpenAI used 50 GWh to train GPT4<sup id="fnref:GPT4_energy" role="doc-noteref"><a href="#fn:GPT4_energy" class="footnote" rel="footnote">30</a></sup>utilizing 25.000 NVIDIA A100 GPUs that run around 6.5 kW each.
-It doesn’t take a math genius to see that there are orders of magnitude in difference. And as a result, the training cost for GPT4 was around $100.000.000 over a period of around 100 days (roughly $65M for the pre-training alone) as stated Sam Altman himself<sup id="fnref:GPT4_price" role="doc-noteref"><a href="#fn:GPT4_price" class="footnote" rel="footnote">31</a></sup><sup id="fnref:GPT4_facts" role="doc-noteref"><a href="#fn:GPT4_facts" class="footnote" rel="footnote">32</a></sup>.</p>
+<p>Assuming that the calorie intake is 2000 kcal / day \(\times\) 365 days where 1163 Wh = 1000 kcal<sup id="fnref:kcal_in_Watt" role="doc-noteref"><a href="#fn:kcal_in_Watt" class="footnote" rel="footnote">29</a></sup><sup id="fnref:kcal_in_Watt2" role="doc-noteref"><a href="#fn:kcal_in_Watt2" class="footnote" rel="footnote">30</a></sup>, that’s 730.000 kcal / year or \(8.5 \cdot 10^{-5}\) GWh/year per person. Now multiply this times the decades humans take to learn what LLMs know and we can maybe subtract or or two orders of magnitude in energy consumption. Still, in comparison, OpenAI used 50 GWh to train GPT4<sup id="fnref:GPT4_energy" role="doc-noteref"><a href="#fn:GPT4_energy" class="footnote" rel="footnote">31</a></sup>utilizing 25.000 NVIDIA A100 GPUs that run around 6.5 kW each.
+It doesn’t take a math genius to see that there are orders of magnitude in difference. And as a result, the training cost for GPT4 was around $100.000.000 over a period of around 100 days (roughly $65M for the pre-training alone) as stated Sam Altman himself<sup id="fnref:GPT4_price" role="doc-noteref"><a href="#fn:GPT4_price" class="footnote" rel="footnote">32</a></sup><sup id="fnref:GPT4_facts" role="doc-noteref"><a href="#fn:GPT4_facts" class="footnote" rel="footnote">33</a></sup>.</p>
 
 <h2 id="5-general-use-of-hardware">5. General Use of Hardware</h2>
 <h3 id="51-gpus-nvidia-leads-the-way">5.1 GPUs: NVIDIA Leads the Way</h3>
 <p>NVIDIA is the non-plus ultra for AI training at the largest scale. We see this reflected with commercial GPUs providing the fastest training. The drawback: These GPUs also consume by far the most power.</p>
 
-<p>In NVIDIA’s most recent developer conference, Jensen Huang bragged about how hot these GPUs get. So hot, that they need to be liquid cooled (which poses new challenges in data centres). So hot, that the coolant coming out after just seconds could be used as a whirlpool, I remember him stating. Later on stage, he then continued talking about how NVIDIAs new accelerators are now much more energy efficient<sup id="fnref:NVIDIAGTC2024" role="doc-noteref"><a href="#fn:NVIDIAGTC2024" class="footnote" rel="footnote">33</a></sup>. It takes a special kind of genius to pull of such contradiction marketing. I am not even trying to be critical. It’s rather humorous!</p>
+<p>In NVIDIA’s most recent developer conference, Jensen Huang bragged about how hot these GPUs get. So hot, that they need to be liquid cooled (which poses new challenges in data centres). So hot, that the coolant coming out after just seconds could be used as a whirlpool, I remember him stating. Later on stage, he then continued talking about how NVIDIAs new accelerators are now much more energy efficient<sup id="fnref:NVIDIAGTC2024" role="doc-noteref"><a href="#fn:NVIDIAGTC2024" class="footnote" rel="footnote">34</a></sup>. It takes a special kind of genius to pull of such contradiction marketing. I am not even trying to be critical. It’s rather humorous!</p>
 
 <p>Even with their incredible energy demands and the high training costs that follow, NVIDIAs glowing hot GPUs have a bright future.</p>
 
@@ -281,7 +283,7 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
 <p>If we were to compete, lowering energy consumption is the angle of attack. FPGAs are, in part, competitive enough in terms of speed yet at similar power consumption and much, much worse usability. Nonetheless, some argue for a future of FPGAs:</p>
 
 <blockquote>
-  <p>“Due to their software-defined nature, FPGAs offer easier design flows and shorter time to market accelerators than an application-specific integrated circuit (ASIC).”<sup id="fnref:FPGACentres" role="doc-noteref"><a href="#fn:FPGACentres" class="footnote" rel="footnote">34</a></sup></p>
+  <p>“Due to their software-defined nature, FPGAs offer easier design flows and shorter time to market accelerators than an application-specific integrated circuit (ASIC).”<sup id="fnref:FPGACentres" role="doc-noteref"><a href="#fn:FPGACentres" class="footnote" rel="footnote">35</a></sup></p>
 </blockquote>
 
 <p>The advantage lies for tasks that require less compute but desire better optimization in speed and energy efficiency hence inference. And FPGAs are typically easier to bring to market than ASICs. So in scenarios where power consumption must be tightly controlled, such as in embedded systems or edge computing devices, FPGAs may provide a compelling solution. But compelling enough?</p>
@@ -392,6 +394,9 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
     </li>
     <li id="fn:OmidaH100Shipments" role="doc-endnote">
       <p>Omida Research. (I was unable to find the original source though similar data can be found here: https://www.tomshardware.com/tech-industry/nvidia-ai-and-hpc-gpu-sales-reportedly-approached-half-a-million-units-in-q3-thanks-to-meta-facebook) <a href="#fnref:OmidaH100Shipments" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:OpenAI_o1" role="doc-endnote">
+      <p>https://openai.com/o1/ <a href="#fnref:OpenAI_o1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:AI_EnergyInference" role="doc-endnote">
       <p><a href="https://arxiv.org/pdf/2311.16863.pdf">Luccioni et al., <em>Power Hungry Processing: Watts Driving the Cost of AI Deployment?</em>, ArXiv, 2023</a> <a href="#fnref:AI_EnergyInference" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
@@ -656,9 +661,14 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
     </div>
 
     <div class="social-links">
-      Hey, thank you for visiting!
+    
+      <i>"I just wondered how things were put together."</i> Claude Shannon.
+      </br>
+
+      Thank you for visiting!
       You can reach out to me on social media<ul class="social-media-list"><li><a href="https://www.twitter.com/quentinwach"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">quentinwach</span></a></li></ul>
-</div>
+.
+    </div>
 
   </div>
 

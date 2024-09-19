@@ -2,7 +2,7 @@
 layout: post
 mathjax: true
 title:  "Neural Network Accelerators (2024)"
-description: "An overview and commentary of commercial and academic AI and neuromorphic hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum."
+description: "An short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum."
 date:   2024-04-10 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["machine learning", "artificial intelligence", "electronics", "neural networks", "hardware design", "computer engineering"]
@@ -36,8 +36,6 @@ is speculated to arrive within only a couple of years from now. And with its eme
 >"We may recall that the first steam engine had less than 0.1% efficiency and it took 200 years (1780 to 1980) to develop steam engines that reached biological efficiency."
 
 writes Ruch et al. in 2011[^RuchBioAI].
-<button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
-<span class="sidenote-right">Where _"efficiency"_ means how much energy is consumed proportional to the power of the engine.</span>
 Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn't otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is _the_ enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought. But it is essential for making technologies widely available and allow for future technologies to build upon it!
 
 In 2020-2023, the bottleneck for AI was arguably the amount of hardware available due to a global chip shortage so vast it made history[^ChipShortage][^ChipShortage2]. 
@@ -116,6 +114,10 @@ As we can see in the figure above, this is not only true for the largest AIs but
     _Estimated 2023 H100 shipments by end customer as reported by Omida Research [^OmidaH100Shipments]._
 </span>
 Contrary to training, the compute for inference has hardly grown in comparison. That is because we want the inference to be fast and cheap in order for it to be practical. There can't be a seconds of delay for the self-driving car. We don't want our LLMs to spend hours computing an hour for our question and burn the energy of a small town for it. So with traditional hardware we are quite limited here and models are optimized to work within these boundaries. Imagine what we could do with better dedicated hardware though! Imagine LLMs would respond instantly and run locally on your phone. This will be necessary for robots especially. So while inference does not seem like a growth market at first glance, the demand is absolutely there.
+<button class="sidenote-button-left"><span class="material-symbols-outlined">sticky_note_2</span></button>
+<span class="sidenote-left">
+    Update: OpenAI released the o1 model recently which uses chain-of-thought self-prompting to deliver higher quality answers at the cost of a longer waiting time and significantly higher token consumption[^OpenAI_o1]. A new scaling law was discovered similar to the training scaling laws that shows that the accuracy rises as we spend more time "thinking". The financial price for using these models is huge. We can therefore expect a much greater demand for better inference. Where I had doubt before if inference hardware made sense, I don't have this doubt anymore! _September 18, 2024_
+</span>
 
 ## 3. Applications
 A figure from the paper showing how much it currently costs even to do just inference.
@@ -237,3 +239,4 @@ What I and others ask is **what is the computer of the future?** I started writi
 [^GPT4_facts]: https://patmcguinness.substack.com/p/gpt-4-details-revealed
 [^TokenOverview]: https://www.educatingsilicon.com/2024/05/09/how-much-llm-training-data-is-there-in-the-limit/
 [^LandauP]: https://en.wikipedia.org/wiki/Landauer%27s_principle
+[^OpenAI_o1]: https://openai.com/o1/
