@@ -7,7 +7,7 @@ date:   2024-09-18 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["shaders", "computer graphics"]
 tag_search: true
-image:     "/images/ppu.png"
+image:     "/images/shader_2.png"
 weight:
 note: 
 categories: "personal"
