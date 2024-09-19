@@ -2,7 +2,7 @@
 layout: post
 mathjax: true
 title:  "A First Taste of Shaders"
-description: "Where I finally got around to writing my first shaders, explaining briefly what they are and then moving on to writing two simple ones in GLSL."
+description: "Where I finally got around to writing my first shaders, explaining briefly (very, very briefly) what they are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics."
 date:   2024-09-18 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["shaders", "computer graphics"]
