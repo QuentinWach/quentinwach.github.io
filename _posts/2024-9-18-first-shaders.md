@@ -42,7 +42,7 @@ But I dislike reading and watching tutorial after tutorial. So let's just get st
 My first own shader (aside from the typical color gradients one does which is pretty much the "hello world" of shaders) is an animation comparable to a lava lamp. Or maybe spraying blood. 😅
 Here is the code:
 
-```frag
+```c
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -85,16 +85,53 @@ void main() {
 }
 ```
 
-| ![](/images/shader_1.png) |
-| :--: |
-| My first shader, red drops moving from right to left, merging and splitting smoothly. |
+<style>
+    img[alt=IMAGE2] {
+        display: block;
+        width: 50%;
+        border-radius: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-top: 25px;
+    }
+    .image-container {
+        position: relative;
+        width: 100%;
+        margin: 25px auto 0;
+    }
+    .image-blur {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(40px);
+        opacity: 0.1;
+        z-index: 1;
+    }
+    .image-main {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+<div class="image-container">
+    <img src="/images/shader_1.png" alt="IMAGE2-blur" class="image-blur">
+    <img src="/images/shader_1.png" alt="IMAGE2" class="image-main">
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <span style="font-size: 14px;">
+        My first shader, red drops moving from right to left, merging and splitting smoothly.
+    </span>
+</div>
 
 
 Okay. This was quite straightforward. So I wanted to attempt something similar like that landscape Inigo made! I pretty much hacked this together, there is a lot wrong with the following code but it does produce a somewhat pleasing result.
 
 ### Example #2: Mountain Range
 
-```frag
+```c
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -238,9 +275,46 @@ void main() {
 }
 ```
 
-| ![](/images/shader_2.png) |
-| :--: |
-| My second shader, a mountain range under a blue sky with a distance fog. |
+<style>
+    img[alt=IMAGE2] {
+        display: block;
+        width: 50%;
+        border-radius: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-top: 25px;
+    }
+    .image-container {
+        position: relative;
+        width: 100%;
+        margin: 25px auto 0;
+    }
+    .image-blur {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(40px);
+        opacity: 0.1;
+        z-index: 1;
+    }
+    .image-main {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+<div class="image-container">
+    <img src="/images/shader_2.png" alt="IMAGE2-blur" class="image-blur">
+    <img src="/images/shader_2.png" alt="IMAGE2" class="image-main">
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <span style="font-size: 14px;">
+    My second shader, a mountain range under a blue sky with a distance fog.
+    </span>
+</div>
 
 Alright!
 

@@ -70,9 +70,9 @@
       
       
         • 
-        10
+        19
        min read for 
-        1853
+        3493
        words •
       <time class="dt-published" datetime="2024-09-18T21:38:24+02:00" itemprop="datePublished">
         Sep 18, 2024
@@ -112,220 +112,278 @@ A faster way which can directly utilize the GPU is defining distance functions!<
 <p>My first own shader (aside from the typical color gradients one does which is pretty much the “hello world” of shaders) is an animation comparable to a lava lamp. Or maybe spraying blood. 😅
 Here is the code:</p>
 
-<pre><code class="language-frag">#ifdef GL_ES
-precision mediump float;
-#endif
-
-uniform vec2 u_resolution;
-uniform float u_time;
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifdef GL_ES
+</span><span class="n">precision</span> <span class="n">mediump</span> <span class="kt">float</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="n">uniform</span> <span class="n">vec2</span> <span class="n">u_resolution</span><span class="p">;</span>
+<span class="n">uniform</span> <span class="kt">float</span> <span class="n">u_time</span><span class="p">;</span>
   
-vec3 colorA = vec3(0.055,0.001,0.010);
-vec3 colorB = vec3(1.000,0.000,0.134);
+<span class="n">vec3</span> <span class="n">colorA</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mo">055</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mo">001</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mo">010</span><span class="p">);</span>
+<span class="n">vec3</span> <span class="n">colorB</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mo">000</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mo">000</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mi">134</span><span class="p">);</span>
   
-void main() {
-    vec3 color = vec3(0.000,0.000,0.000);
-    float pct = sin(u_time);
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">color</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mo">000</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mo">000</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mo">000</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">pct</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">u_time</span><span class="p">);</span>
 
-    // Add a warped, animated circle
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
-    vec2 center = vec2(0.5, 0.5);
-    float radius = 0.252;
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Add a warped, animated circle</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">st</span> <span class="o">=</span> <span class="n">gl_FragCoord</span><span class="p">.</span><span class="n">xy</span> <span class="o">/</span> <span class="n">u_resolution</span><span class="p">.</span><span class="n">xy</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">center</span> <span class="o">=</span> <span class="n">vec2</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">252</span><span class="p">;</span>
 
-    // Create warping effect
-    float warpFactor = 0.4;
-    float warpSpeed = 2.0;
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Create warping effect</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">warpFactor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">warpSpeed</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
 
-    vec2 warp = vec2(
-        sin(st.y * 10.0 + u_time * warpSpeed) * warpFactor,
-        cos(st.x * 10.0 + u_time * warpSpeed) * warpFactor
-    );
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">warp</span> <span class="o">=</span> <span class="n">vec2</span><span class="p">(</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">sin</span><span class="p">(</span><span class="n">st</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="mi">10</span><span class="p">.</span><span class="mi">0</span> <span class="o">+</span> <span class="n">u_time</span> <span class="o">*</span> <span class="n">warpSpeed</span><span class="p">)</span> <span class="o">*</span> <span class="n">warpFactor</span><span class="p">,</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">cos</span><span class="p">(</span><span class="n">st</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">.</span><span class="mi">0</span> <span class="o">+</span> <span class="n">u_time</span> <span class="o">*</span> <span class="n">warpSpeed</span><span class="p">)</span> <span class="o">*</span> <span class="n">warpFactor</span>
+<span class="err"> </span> <span class="err"> </span> <span class="p">);</span>
 
-    // Apply warping to the coordinates
-    st += warp;
-    float dist = distance(st, center);
-    float circle = smoothstep(radius, radius - 0.005, dist);
-    pct = circle;
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Apply warping to the coordinates</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">st</span> <span class="o">+=</span> <span class="n">warp</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">center</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">circle</span> <span class="o">=</span> <span class="n">smoothstep</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">radius</span> <span class="o">-</span> <span class="mi">0</span><span class="p">.</span><span class="mo">005</span><span class="p">,</span> <span class="n">dist</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">pct</span> <span class="o">=</span> <span class="n">circle</span><span class="p">;</span>
 
-    // Mix uses pct (a value from 0-1) to
-    // mix the two colors
-    color = mix(colorA, colorB, pct);
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Mix uses pct (a value from 0-1) to</span>
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// mix the two colors</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">color</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">colorA</span><span class="p">,</span> <span class="n">colorB</span><span class="p">,</span> <span class="n">pct</span><span class="p">);</span>
 
-    gl_FragColor = vec4(color,1.0);
-}
-</code></pre>
+<span class="err"> </span> <span class="err"> </span> <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">color</span><span class="p">,</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center"><img src="/images/shader_1.png" alt="" /></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">My first shader, red drops moving from right to left, merging and splitting smoothly.</td>
-    </tr>
-  </tbody>
-</table>
+<style>
+    img[alt=IMAGE2] {
+        display: block;
+        width: 50%;
+        border-radius: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-top: 25px;
+    }
+    .image-container {
+        position: relative;
+        width: 100%;
+        margin: 25px auto 0;
+    }
+    .image-blur {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(40px);
+        opacity: 0.1;
+        z-index: 1;
+    }
+    .image-main {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+<div class="image-container">
+    <img src="/images/shader_1.png" alt="IMAGE2-blur" class="image-blur" />
+    <img src="/images/shader_1.png" alt="IMAGE2" class="image-main" />
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <span style="font-size: 14px;">
+        My first shader, red drops moving from right to left, merging and splitting smoothly.
+    </span>
+</div>
 
 <p>Okay. This was quite straightforward. So I wanted to attempt something similar like that landscape Inigo made! I pretty much hacked this together, there is a lot wrong with the following code but it does produce a somewhat pleasing result.</p>
 
 <h3 id="example-2-mountain-range">Example #2: Mountain Range</h3>
 
-<pre><code class="language-frag">#ifdef GL_ES
-precision mediump float;
-#endif
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifdef GL_ES
+</span><span class="n">precision</span> <span class="n">mediump</span> <span class="kt">float</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="n">uniform</span> <span class="n">vec2</span> <span class="n">u_resolution</span><span class="p">;</span>
+<span class="n">uniform</span> <span class="n">vec2</span> <span class="n">u_mouse</span><span class="p">;</span>
+<span class="n">uniform</span> <span class="kt">float</span> <span class="n">u_time</span><span class="p">;</span>
 
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-uniform float u_time;
+<span class="c1">// Camera settings</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">FOV</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">NEAR</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">FAR</span> <span class="o">=</span> <span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
 
-// Camera settings
-const float FOV = 1.0;
-const float NEAR = 0.1;
-const float FAR = 10.0;
+<span class="c1">// Updated terrain settings</span>
+<span class="k">const</span> <span class="n">vec3</span> <span class="n">TERRAIN_COLOR</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">339</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mi">600</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mi">194</span><span class="p">);</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">TERRAIN_HEIGHT</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">580</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">TERRAIN_SCALE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">244</span><span class="p">;</span>
 
-// Updated terrain settings
-const vec3 TERRAIN_COLOR = vec3(0.339,0.600,0.194);
-const float TERRAIN_HEIGHT = 1.580;
-const float TERRAIN_SCALE = 0.244;
+<span class="c1">// Ray marching settings</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_STEPS</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">MAX_DIST</span> <span class="o">=</span> <span class="mi">200</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">EPSILON</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">01</span><span class="p">;</span>
 
-// Ray marching settings
-const int MAX_STEPS = 200;
-const float MAX_DIST = 200.0;
-const float EPSILON = 0.01;
+<span class="c1">// Noise settings</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">OCTAVES</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">PERSISTENCE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">99</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">LACUNARITY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
 
-// Noise settings
-const int OCTAVES = 10;
-const float PERSISTENCE = 0.99;
-const float LACUNARITY = 0.5;
+<span class="c1">// Camera to world transformation</span>
+<span class="n">mat3</span> <span class="nf">camera</span><span class="p">(</span><span class="n">vec3</span> <span class="n">cameraPos</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">lookAtPos</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">upVector</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">f</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">lookAtPos</span> <span class="o">-</span> <span class="n">cameraPos</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">r</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">cross</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">upVector</span><span class="p">));</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">u</span> <span class="o">=</span> <span class="n">cross</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">mat3</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="o">-</span><span class="n">f</span><span class="p">);</span>
+<span class="p">}</span>
 
-// Camera to world transformation
-mat3 camera(vec3 cameraPos, vec3 lookAtPos, vec3 upVector) {
-    vec3 f = normalize(lookAtPos - cameraPos);
-    vec3 r = normalize(cross(f, upVector));
-    vec3 u = cross(r, f);
-    return mat3(r, u, -f);
-}
+<span class="c1">// Improved noise function</span>
+<span class="n">vec2</span> <span class="nf">hash2</span><span class="p">(</span><span class="n">vec2</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">p</span> <span class="o">=</span> <span class="n">vec2</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">vec2</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">700</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mi">580</span><span class="p">)),</span> <span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">vec2</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">390</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mi">470</span><span class="p">)));</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">872</span> <span class="o">+</span> <span class="mi">1</span><span class="p">.</span><span class="mi">488</span> <span class="o">*</span> <span class="n">fract</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">43758</span><span class="p">.</span><span class="mi">321</span><span class="p">);</span>
+<span class="p">}</span>
 
-// Improved noise function
-vec2 hash2(vec2 p) {
-    p = vec2(dot(p, vec2(0.700,0.580)), dot(p, vec2(0.390,0.470)));
-    return -0.872 + 1.488 * fract(sin(p) * 43758.321);
-}
+<span class="kt">float</span> <span class="nf">noise</span><span class="p">(</span><span class="n">vec2</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">const</span> <span class="kt">float</span> <span class="n">K1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">342</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">const</span> <span class="kt">float</span> <span class="n">K2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">203</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">i</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">K1</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">a</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">i</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">K2</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">o</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">?</span> <span class="n">vec2</span><span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">vec2</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">o</span> <span class="o">+</span> <span class="n">K2</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span> <span class="o">*</span> <span class="n">K2</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">h</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">532</span> <span class="o">-</span> <span class="n">vec3</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span> <span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">dot</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">)),</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">n</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">vec3</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">hash2</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">)),</span> <span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">hash2</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">o</span><span class="p">)),</span> <span class="n">dot</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">hash2</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">)));</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">dot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">70</span><span class="p">.</span><span class="mi">0</span><span class="p">));</span>
+<span class="p">}</span>
 
-float noise(vec2 p) {
-    const float K1 = 0.342;
-    const float K2 = 0.203;
-    vec2 i = floor(p + (p.x + p.y) * K1);
-    vec2 a = p - i + (i.x + i.y) * K2;
-    vec2 o = (a.x &gt; a.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-    vec2 b = a - o + K2;
-    vec2 c = a - 1.0 + 2.0 * K2;
-    vec3 h = max(0.532 - vec3(dot(a, a), dot(b, b), dot(c, c)), 0.0);
-    vec3 n = h * h * h * h * vec3(dot(a, hash2(i + 0.0)), dot(b, hash2(i + o)), dot(c, hash2(i + 1.0)));
-    return dot(n, vec3(70.0));
-}
+<span class="c1">// Updated fBm function</span>
+<span class="kt">float</span> <span class="nf">fBm</span><span class="p">(</span><span class="n">vec2</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">360</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">amplitude</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">756</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">frequency</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">856</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">OCTAVES</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">value</span> <span class="o">+=</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="n">noise</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">frequency</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">amplitude</span> <span class="o">*=</span> <span class="n">PERSISTENCE</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">frequency</span> <span class="o">*=</span> <span class="n">LACUNARITY</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="p">}</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
 
-// Updated fBm function
-float fBm(vec2 p) {
-    float value = -0.360;
-    float amplitude = 0.756;
-    float frequency = 0.856;
-    for (int i = 0; i &lt; OCTAVES; i++) {
-        value += amplitude * noise(p * frequency);
-        amplitude *= PERSISTENCE;
-        frequency *= LACUNARITY;
-    }
-    return value;
-}
+<span class="c1">// Updated terrain function using fBm</span>
+<span class="kt">float</span> <span class="nf">terrain</span><span class="p">(</span><span class="n">vec3</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">fBm</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">xz</span> <span class="o">*</span> <span class="n">TERRAIN_SCALE</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_HEIGHT</span><span class="p">;</span>
+<span class="p">}</span>
 
-// Updated terrain function using fBm
-float terrain(vec3 p) {
-    return p.y - fBm(p.xz * TERRAIN_SCALE) * TERRAIN_HEIGHT;
-}
+<span class="c1">// Scene SDF</span>
+<span class="kt">float</span> <span class="nf">sceneSDF</span><span class="p">(</span><span class="n">vec3</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">terrain</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
 
-// Scene SDF
-float sceneSDF(vec3 p) {
-    return terrain(p);
-}
+<span class="c1">// Ray marching function</span>
+<span class="kt">float</span> <span class="nf">rayMarch</span><span class="p">(</span><span class="n">vec3</span> <span class="n">ro</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">rd</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_STEPS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">p</span> <span class="o">=</span> <span class="n">ro</span> <span class="o">+</span> <span class="n">rd</span> <span class="o">*</span> <span class="n">d</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">sceneSDF</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">d</span> <span class="o">+=</span> <span class="n">ds</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">if</span> <span class="p">(</span><span class="n">d</span> <span class="o">&gt;</span> <span class="n">MAX_DIST</span> <span class="o">||</span> <span class="n">abs</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EPSILON</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="p">}</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
 
-// Ray marching function
-float rayMarch(vec3 ro, vec3 rd) {
-    float d = 0.0;
-    for (int i = 0; i &lt; MAX_STEPS; i++) {
-        vec3 p = ro + rd * d;
-        float ds = sceneSDF(p);
-        d += ds;
-        if (d &gt; MAX_DIST || abs(ds) &lt; EPSILON) break;
-    }
-    return d;
-}
+<span class="c1">// Add these constants for fog</span>
+<span class="k">const</span> <span class="n">vec3</span> <span class="n">FOG_COLOR</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">);</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">FOG_DENSITY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">0003</span><span class="p">;</span>
 
-// Add these constants for fog
-const vec3 FOG_COLOR = vec3(0.6, 0.7, 0.8);
-const float FOG_DENSITY = 0.0003;
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec2</span> <span class="n">uv</span> <span class="o">=</span> <span class="p">(</span><span class="n">gl_FragCoord</span><span class="p">.</span><span class="n">xy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="mi">228</span> <span class="o">*</span> <span class="n">u_resolution</span><span class="p">.</span><span class="n">xy</span><span class="p">)</span> <span class="o">/</span> <span class="n">u_resolution</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Updated camera setup</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">cameraPos</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">lookAtPos</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">upVector</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">mat3</span> <span class="n">cam</span> <span class="o">=</span> <span class="n">camera</span><span class="p">(</span><span class="n">cameraPos</span><span class="p">,</span> <span class="n">lookAtPos</span><span class="p">,</span> <span class="n">upVector</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">cam</span> <span class="o">*</span> <span class="n">normalize</span><span class="p">(</span><span class="n">vec3</span><span class="p">(</span><span class="n">uv</span><span class="p">,</span> <span class="n">FOV</span><span class="p">));</span>
 
-void main() {
-    vec2 uv = (gl_FragCoord.xy - 1.228 * u_resolution.xy) / u_resolution.y;
-    // Updated camera setup
-    vec3 cameraPos = vec3(0.0, 5.0, -12.0);
-    vec3 lookAtPos = vec3(0.0, 0.0, 0.0);
-    vec3 upVector = vec3(0.0, 1.0, 0.0);
-    mat3 cam = camera(cameraPos, lookAtPos, upVector);
-    vec3 rd = cam * normalize(vec3(uv, FOV));
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Ray marching</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">d</span> <span class="o">=</span> <span class="n">rayMarch</span><span class="p">(</span><span class="n">cameraPos</span><span class="p">,</span> <span class="n">rd</span><span class="p">);</span>
 
-    // Ray marching
-    float d = rayMarch(cameraPos, rd);
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Sky gradient</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">SKY_COLOR</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">306</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">616</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">965</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">horizon</span> <span class="o">=</span> <span class="n">smoothstep</span><span class="p">(</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mo">060</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mo">052</span><span class="p">,</span> <span class="n">rd</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">skyGradient</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">FOG_COLOR</span><span class="p">,</span> <span class="n">SKY_COLOR</span><span class="p">,</span> <span class="n">horizon</span><span class="p">);</span>
 
-    // Sky gradient
-    vec3 SKY_COLOR = vec3(0.306, 0.616, 0.965);
-    float horizon = smoothstep(-0.060, 0.052, rd.y);
-    vec3 skyGradient = mix(FOG_COLOR, SKY_COLOR, horizon);
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Coloring</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">color</span> <span class="o">=</span> <span class="n">skyGradient</span><span class="p">;</span> <span class="c1">// Start with sky gradient</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">if</span> <span class="p">(</span><span class="n">d</span> <span class="o">&lt;</span> <span class="n">MAX_DIST</span><span class="p">)</span> <span class="p">{</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">p</span> <span class="o">=</span> <span class="n">cameraPos</span> <span class="o">+</span> <span class="n">rd</span> <span class="o">*</span> <span class="n">d</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">height</span> <span class="o">=</span> <span class="n">fBm</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">xz</span> <span class="o">*</span> <span class="n">TERRAIN_SCALE</span><span class="p">)</span> <span class="o">*</span> <span class="n">TERRAIN_HEIGHT</span><span class="p">;</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> 
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// Color based on height</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">color</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">TERRAIN_COLOR</span><span class="p">,</span> <span class="n">vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">),</span> <span class="n">smoothstep</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">TERRAIN_HEIGHT</span><span class="p">,</span> <span class="n">height</span><span class="p">));</span>
 
-    // Coloring
-    vec3 color = skyGradient; // Start with sky gradient
-    if (d &lt; MAX_DIST) {
-        vec3 p = cameraPos + rd * d;
-        float height = fBm(p.xz * TERRAIN_SCALE) * TERRAIN_HEIGHT;
-        
-        // Color based on height
-        color = mix(TERRAIN_COLOR, vec3(1.0), smoothstep(0.0, TERRAIN_HEIGHT, height));
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// Add simple shading</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">vec3</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">vec3</span><span class="p">(</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">fBm</span><span class="p">((</span><span class="n">p</span><span class="p">.</span><span class="n">xz</span> <span class="o">+</span> <span class="n">vec2</span><span class="p">(</span><span class="n">EPSILON</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">))</span> <span class="o">*</span> <span class="n">TERRAIN_SCALE</span><span class="p">)</span> <span class="o">-</span> <span class="n">fBm</span><span class="p">((</span><span class="n">p</span><span class="p">.</span><span class="n">xz</span> <span class="o">-</span> <span class="n">vec2</span><span class="p">(</span><span class="n">EPSILON</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">264</span><span class="p">))</span> <span class="o">*</span> <span class="n">TERRAIN_SCALE</span><span class="p">),</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="mi">1</span><span class="p">.</span><span class="mi">688</span> <span class="o">*</span> <span class="n">EPSILON</span><span class="p">,</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">fBm</span><span class="p">((</span><span class="n">p</span><span class="p">.</span><span class="n">xz</span> <span class="o">+</span> <span class="n">vec2</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">EPSILON</span><span class="p">))</span> <span class="o">*</span> <span class="n">TERRAIN_SCALE</span><span class="p">)</span> <span class="o">-</span> <span class="n">fBm</span><span class="p">((</span><span class="n">p</span><span class="p">.</span><span class="n">xz</span> <span class="o">-</span> <span class="n">vec2</span><span class="p">(</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">216</span><span class="p">,</span> <span class="n">EPSILON</span><span class="p">))</span> <span class="o">*</span> <span class="n">TERRAIN_SCALE</span><span class="p">)</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="p">));</span>
 
-        // Add simple shading
-        vec3 normal = normalize(vec3(
-            fBm((p.xz + vec2(EPSILON, 0.0)) * TERRAIN_SCALE) - fBm((p.xz - vec2(EPSILON, -0.264)) * TERRAIN_SCALE),
-            1.688 * EPSILON,
-            fBm((p.xz + vec2(0.0, EPSILON)) * TERRAIN_SCALE) - fBm((p.xz - vec2(-0.216, EPSILON)) * TERRAIN_SCALE)
-        ));
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">diffuse</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">normalize</span><span class="p">(</span><span class="n">vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">))),</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">color</span> <span class="o">*=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">220</span> <span class="o">+</span> <span class="mi">1</span><span class="p">.</span><span class="mo">076</span> <span class="o">*</span> <span class="n">diffuse</span><span class="p">;</span>
 
-        float diffuse = max(dot(normal, normalize(vec3(1.0, 1.0, -1.0))), 0.0);
-        color *= 0.220 + 1.076 * diffuse;
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// Apply fog</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="kt">float</span> <span class="n">fogFactor</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">FOG_DENSITY</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">color</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">skyGradient</span><span class="p">,</span> <span class="n">fogFactor</span><span class="p">);</span>
+<span class="err"> </span> <span class="err"> </span> <span class="p">}</span>
 
-        // Apply fog
-        float fogFactor = 1.0 - exp(-FOG_DENSITY * d * d);
-        color = mix(color, skyGradient, fogFactor);
-    }
+<span class="err"> </span> <span class="err"> </span> <span class="c1">// Add debug grid</span>
+<span class="err"> </span> <span class="err"> </span> <span class="c1">//vec2 grid = step(fract(uv * 10.0), vec2(0.080, 0.080));</span>
+<span class="err"> </span> <span class="err"> </span> <span class="c1">//color = mix(color, vec3(1.000, 0.0, 0.411), max(grid.x, grid.y) * 0.332);</span>
 
-    // Add debug grid
-    //vec2 grid = step(fract(uv * 10.0), vec2(0.080, 0.080));
-    //color = mix(color, vec3(1.000, 0.0, 0.411), max(grid.x, grid.y) * 0.332);
+<span class="err"> </span> <span class="err"> </span> <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
-    gl_FragColor = vec4(color, 1.0);
-}
-</code></pre>
+<style>
+    img[alt=IMAGE2] {
+        display: block;
+        width: 50%;
+        border-radius: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-top: 25px;
+    }
+    .image-container {
+        position: relative;
+        width: 100%;
+        margin: 25px auto 0;
+    }
+    .image-blur {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(40px);
+        opacity: 0.1;
+        z-index: 1;
+    }
+    .image-main {
+        position: relative;
+        z-index: 2;
+    }
+</style>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center"><img src="/images/shader_2.png" alt="" /></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">My second shader, a mountain range under a blue sky with a distance fog.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="image-container">
+    <img src="/images/shader_2.png" alt="IMAGE2-blur" class="image-blur" />
+    <img src="/images/shader_2.png" alt="IMAGE2" class="image-main" />
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <span style="font-size: 14px;">
+    My second shader, a mountain range under a blue sky with a distance fog.
+    </span>
+</div>
 
 <p>Alright!</p>
 
