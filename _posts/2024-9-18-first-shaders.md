@@ -3,7 +3,7 @@ layout: post
 mathjax: true
 title:  "A First Taste of Shaders"
 description: "Where I finally got around to writing my first shaders, explaining briefly what they are and then moving on to writing two simple ones in GLSL."
-date:   2025-09-18 20:38:24 +0100
+date:   2024-09-18 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["shaders", "computer graphics"]
 tag_search: true

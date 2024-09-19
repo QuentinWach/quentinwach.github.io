@@ -77,6 +77,18 @@
     
       
       
+      <button class="tag-bubble" data-tag="shaders">
+        shaders (1)
+      </button>
+    
+      
+      
+      <button class="tag-bubble" data-tag="computer graphics">
+        computer graphics (1)
+      </button>
+    
+      
+      
       <button class="tag-bubble" data-tag="machine learning">
         machine learning (1)
       </button>
@@ -183,19 +195,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -210,6 +209,19 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -284,6 +296,25 @@
             });
         });
       </script><ul class="post-list">
+
+        <a href="/personal/2024/09/18/first-shaders.html" class="box post-item" data-tags="shaders,computer graphics">
+          <li class="post-box">
+            <div class="post-box-img"><img src="/images/ppu.png" alt="A First Taste of Shaders" class="post-image"></div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                A First Taste of Shaders
+              </h4><p class="post-summary">
+                <p>Where I finally got around to writing my first shaders, explaining briefly what they are and then moving on to writing two simple ones in GLSL.</p>
+
+              </p><span class="post-meta">Sep 18, 2024</span>
+
+              <!-- Add word count and read time -->
+              
+              
+              <span class="post-meta"> • 1826 words • 9 min read</span></div>
+          </li>
+        </a>
 
         <a href="/personal/2024/04/10/AI-chip-market.html" class="box post-item" data-tags="machine learning,artificial intelligence,electronics,neural networks,hardware design,computer engineering">
           <li class="post-box">
