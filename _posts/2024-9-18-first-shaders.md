@@ -322,7 +322,7 @@ Maybe this second shader looks long and intidimating. But if you go through it s
 
 If you want to test these yourself, I created the shaders above (which sadly aren't animated here) using [editor.thebookofshaders.com](https://editor.thebookofshaders.com/) which is very useful for testing shader code live. But if you want to run them locally, you can set up a local server and embed your shader in an html file. It's boring and beyond the point here though.
 
-I'll experiment more with this and will try to create more complicated artistic shaders in the future. But there is another thing I am quite interesting which somewhat blurs the lines between computing and rendering: computer shaders!
+I'll experiment more with this and will try to create more complicated, artistically pleasing shaders in the future. But there is another thing I find quite interesting which somewhat blurs the lines between computing and rendering: compute shaders! (Allowing us to run certain simulations or general computations on the GPU similar to OpenCL but within the GPU's graphics pipeline.)
 
 But with that, I am happy for now. Onward.
 
