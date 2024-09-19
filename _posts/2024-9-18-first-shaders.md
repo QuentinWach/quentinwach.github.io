@@ -24,7 +24,7 @@ _By Inigo Quilez, @iquilezles and iquilezles.org._
 There are no sculpted or modelled objects in these scenes. Everything was defined and rendered using a complex composition of very simply equations. How?
 
 ### OpenGL Shaders: Rendering Parallelism On the GPU
-OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation [^opengl]. 
+OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation [^OpenGL]. 
 
 >"A shader is a set of instructions to the GPU which are executed all at once for every pixel on the screen." [^TheHappyCat]
 
@@ -93,7 +93,6 @@ void main() {
 Okay. This was quite straightforward. So I wanted to attempt something similar like that landscape Inigo made! I pretty much hacked this together, there is a lot wrong with the following code but it does produce a somewhat pleasing result.
 
 ### Example #2: Mountain Range
-Let's do another one:
 
 ```frag
 #ifdef GL_ES
@@ -254,7 +253,7 @@ I'll experiment more with this and will try to create more complicated artistic 
 But with that, I am happy for now. Onward.
 
 ### References
-[^Inigo_Web]: [Inigo Quilez's website](https://iquilezles.org/articles/)
+[^inigo_web]: [Inigo Quilez's website](https://iquilezles.org/articles/)
 [^Inigo_youtube]: [Inigo's YouTube](https://www.youtube.com/channel/UCdmAhiG8HQDlz8uyekw4ENw)
 [^Shadertoy]: [Shadertoy](https://www.shadertoy.com/)
 [^TheHappyCat]: [The Happy Cat's What Are Shaders? https://www.youtube.com/watch?v=sXbdF4KjNOc](https://www.youtube.com/watch?v=sXbdF4KjNOc)
