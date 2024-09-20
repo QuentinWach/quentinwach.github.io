@@ -17,9 +17,18 @@ I recently started getting more into low-level programming, implementing physics
 
 Two of the most amazing examples of scenes created with shaders, raw mathematics, were created by the great and famous Inigo Quilez [^inigo_web] [^Inigo_youtube], who is also the creator of Shadertoy [^Shadertoy] among many other things:
 
+<div style="display: flex; justify-content: space-between; gap: 0px; margin-bottom: 10px;">
+    <img src="/images/i_1.png" style="width: 49%; border-radius: 5px;">
+    <img src="/images/i_2.png" style="width: 49%; border-radius: 5px;">
+</div>
+
+The left shows a beautiful mountain landscape with a forest under a sunny sky[^shader1]. The right shows a greek temple[^shader2]. Both are live-rendered shaders by Inigo Quilez, @iquilezles and iquilezles.org.
+
+
+<!--
 <iframe width="100%" height="360" frameborder="0" src="https://www.shadertoy.com/embed/4ttSWf?gui=true&t=10&paused=true&muted=false" allowfullscreen></iframe>
 <iframe width="100%" height="360" frameborder="0" src="https://www.shadertoy.com/embed/ldScDh?gui=true&t=10&paused=true&muted=false" allowfullscreen></iframe>
-_By Inigo Quilez, @iquilezles and iquilezles.org._
+-->
 
 There are no sculpted or modelled objects in these scenes. Everything was defined and rendered using a complex composition of very simply equations. How?
 
@@ -183,9 +192,12 @@ float noise(vec2 p) {
     vec2 b = a - o + K2;
     vec2 c = a - 1.0 + 2.0 * K2;
     vec3 h = max(0.532 - vec3(dot(a, a), dot(b, b), dot(c, c)), 0.0);
-    vec3 n = h * h * h * h * vec3(dot(a, hash2(i + 0.0)), dot(b, hash2(i + o)), dot(c, hash2(i + 1.0)));
+    vec3 n = h * h * h * h * vec3(dot(a, hash2(i + 0.0)), 
+                                  dot(b, hash2(i + o)), 
+                                  dot(c, hash2(i + 1.0)));
     return dot(n, vec3(70.0));
 }
+
 
 // Updated fBm function
 float fBm(vec2 p) {
@@ -250,13 +262,17 @@ void main() {
         float height = fBm(p.xz * TERRAIN_SCALE) * TERRAIN_HEIGHT;
         
         // Color based on height
-        color = mix(TERRAIN_COLOR, vec3(1.0), smoothstep(0.0, TERRAIN_HEIGHT, height));
+        color = mix(TERRAIN_COLOR, vec3(1.0), 
+            smoothstep(0.0, TERRAIN_HEIGHT, height));
 
         // Add simple shading
         vec3 normal = normalize(vec3(
-            fBm((p.xz + vec2(EPSILON, 0.0)) * TERRAIN_SCALE) - fBm((p.xz - vec2(EPSILON, -0.264)) * TERRAIN_SCALE),
+            fBm((p.xz + vec2(EPSILON, 0.0)) * TERRAIN_SCALE) 
+            - fBm((p.xz - vec2(EPSILON, -0.264)) * TERRAIN_SCALE),
             1.688 * EPSILON,
-            fBm((p.xz + vec2(0.0, EPSILON)) * TERRAIN_SCALE) - fBm((p.xz - vec2(-0.216, EPSILON)) * TERRAIN_SCALE)
+            fBm((p.xz + vec2(0.0, EPSILON)) * TERRAIN_SCALE) 
+            - fBm((p.xz - vec2(-0.216, EPSILON)) * TERRAIN_SCALE)
+
         ));
 
         float diffuse = max(dot(normal, normalize(vec3(1.0, 1.0, -1.0))), 0.0);
@@ -320,6 +336,34 @@ Alright!
 
 Maybe this second shader looks long and intidimating. But if you go through it step by step, it's not that complicated and almost looks like simple mathematics. I find that very appealing.
 
+<!--
+$$
+\text{color} = \begin{cases}
+\text{mix}(\text{terrainColor}, \text{skyGradient}, f_{\text{fog}}) & \text{if } d < \text{MAX_DIST} \
+\text{skyGradient} & \text{otherwise}
+\end{cases}
+$$
+
+Where:
+
+$$
+\begin{align*}
+\text{skyGradient} &= \text{mix}(\text{FOG_COLOR}, \text{SKY_COLOR}, h_{\text{horizon}}) \\
+h_{\text{horizon}} &= \text{smoothstep}(-0.060, 0.052, \text{rd}y) \\
+\text{terrainColor} &= (\text{baseColor} \cdot (0.220 + 1.076 \cdot d{\text{diffuse}})) \\
+
+\text{baseColor} &= \text{mix}(\text{TERRAIN_COLOR}, \text{vec3}(1.0), s_{\text{height}}) \\
+s_{\text{height}} &= \text{smoothstep}(0.0, \text{TERRAIN_HEIGHT}, h_{\text{fBm}}) \\
+h_{\text{fBm}} &= \text{fBm}(p_{xz} \cdot \text{TERRAIN_SCALE}) \cdot \text{TERRAIN_HEIGHT} \\
+
+d_{\text{diffuse}} &= \max(\text{dot}(\text{normal}, \text{normalize}(\text{vec3}(1.0, 1.0, -1.0))), 0.0) \\
+f_{\text{fog}} &= 1.0 - e^{-\text{FOG_DENSITY} \cdot d^2}
+\end{align*}
+
+$$
+-->
+
+
 If you want to test these yourself, I created the shaders above (which sadly aren't animated here) using [editor.thebookofshaders.com](https://editor.thebookofshaders.com/) which is very useful for testing shader code live. But if you want to run them locally, you can set up a local server and embed your shader in an html file. It's boring and beyond the point here though.
 
 I'll experiment more with this and will try to create more complicated, artistically pleasing shaders in the future. But there is another thing I find quite interesting which somewhat blurs the lines between computing and rendering: compute shaders! (Allowing us to run certain simulations or general computations on the GPU similar to OpenCL but within the GPU's graphics pipeline.)
@@ -334,4 +378,6 @@ But with that, I am happy for now. Onward.
 [^Barney]: [Barney Code's Introduction to Shaders: Learn the Basics! https://www.youtube.com/watch?v=3mfvZ-mdtZQ](https://www.youtube.com/watch?v=3mfvZ-mdtZQ)
 [^GamesWithGabe]: [Games With Gabe's How Shaders Work (in OpenGL) | How to Code Minecraft Ep. 3](https://www.youtube.com/watch?v=yrFo1_Izlk0&t=73s)
 [^OpenGL]: [OpenGL Website](https://www.khronos.org/opengl/wiki/Main_Page)
+[^shader1]: [Shader #1 created by Inigo Quilez on Shadertoy: https://www.shadertoy.com/view/4ttSWf](https://www.shadertoy.com/view/4ttSWf)
+[^shader2]: [Shader #2 created by Inigo Quilez on Shadertoy: https://www.shadertoy.com/view/ldScDh](https://www.shadertoy.com/view/ldScDh)
 

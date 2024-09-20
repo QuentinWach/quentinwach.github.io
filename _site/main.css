@@ -609,17 +609,18 @@ li {
   */
  .highlight {
    background: #fff;
+   border-radius: 5px;
  }
  .highlighter-rouge .highlight {
-   background: #eef;
+   background: #ededed;
  }
  .highlight .c {
    color: #998;
    font-style: italic;
  }
  .highlight .err {
-   color: #a61717;
-   background-color: #e3d2d2;
+   color: #a6171700;
+   background-color: #e3d2d200;
  }
  .highlight .k {
    font-weight: bold;
