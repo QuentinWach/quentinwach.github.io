@@ -27,6 +27,7 @@ url: "https://quentinwach.com" # the base hostname & protocol for your site, e.g
 twitter_username: quentinwach
 github_username:  
 linkedin_username: 
+disqus_shortname: quentinwach
 
 # Build settings
 theme: minima
