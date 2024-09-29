@@ -72,7 +72,7 @@
         • 
         20
        min read for 
-        3704
+        3696
        words •
       <time class="dt-published" datetime="2024-09-18T21:38:24+02:00" itemprop="datePublished">
         Sep 18, 2024
@@ -83,7 +83,7 @@
     <div class="post-content e-content" itemprop="articleBody">
       <p>I recently started getting more into low-level programming, implementing physics simulations and graphics which then lead me to write my first shader. And damn… shaders are awesome! But many of the copy-cat tutorials out there are terribly boring. I don’t want to see another colored triangle! Let’s actually (attempt to) build an awesome shader! First, I’ll give a little introduction then I’ll show you two simple shaders I made with detailed comments in the code.</p>
 
-<p>Two of the most amazing examples of scenes created with shaders, raw mathematics, were created by the great and famous Inigo Quilez <sup id="fnref:inigo_web" role="doc-noteref"><a href="#fn:inigo_web" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:Inigo_youtube" role="doc-noteref"><a href="#fn:Inigo_youtube" class="footnote" rel="footnote">2</a></sup>, who is also the creator of Shadertoy <sup id="fnref:Shadertoy" role="doc-noteref"><a href="#fn:Shadertoy" class="footnote" rel="footnote">3</a></sup> among many other things:</p>
+<p>Two of the most amazing examples of scenes created with shaders, raw mathematics, were created by the great and famous Inigo Quilez<sup id="fnref:inigo_web" role="doc-noteref"><a href="#fn:inigo_web" class="footnote" rel="footnote">1</a></sup><sup id="fnref:Inigo_youtube" role="doc-noteref"><a href="#fn:Inigo_youtube" class="footnote" rel="footnote">2</a></sup>, who is also the creator of Shadertoy<sup id="fnref:Shadertoy" role="doc-noteref"><a href="#fn:Shadertoy" class="footnote" rel="footnote">3</a></sup> among many other things:</p>
 
 <div style="display: flex; justify-content: space-between; gap: 0px; margin-bottom: 10px;">
     <img src="/images/i_1.png" style="width: 49%; border-radius: 5px;" />
@@ -100,16 +100,16 @@
 <p>There are no sculpted or modelled objects in these scenes. Everything was defined and rendered using a complex composition of very simply equations. How?</p>
 
 <h3 id="opengl-shaders-rendering-parallelism-on-the-gpu">OpenGL Shaders: Rendering Parallelism On the GPU</h3>
-<p>OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation <sup id="fnref:OpenGL" role="doc-noteref"><a href="#fn:OpenGL" class="footnote" rel="footnote">6</a></sup>.</p>
+<p>OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation<sup id="fnref:OpenGL" role="doc-noteref"><a href="#fn:OpenGL" class="footnote" rel="footnote">6</a></sup>.</p>
 
 <blockquote>
-  <p>“A shader is a set of instructions to the GPU which are executed all at once for every pixel on the screen.” <sup id="fnref:TheHappyCat" role="doc-noteref"><a href="#fn:TheHappyCat" class="footnote" rel="footnote">7</a></sup></p>
+  <p>“A shader is a set of instructions to the GPU which are executed all at once for every pixel on the screen.”<sup id="fnref:TheHappyCat" role="doc-noteref"><a href="#fn:TheHappyCat" class="footnote" rel="footnote">7</a></sup></p>
 </blockquote>
 
 <p>The basic idea of shaders is simply to parallelize, to compute using all the available resources a GPU provides in parallel. That is typically graphics but it can frankly be whatever you want. Thus, a core idea is to keep dependencies as little as possible. The program should typically only be linear, deterministic. You have a simple input like the pixel position on the screen and the shader will know exactly what to do. This is what makes it parallelizable. The more it depends on what is going on at other positions on the screen or other data or even previous data, the less parallelizable it will be and the less we’ll be able to truly make use of the power of the GPU.</p>
 
 <h3 id="drawing-objects-with-vertex-and-fragmentpixel-shaders">Drawing Objects with Vertex and Fragment/Pixel Shaders</h3>
-<p>If we want to draw a object, we need to define the points that make the geometry of the object. That’s what the CPU does. (Sad.) We’ll then pass that input point information (vertices) to the GPU. The vertex shader then figures out where to draw these points on the screen. The fragment shader figures out what color each spot on the surface of the object should be <sup id="fnref:Barney" role="doc-noteref"><a href="#fn:Barney" class="footnote" rel="footnote">8</a></sup>.</p>
+<p>If we want to draw a object, we need to define the points that make the geometry of the object. That’s what the CPU does. (Sad.) We’ll then pass that input point information (vertices) to the GPU. The vertex shader then figures out where to draw these points on the screen. The fragment shader figures out what color each spot on the surface of the object should be<sup id="fnref:Barney" role="doc-noteref"><a href="#fn:Barney" class="footnote" rel="footnote">8</a></sup>.</p>
 
 <p>Of course, there are many more shaders like geometry and compute shaders. But alas…
 A faster way which can directly utilize the GPU is defining distance functions!</p>
@@ -402,7 +402,7 @@ Here is the code:</p>
 
 <p>Alright!</p>
 
-<p>Maybe this second shader looks long and intidimating. But if you go through it step by step, it’s not that complicated and almost looks like simple mathematics. I find that very appealing.</p>
+<p>Maybe this second shader looks long and intimidating. But if you go through it step by step, it’s not that complicated and almost looks like simple mathematics. I find that very appealing.</p>
 
 <!--
 $$
@@ -436,8 +436,6 @@ $$
 <p>I’ll experiment more with this and will try to create more complicated, artistically pleasing shaders in the future. But there is another thing I find quite interesting which somewhat blurs the lines between computing and rendering: compute shaders! (Allowing us to run certain simulations or general computations on the GPU similar to OpenCL but within the GPU’s graphics pipeline.)</p>
 
 <p>But with that, I am happy for now. Onward.</p>
-
-<h3 id="references">References</h3>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
@@ -473,8 +471,8 @@ $$
 
 
 <!--
-<h3>Enjoy Reading This Article?</h3>
-<p>Here are some more articles you might like to read next:</p>
+<h4>Did You Enjoy Reading This Article?</h4>
+<p>Here are some more articles/posts you might like as well:</p>
 
 
 
@@ -645,21 +643,19 @@ $$
      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: 
      *  https://disqus.com/admin/universalcode/#configuration-variables
      */
-    /*
     var disqus_config = function () {
         // Replace PAGE_URL with your page's canonical URL variable
-        this.page.url = PAGE_URL;  
+        this.page.url = 'http://localhost:4000/personal/2024/09/18/first-shaders.html';  
         
         // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        this.page.identifier = PAGE_IDENTIFIER_2; 
+        this.page.identifier = '/personal/2024/09/18/first-shaders'; 
     };
-    */
     
     (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
         var d = document, s = d.createElement('script');
         
         // IMPORTANT: Replace EXAMPLE with your forum shortname!
-        s.src = 'https://.disqus.com/embed.js';
+        s.src = 'https://quentinwach.disqus.com/embed.js';
         
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);

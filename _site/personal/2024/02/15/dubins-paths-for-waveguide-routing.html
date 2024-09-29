@@ -72,7 +72,7 @@
         • 
         17
        min read for 
-        3079
+        3074
        words •
       <time class="dt-published" datetime="2024-02-15T20:38:24+01:00" itemprop="datePublished">
         Feb 15, 2024
@@ -88,14 +88,16 @@
 
 <p><em>What does the perfect waveguide routing look like? Traditional waveguide interconnects lack efficiency and optimization, leading to suboptimal photonic integrated circuits (PICs). Addressing key concerns like minimizing internal and radiation losses, reducing cross-talk, and avoiding unnecessary crossings, I explored the concept of finding the shortest path between two points in a PIC given a minimum bending radius. Dubins paths, already well known in robotics and control theory, emerged as a simple and highly practical solution.</em></p>
 
+<!--
 <div class="tag_list"> 
     <div class="tag">photonic integrated circuits</div>
     <div class="tag">design automation</div>
     <div class="tag">robotics</div>
     <div class="tag">gds</div>
 </div>
+-->
 
-<h3 id="1-introduction">1 Introduction</h3>
+<h3 id="introduction">Introduction</h3>
 <p>I’ll try to keep this short and not ramble too much. I just want to get this out there since I found it rather useful and can’t believe it isn’t yet standard.</p>
 
 <p>When I started my work on layouts for photonic integrated circuit in September 2023, it became quickly obvious that the typical waveguide interconnects provided by libraries are not well behaved nor optimal as to improve the performance and compactness of the photonic integrated circuit. Most commonly, we have simple straights, circular arcs, all sorts of splines, as well as Euler-bends, in short: They are all simple analytical functions or splines that (try to) optimize themselves. All of these are either simple building blocks that leave most of the work to the designer who has to plan out and specify every route, or behave extremely poorly and lead to overly bendy results that may even cross each other.</p>
@@ -113,7 +115,7 @@
 
 <p>As it turns out, the answer is rather simple and long established in the field of robotics / control theory. <strong>Dubins paths!</strong></p>
 
-<h3 id="2-what-are-they">2 What are they?</h3>
+<h3 id="what-are-they">What are they?</h3>
 <p>Dubins paths are named after Lester Dubins, who introduced them in the 1950s<sup id="fnref:DubinPaper" role="doc-noteref"><a href="#fn:DubinPaper" class="footnote" rel="footnote">1</a></sup>. They refer to the shortest paths that a vehicle can take from one point to another while constrained to move at a specific minimum turning radius. These paths are thus commonly studied in the field of motion planning for vehicles, particularly in robotics and aerospace engineering.</p>
 
 <style>
@@ -134,10 +136,10 @@
 
 <p>You can see three examples of the possible paths in the figure I adapted here<sup id="fnref:WikiDubin" role="doc-noteref"><a href="#fn:WikiDubin" class="footnote" rel="footnote">2</a></sup>.</p>
 
-<h3 id="3-geometric-construction">3 Geometric Construction</h3>
+<h3 id="geometric-construction">Geometric Construction</h3>
 <p>Dubins did indeed prove that these trajectories are the shortest paths mathematically. The geometric construction is quite intuitive and a nice toy problem to figure out on ones own but it can quickly explode into multiple pages of pen and paper calculations and diagrams which is why I am not going to go into it here. Instead, I refer to a great overview and explanation of the synthesis of Dubins paths given by David A. Anisi<sup id="fnref:DubinImplementPaper" role="doc-noteref"><a href="#fn:DubinImplementPaper" class="footnote" rel="footnote">3</a></sup>. A wonderful and in-depth guide is also given by Andy G<sup id="fnref:DubinGuide" role="doc-noteref"><a href="#fn:DubinGuide" class="footnote" rel="footnote">4</a></sup>.</p>
 
-<h3 id="4-code">4 Code</h3>
+<h3 id="code">Code</h3>
 <p>There is an abundance of implementations of Dubins paths available on the internet<sup id="fnref:code1" role="doc-noteref"><a href="#fn:code1" class="footnote" rel="footnote">5</a></sup>.</p>
 
 <!--
@@ -477,7 +479,7 @@ def gds_solution(xs, pin1, pin2, solution):
 
 </code></pre></div></div>
 
-<h3 id="5-conclusion">5 Conclusion</h3>
+<h3 id="conclusion">Conclusion</h3>
 <p>In the figure below, a comparison between a dense array of Dubins paths and arrays using Nazcas s-bends and cobra splines is made:</p>
 
 <p><img src="/images/dubin/DubinAdvantage.PNG" alt="sleep_figure_1" /></p>
@@ -497,7 +499,6 @@ def gds_solution(xs, pin1, pin2, solution):
 ```
 } -->
 
-<h3 id="references">References</h3>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:DubinPaper" role="doc-endnote">
@@ -529,8 +530,8 @@ def gds_solution(xs, pin1, pin2, solution):
 
 
 <!--
-<h3>Enjoy Reading This Article?</h3>
-<p>Here are some more articles you might like to read next:</p>
+<h4>Did You Enjoy Reading This Article?</h4>
+<p>Here are some more articles/posts you might like as well:</p>
 
 
 
@@ -648,21 +649,19 @@ def gds_solution(xs, pin1, pin2, solution):
      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: 
      *  https://disqus.com/admin/universalcode/#configuration-variables
      */
-    /*
     var disqus_config = function () {
         // Replace PAGE_URL with your page's canonical URL variable
-        this.page.url = PAGE_URL;  
+        this.page.url = 'http://localhost:4000/personal/2024/02/15/dubins-paths-for-waveguide-routing.html';  
         
         // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        this.page.identifier = PAGE_IDENTIFIER_2; 
+        this.page.identifier = '/personal/2024/02/15/dubins-paths-for-waveguide-routing'; 
     };
-    */
     
     (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
         var d = document, s = d.createElement('script');
         
         // IMPORTANT: Replace EXAMPLE with your forum shortname!
-        s.src = 'https://.disqus.com/embed.js';
+        s.src = 'https://quentinwach.disqus.com/embed.js';
         
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);

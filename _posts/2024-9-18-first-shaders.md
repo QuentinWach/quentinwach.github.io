@@ -15,7 +15,7 @@ categories: "personal"
 
 I recently started getting more into low-level programming, implementing physics simulations and graphics which then lead me to write my first shader. And damn... shaders are awesome! But many of the copy-cat tutorials out there are terribly boring. I don't want to see another colored triangle! Let's actually (attempt to) build an awesome shader! First, I'll give a little introduction then I'll show you two simple shaders I made with detailed comments in the code.
 
-Two of the most amazing examples of scenes created with shaders, raw mathematics, were created by the great and famous Inigo Quilez [^inigo_web] [^Inigo_youtube], who is also the creator of Shadertoy [^Shadertoy] among many other things:
+Two of the most amazing examples of scenes created with shaders, raw mathematics, were created by the great and famous Inigo Quilez[^inigo_web][^Inigo_youtube], who is also the creator of Shadertoy[^Shadertoy] among many other things:
 
 <div style="display: flex; justify-content: space-between; gap: 0px; margin-bottom: 10px;">
     <img src="/images/i_1.png" style="width: 49%; border-radius: 5px;">
@@ -33,14 +33,14 @@ The left shows a beautiful mountain landscape with a forest under a sunny sky[^s
 There are no sculpted or modelled objects in these scenes. Everything was defined and rendered using a complex composition of very simply equations. How?
 
 ### OpenGL Shaders: Rendering Parallelism On the GPU
-OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation [^OpenGL]. 
+OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation[^OpenGL]. 
 
->"A shader is a set of instructions to the GPU which are executed all at once for every pixel on the screen." [^TheHappyCat]
+>"A shader is a set of instructions to the GPU which are executed all at once for every pixel on the screen."[^TheHappyCat]
 
 The basic idea of shaders is simply to parallelize, to compute using all the available resources a GPU provides in parallel. That is typically graphics but it can frankly be whatever you want. Thus, a core idea is to keep dependencies as little as possible. The program should typically only be linear, deterministic. You have a simple input like the pixel position on the screen and the shader will know exactly what to do. This is what makes it parallelizable. The more it depends on what is going on at other positions on the screen or other data or even previous data, the less parallelizable it will be and the less we'll be able to truly make use of the power of the GPU.
 
 ### Drawing Objects with Vertex and Fragment/Pixel Shaders
-If we want to draw a object, we need to define the points that make the geometry of the object. That's what the CPU does. (Sad.) We'll then pass that input point information (vertices) to the GPU. The vertex shader then figures out where to draw these points on the screen. The fragment shader figures out what color each spot on the surface of the object should be [^Barney].
+If we want to draw a object, we need to define the points that make the geometry of the object. That's what the CPU does. (Sad.) We'll then pass that input point information (vertices) to the GPU. The vertex shader then figures out where to draw these points on the screen. The fragment shader figures out what color each spot on the surface of the object should be[^Barney].
 
 Of course, there are many more shaders like geometry and compute shaders. But alas...
 A faster way which can directly utilize the GPU is defining distance functions!
@@ -334,7 +334,7 @@ void main() {
 
 Alright!
 
-Maybe this second shader looks long and intidimating. But if you go through it step by step, it's not that complicated and almost looks like simple mathematics. I find that very appealing.
+Maybe this second shader looks long and intimidating. But if you go through it step by step, it's not that complicated and almost looks like simple mathematics. I find that very appealing.
 
 <!--
 $$
@@ -370,7 +370,7 @@ I'll experiment more with this and will try to create more complicated, artistic
 
 But with that, I am happy for now. Onward.
 
-### References
+
 [^inigo_web]: [Inigo Quilez's website](https://iquilezles.org/articles/)
 [^Inigo_youtube]: [Inigo's YouTube](https://www.youtube.com/channel/UCdmAhiG8HQDlz8uyekw4ENw)
 [^Shadertoy]: [Shadertoy](https://www.shadertoy.com/)

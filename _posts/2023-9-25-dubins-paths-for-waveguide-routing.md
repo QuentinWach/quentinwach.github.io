@@ -21,14 +21,16 @@ _(Updated: March 12, 2024.)_ I deleted the majority of the code I presented when
 
 _What does the perfect waveguide routing look like? Traditional waveguide interconnects lack efficiency and optimization, leading to suboptimal photonic integrated circuits (PICs). Addressing key concerns like minimizing internal and radiation losses, reducing cross-talk, and avoiding unnecessary crossings, I explored the concept of finding the shortest path between two points in a PIC given a minimum bending radius. Dubins paths, already well known in robotics and control theory, emerged as a simple and highly practical solution._
 
+<!--
 <div class="tag_list"> 
     <div class="tag">photonic integrated circuits</div>
     <div class="tag">design automation</div>
     <div class="tag">robotics</div>
     <div class="tag">gds</div>
 </div>
+-->
 
-### 1 Introduction
+### Introduction
 I'll try to keep this short and not ramble too much. I just want to get this out there since I found it rather useful and can't believe it isn't yet standard.
 
 When I started my work on layouts for photonic integrated circuit in September 2023, it became quickly obvious that the typical waveguide interconnects provided by libraries are not well behaved nor optimal as to improve the performance and compactness of the photonic integrated circuit. Most commonly, we have simple straights, circular arcs, all sorts of splines, as well as Euler-bends, in short: They are all simple analytical functions or splines that (try to) optimize themselves. All of these are either simple building blocks that leave most of the work to the designer who has to plan out and specify every route, or behave extremely poorly and lead to overly bendy results that may even cross each other. 
@@ -44,7 +46,7 @@ It became quickly obvious that trying to find an optimum for all these design pa
 
 As it turns out, the answer is rather simple and long established in the field of robotics / control theory. **Dubins paths!**
 
-### 2 What are they?
+### What are they?
 Dubins paths are named after Lester Dubins, who introduced them in the 1950s[^DubinPaper]. They refer to the shortest paths that a vehicle can take from one point to another while constrained to move at a specific minimum turning radius. These paths are thus commonly studied in the field of motion planning for vehicles, particularly in robotics and aerospace engineering.
 
 <style>
@@ -62,10 +64,10 @@ These paths simply connect circular arcs with straights which leaves us with a c
 
 You can see three examples of the possible paths in the figure I adapted here[^WikiDubin].
 
-### 3 Geometric Construction
+### Geometric Construction
 Dubins did indeed prove that these trajectories are the shortest paths mathematically. The geometric construction is quite intuitive and a nice toy problem to figure out on ones own but it can quickly explode into multiple pages of pen and paper calculations and diagrams which is why I am not going to go into it here. Instead, I refer to a great overview and explanation of the synthesis of Dubins paths given by David A. Anisi[^DubinImplementPaper]. A wonderful and in-depth guide is also given by Andy G[^DubinGuide].
 
-### 4 Code
+### Code
 There is an abundance of implementations of Dubins paths available on the internet[^code1].
 
 <!--
@@ -406,7 +408,7 @@ def dubin_p2p(xs, pin1, pin2, radius=500, width=4):
 
 ```
 
-### 5 Conclusion
+### Conclusion
 In the figure below, a comparison between a dense array of Dubins paths and arrays using Nazcas s-bends and cobra splines is made:
 
 ![sleep_figure_1](/images/dubin/DubinAdvantage.PNG)
@@ -426,7 +428,6 @@ That's my little tip for those working on photonic integrated circuit layouts. I
 ```
 } -->
 
-### References
 [^DubinPaper]: [Dubins, L. E., _"On Curves of Minimal Length with a Constraint on Average Curvature, and with Prescribed Initial and Terminal Positions and Tangents"_. American Journal of Mathematics. 79 (3): 497–516, 1957](https://doi.org/10.2307/2372560)
 [^NazcaLib]: [Nazca Design: Photonic IC Design Framework](https://nazca-design.org/)
 [^WikiDubin]: [Wikipedia: Dubins Paths (Accessed: Feb 20, 2024)](https://en.wikipedia.org/wiki/Dubins_path)

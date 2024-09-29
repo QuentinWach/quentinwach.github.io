@@ -25,7 +25,7 @@ categories: "personal"
     Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago [^MFigure].
 </span>
 
-## 1. Introduction
+## Introduction
 Artificial general intelligence (AGI)
 <button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-right">
@@ -55,7 +55,7 @@ AI software has become seriously awesome and...
 >"People who are really serious about software should make their own hardware." Alan Kay[^AKayHard].
 
 
-## 2. Compute
+## Compute
 >"The base metric is becoming compute. Not money." Harrison Kinsley (aka Sentdex)[^ComputeNotMoney1].
 
 This statement has been repeated over and over by engineers and technologists in and outside of Silicon Valley, including Sam Altman saying
@@ -89,7 +89,7 @@ _"Compute"_ or computing power is simply a general term to describe how much com
 
 >"Extrapolating the spectacular performance of GPT-3 into the future suggests that the answer to life, the universe and everything is just 4.398 trillion parameters." Geoffrey Hinton[^HintonScaling].
 
-### 2.1 Training
+### Training
 Subplot (a) of the figure presented above shows the insane increase in training compute over time to create more and more capable AIs, rising orders of magnitude within years. 
 
 >"[...] since 2012, the amount of compute used in the largest AI training runs has been increasing exponentially with **a 3.4-month doubling time** (by comparison, Moore’s Law had a 2-year doubling period). Since 2012, this metric has grown by more than **300,000x** (a 2-year doubling period would yield only a 7x increase)." This was previously observed by OpenAI[^OpenAIComputePost].
@@ -97,7 +97,7 @@ Subplot (a) of the figure presented above shows the insane increase in training 
 As we can see in the figure above, this is not only true for the largest AIs but for AI in general!
 
 
-### 2.2 Inference
+### Inference
 <button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-right">
     <style>
@@ -119,7 +119,7 @@ Contrary to training, the compute for inference has hardly grown in comparison. 
     Update: OpenAI released the o1 model recently which uses chain-of-thought self-prompting to deliver higher quality answers at the cost of a longer waiting time and significantly higher token consumption[^OpenAI_o1]. A new scaling law was discovered similar to the training scaling laws that shows that the accuracy rises as we spend more time "thinking". The financial price for using these models is huge. We can therefore expect a much greater demand for better inference. Where I had doubt before if inference hardware made sense, I don't have this doubt anymore! _September 18, 2024_
 </span>
 
-## 3. Applications
+## Applications
 A figure from the paper showing how much it currently costs even to do just inference.
 A. S. Luccioni et al. recently compared several machine learning tasks in terms of their energy consumption and nicely showed that image generation is orders of magnitudes more costly during inference compared to other ML tasks like image classification or text generation[^AI_EnergyInference]:
 
@@ -136,7 +136,7 @@ A. S. Luccioni et al. recently compared several machine learning tasks in terms 
 | Image Captioning | 0.63 $$\pm$$ 0.02
 | Image Generation | 2.9 $$\pm$$ 3.3
 
-## 4. Compute / Energy:  Human vs. GPT4
+## Compute / Energy:  Human vs. GPT4
 At this point, I want to highlight the title figure at the beginning of these notes showing the speed in GOP/s over power in W of GPUs, FPGAs, digital and mixed signal ASICs. More than any other figure here, I think it gives a sense of how the different hardware compares. 
 
 <button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
@@ -150,8 +150,8 @@ Comparisons to the human brain and how it developed are often made, especially n
 Assuming that the calorie intake is 2000 kcal / day $$\times$$ 365 days where 1163 Wh = 1000 kcal[^kcal_in_Watt][^kcal_in_Watt2], that's 730.000 kcal / year or $$8.5 \cdot 10^{-5}$$ GWh/year per person. Now multiply this times the decades humans take to learn what LLMs know and we can maybe subtract or or two orders of magnitude in energy consumption. Still, in comparison, OpenAI used 50 GWh to train GPT4[^GPT4_energy]utilizing 25.000 NVIDIA A100 GPUs that run around 6.5 kW each.
 It doesn't take a math genius to see that there are orders of magnitude in difference. And as a result, the training cost for GPT4 was around $100.000.000 over a period of around 100 days (roughly $65M for the pre-training alone) as stated Sam Altman himself[^GPT4_price][^GPT4_facts]. 
 
-## 5. General Use of Hardware
-### 5.1 GPUs: NVIDIA Leads the Way
+## General Use of Hardware
+### GPUs: NVIDIA Leads the Way
 NVIDIA is the non-plus ultra for AI training at the largest scale. We see this reflected with commercial GPUs providing the fastest training. The drawback: These GPUs also consume by far the most power.
 
 In NVIDIA's most recent developer conference, Jensen Huang bragged about how hot these GPUs get. So hot, that they need to be liquid cooled (which poses new challenges in data centres). So hot, that the coolant coming out after just seconds could be used as a whirlpool, I remember him stating. Later on stage, he then continued talking about how NVIDIAs new accelerators are now much more energy efficient[^NVIDIAGTC2024]. It takes a special kind of genius to pull of such contradiction marketing. I am not even trying to be critical. It's rather humorous!
@@ -160,23 +160,23 @@ Even with their incredible energy demands and the high training costs that follo
 
 That is because GPUs offer versatility and power for a wide range of applications. GPUs excel in scenarios where the workload is diverse or evolving, as they are capable of handling various computational tasks beyond AI, including graphics rendering, scientific simulations, and data analytics, all of which can compliment each other. They are _the_ research plattform. Additionally ,they are simply extremely widespread. Nearly every computer has a GPU. Many have NVIDIA GPUs. And NVIDIA made sure to build the entire stack from the bottom up to the higher software layers to make it as easy for developers and scientists to get as much performance without needing to write much code.
 
-### 5.2 Field-Programmable Gate Arrays (FPGAs) for Prototyping
+### Field-Programmable Gate Arrays (FPGAs) for Prototyping
 If we were to compete, lowering energy consumption is the angle of attack. FPGAs are, in part, competitive enough in terms of speed yet at similar power consumption and much, much worse usability. Nonetheless, some argue for a future of FPGAs:
 
 >"Due to their software-defined nature, FPGAs offer easier design flows and shorter time to market accelerators than an application-specific integrated circuit (ASIC)."[^FPGACentres]
 
 The advantage lies for tasks that require less compute but desire better optimization in speed and energy efficiency hence inference. And FPGAs are typically easier to bring to market than ASICs. So in scenarios where power consumption must be tightly controlled, such as in embedded systems or edge computing devices, FPGAs may provide a compelling solution. But compelling enough?
 
-### 5.3 Application-Specific Integrated Circuits (ASICs) for on the Edge Devices
+### Application-Specific Integrated Circuits (ASICs) for on the Edge Devices
 ASICs after all are by far superior for addressing energy concerns in AI hardware. Unlike general-purpose GPUs, ASICs are tailored specifically for certain tasks, maximizing efficiency and performance for those tasks while minimizing power consumption. On the other hand, ASICs entail higher initial development costs and longer time-to-market. Since progress in AI is driven primarily by new developments in software, developing ASICs that are general enough to keep up with that progress but specific enough to actually have an advantage over GPUs is tricky.
 
-### 5.4 Tensor Processing Units (TPUs) for Deep Learning Training 
+### Tensor Processing Units (TPUs) for Deep Learning Training 
 Developed by Google, TPUs are designed specifically for accelerating machine learning workloads, particularly those that involve neural network inference and training by focusing on matrix multiplication operations fundamental to neural network computations. And by doing so, TPUs are able to achieve remarkable speedups while consuming significantly less power compared to traditional GPU-based solutions. As I see it, they are simply not as widely available and their lack of generality compared to GPUs may make the development of AI applications a bit more difficult compared to GPUs once again.
 
-### 5.5 Neural Processing Units (NPUs) for Inference
+### Neural Processing Units (NPUs) for Inference
 Similarly, NPUs represent a specialized class of AI hardware optimized specifically for neural network computations. They are designed to accelerate the execution of machine learning workloads but, and this is the crucial difference, **with a focus on inference tasks** commonly found in applications such as computer vision, natural language processing, and speech recognition. By incorporating dedicated hardware accelerators for key operations involved in neural network inference, such as convolutions and matrix multiplications, NPUs are able to achieve significant speedups while consuming less power. So the idea is similar to TPUs but with a focus more on inference specifically for edge devices and private computers. 
 
-## 6. Conclusion
+## Conclusion
 <!--
 + Photonics is great at communication but has a lot of fundamental issues that keep it from being practical for computing in comparison electronics at least for now and likely the next 5-10 years. Integrating photonics as intra- and interconnects will be crucial for high-performance computing though. But it is not yet a bottleneck.
 
@@ -197,7 +197,6 @@ What I and others ask is **what is the computer of the future?** I started writi
 </span>
 
 
-### References
 [^1]: A
 [^2]: B
 [^3]: C

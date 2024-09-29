@@ -72,7 +72,7 @@
         • 
         22
        min read for 
-        4046
+        4031
        words •
       <time class="dt-published" datetime="2024-04-10T21:38:24+02:00" itemprop="datePublished">
         Apr 10, 2024
@@ -95,7 +95,7 @@
     Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago <sup id="fnref:MFigure" role="doc-noteref"><a href="#fn:MFigure" class="footnote" rel="footnote">1</a></sup>.
 </span></p>
 
-<h2 id="1-introduction">1. Introduction</h2>
+<h2 id="introduction">Introduction</h2>
 <p>Artificial general intelligence (AGI)
 <button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-right">
@@ -128,7 +128,7 @@ There is of course also a <strong>data problem</strong>. Our algorithms are stil
   <p>“People who are really serious about software should make their own hardware.” Alan Kay<sup id="fnref:AKayHard" role="doc-noteref"><a href="#fn:AKayHard" class="footnote" rel="footnote">12</a></sup>.</p>
 </blockquote>
 
-<h2 id="2-compute">2. Compute</h2>
+<h2 id="compute">Compute</h2>
 <blockquote>
   <p>“The base metric is becoming compute. Not money.” Harrison Kinsley (aka Sentdex)<sup id="fnref:ComputeNotMoney1" role="doc-noteref"><a href="#fn:ComputeNotMoney1" class="footnote" rel="footnote">13</a></sup>.</p>
 </blockquote>
@@ -169,7 +169,7 @@ There is of course also a <strong>data problem</strong>. Our algorithms are stil
   <p>“Extrapolating the spectacular performance of GPT-3 into the future suggests that the answer to life, the universe and everything is just 4.398 trillion parameters.” Geoffrey Hinton<sup id="fnref:HintonScaling" role="doc-noteref"><a href="#fn:HintonScaling" class="footnote" rel="footnote">21</a></sup>.</p>
 </blockquote>
 
-<h3 id="21-training">2.1 Training</h3>
+<h3 id="training">Training</h3>
 <p>Subplot (a) of the figure presented above shows the insane increase in training compute over time to create more and more capable AIs, rising orders of magnitude within years.</p>
 
 <blockquote>
@@ -178,7 +178,7 @@ There is of course also a <strong>data problem</strong>. Our algorithms are stil
 
 <p>As we can see in the figure above, this is not only true for the largest AIs but for AI in general!</p>
 
-<h3 id="22-inference">2.2 Inference</h3>
+<h3 id="inference">Inference</h3>
 <p><button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-right">
     <style>
@@ -200,7 +200,7 @@ Contrary to training, the compute for inference has hardly grown in comparison. 
     Update: OpenAI released the o1 model recently which uses chain-of-thought self-prompting to deliver higher quality answers at the cost of a longer waiting time and significantly higher token consumption<sup id="fnref:OpenAI_o1" role="doc-noteref"><a href="#fn:OpenAI_o1" class="footnote" rel="footnote">26</a></sup>. A new scaling law was discovered similar to the training scaling laws that shows that the accuracy rises as we spend more time “thinking”. The financial price for using these models is huge. We can therefore expect a much greater demand for better inference. Where I had doubt before if inference hardware made sense, I don’t have this doubt anymore! <em>September 18, 2024</em>
 </span></p>
 
-<h2 id="3-applications">3. Applications</h2>
+<h2 id="applications">Applications</h2>
 <p>A figure from the paper showing how much it currently costs even to do just inference.
 A. S. Luccioni et al. recently compared several machine learning tasks in terms of their energy consumption and nicely showed that image generation is orders of magnitudes more costly during inference compared to other ML tasks like image classification or text generation<sup id="fnref:AI_EnergyInference" role="doc-noteref"><a href="#fn:AI_EnergyInference" class="footnote" rel="footnote">27</a></sup>:</p>
 
@@ -255,7 +255,7 @@ A. S. Luccioni et al. recently compared several machine learning tasks in terms 
   </tbody>
 </table>
 
-<h2 id="4-compute--energy--human-vs-gpt4">4. Compute / Energy:  Human vs. GPT4</h2>
+<h2 id="compute--energy--human-vs-gpt4">Compute / Energy:  Human vs. GPT4</h2>
 <p>At this point, I want to highlight the title figure at the beginning of these notes showing the speed in GOP/s over power in W of GPUs, FPGAs, digital and mixed signal ASICs. More than any other figure here, I think it gives a sense of how the different hardware compares.</p>
 
 <p><button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
@@ -269,8 +269,8 @@ The sad truth as of now is that there seems to be a hard limit for the amount of
 <p>Assuming that the calorie intake is 2000 kcal / day \(\times\) 365 days where 1163 Wh = 1000 kcal<sup id="fnref:kcal_in_Watt" role="doc-noteref"><a href="#fn:kcal_in_Watt" class="footnote" rel="footnote">29</a></sup><sup id="fnref:kcal_in_Watt2" role="doc-noteref"><a href="#fn:kcal_in_Watt2" class="footnote" rel="footnote">30</a></sup>, that’s 730.000 kcal / year or \(8.5 \cdot 10^{-5}\) GWh/year per person. Now multiply this times the decades humans take to learn what LLMs know and we can maybe subtract or or two orders of magnitude in energy consumption. Still, in comparison, OpenAI used 50 GWh to train GPT4<sup id="fnref:GPT4_energy" role="doc-noteref"><a href="#fn:GPT4_energy" class="footnote" rel="footnote">31</a></sup>utilizing 25.000 NVIDIA A100 GPUs that run around 6.5 kW each.
 It doesn’t take a math genius to see that there are orders of magnitude in difference. And as a result, the training cost for GPT4 was around $100.000.000 over a period of around 100 days (roughly $65M for the pre-training alone) as stated Sam Altman himself<sup id="fnref:GPT4_price" role="doc-noteref"><a href="#fn:GPT4_price" class="footnote" rel="footnote">32</a></sup><sup id="fnref:GPT4_facts" role="doc-noteref"><a href="#fn:GPT4_facts" class="footnote" rel="footnote">33</a></sup>.</p>
 
-<h2 id="5-general-use-of-hardware">5. General Use of Hardware</h2>
-<h3 id="51-gpus-nvidia-leads-the-way">5.1 GPUs: NVIDIA Leads the Way</h3>
+<h2 id="general-use-of-hardware">General Use of Hardware</h2>
+<h3 id="gpus-nvidia-leads-the-way">GPUs: NVIDIA Leads the Way</h3>
 <p>NVIDIA is the non-plus ultra for AI training at the largest scale. We see this reflected with commercial GPUs providing the fastest training. The drawback: These GPUs also consume by far the most power.</p>
 
 <p>In NVIDIA’s most recent developer conference, Jensen Huang bragged about how hot these GPUs get. So hot, that they need to be liquid cooled (which poses new challenges in data centres). So hot, that the coolant coming out after just seconds could be used as a whirlpool, I remember him stating. Later on stage, he then continued talking about how NVIDIAs new accelerators are now much more energy efficient<sup id="fnref:NVIDIAGTC2024" role="doc-noteref"><a href="#fn:NVIDIAGTC2024" class="footnote" rel="footnote">34</a></sup>. It takes a special kind of genius to pull of such contradiction marketing. I am not even trying to be critical. It’s rather humorous!</p>
@@ -279,7 +279,7 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
 
 <p>That is because GPUs offer versatility and power for a wide range of applications. GPUs excel in scenarios where the workload is diverse or evolving, as they are capable of handling various computational tasks beyond AI, including graphics rendering, scientific simulations, and data analytics, all of which can compliment each other. They are <em>the</em> research plattform. Additionally ,they are simply extremely widespread. Nearly every computer has a GPU. Many have NVIDIA GPUs. And NVIDIA made sure to build the entire stack from the bottom up to the higher software layers to make it as easy for developers and scientists to get as much performance without needing to write much code.</p>
 
-<h3 id="52-field-programmable-gate-arrays-fpgas-for-prototyping">5.2 Field-Programmable Gate Arrays (FPGAs) for Prototyping</h3>
+<h3 id="field-programmable-gate-arrays-fpgas-for-prototyping">Field-Programmable Gate Arrays (FPGAs) for Prototyping</h3>
 <p>If we were to compete, lowering energy consumption is the angle of attack. FPGAs are, in part, competitive enough in terms of speed yet at similar power consumption and much, much worse usability. Nonetheless, some argue for a future of FPGAs:</p>
 
 <blockquote>
@@ -288,16 +288,16 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
 
 <p>The advantage lies for tasks that require less compute but desire better optimization in speed and energy efficiency hence inference. And FPGAs are typically easier to bring to market than ASICs. So in scenarios where power consumption must be tightly controlled, such as in embedded systems or edge computing devices, FPGAs may provide a compelling solution. But compelling enough?</p>
 
-<h3 id="53-application-specific-integrated-circuits-asics-for-on-the-edge-devices">5.3 Application-Specific Integrated Circuits (ASICs) for on the Edge Devices</h3>
+<h3 id="application-specific-integrated-circuits-asics-for-on-the-edge-devices">Application-Specific Integrated Circuits (ASICs) for on the Edge Devices</h3>
 <p>ASICs after all are by far superior for addressing energy concerns in AI hardware. Unlike general-purpose GPUs, ASICs are tailored specifically for certain tasks, maximizing efficiency and performance for those tasks while minimizing power consumption. On the other hand, ASICs entail higher initial development costs and longer time-to-market. Since progress in AI is driven primarily by new developments in software, developing ASICs that are general enough to keep up with that progress but specific enough to actually have an advantage over GPUs is tricky.</p>
 
-<h3 id="54-tensor-processing-units-tpus-for-deep-learning-training">5.4 Tensor Processing Units (TPUs) for Deep Learning Training</h3>
+<h3 id="tensor-processing-units-tpus-for-deep-learning-training">Tensor Processing Units (TPUs) for Deep Learning Training</h3>
 <p>Developed by Google, TPUs are designed specifically for accelerating machine learning workloads, particularly those that involve neural network inference and training by focusing on matrix multiplication operations fundamental to neural network computations. And by doing so, TPUs are able to achieve remarkable speedups while consuming significantly less power compared to traditional GPU-based solutions. As I see it, they are simply not as widely available and their lack of generality compared to GPUs may make the development of AI applications a bit more difficult compared to GPUs once again.</p>
 
-<h3 id="55-neural-processing-units-npus-for-inference">5.5 Neural Processing Units (NPUs) for Inference</h3>
+<h3 id="neural-processing-units-npus-for-inference">Neural Processing Units (NPUs) for Inference</h3>
 <p>Similarly, NPUs represent a specialized class of AI hardware optimized specifically for neural network computations. They are designed to accelerate the execution of machine learning workloads but, and this is the crucial difference, <strong>with a focus on inference tasks</strong> commonly found in applications such as computer vision, natural language processing, and speech recognition. By incorporating dedicated hardware accelerators for key operations involved in neural network inference, such as convolutions and matrix multiplications, NPUs are able to achieve significant speedups while consuming less power. So the idea is similar to TPUs but with a focus more on inference specifically for edge devices and private computers.</p>
 
-<h2 id="6-conclusion">6. Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 <!--
 + Photonics is great at communication but has a lot of fundamental issues that keep it from being practical for computing in comparison electronics at least for now and likely the next 5-10 years. Integrating photonics as intra- and interconnects will be crucial for high-performance computing though. But it is not yet a bottleneck.
 
@@ -317,7 +317,6 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
     <strong>Thank you</strong> for reading these notes of mine as I tried to clear up my thinking on the subject. In the end, it lead me to the believe that it is rather pointless to try and directly compare all the available hardware. There are too many nuances and the technical details matter a lot. Yet, it is unclear how and what exactly matters and will be the most important metric to focus on for future computers. It seems to be quite clear to me that current computer designs are primarily driven by the econonmy and not a long-term focus and reasoning from first principles. So I hope to do a better job and illuminate this subject a bit more in a future post that takes a more physics oriented approach. Another lesson I took away for my own work and design process is that I need to iterate faster so I can prove my designs wrong faster as well. <br /> - Quentin
 </span></p>
 
-<h3 id="references">References</h3>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:MFigure" role="doc-endnote">
@@ -433,8 +432,8 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
 
 
 <!--
-<h3>Enjoy Reading This Article?</h3>
-<p>Here are some more articles you might like to read next:</p>
+<h4>Did You Enjoy Reading This Article?</h4>
+<p>Here are some more articles/posts you might like as well:</p>
 
 
 
@@ -615,21 +614,19 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: 
      *  https://disqus.com/admin/universalcode/#configuration-variables
      */
-    /*
     var disqus_config = function () {
         // Replace PAGE_URL with your page's canonical URL variable
-        this.page.url = PAGE_URL;  
+        this.page.url = 'http://localhost:4000/personal/2024/04/10/AI-chip-market.html';  
         
         // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        this.page.identifier = PAGE_IDENTIFIER_2; 
+        this.page.identifier = '/personal/2024/04/10/AI-chip-market'; 
     };
-    */
     
     (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
         var d = document, s = d.createElement('script');
         
         // IMPORTANT: Replace EXAMPLE with your forum shortname!
-        s.src = 'https://.disqus.com/embed.js';
+        s.src = 'https://quentinwach.disqus.com/embed.js';
         
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
