@@ -131,7 +131,7 @@ Structures within our computer processors, solar cells, lasers, batteries etc. a
 ##### Photonic Integrated Circuits
 Lithography techniques now allow us to reduce large, complicated, thus costly and time-consuming optical setups down to chips only a few mm in size. Such photonic integrated circuits are essential for computing and modern communication / data transmission technologies. Still, creating them comes with a lot of exciting challenges as the field is still very young compared to that of integrated _electronic_ circuits. Personally, I think a lot about **photonic design automation** (How can we design PICs better and faster?)
 
-+ [(Feb, 2024) Dubins Paths for Waveguide Routing](https://quentinwach.com/science-engineering/2024/02/15/dubins-paths-for-waveguide-routing.html)
++ [(Feb, 2024) Dubins Paths for Waveguide Routing](https://quentinwach.com/blog/2024/02/15/dubins-paths-for-waveguide-routing.html)
 + [(July, 2024) IC3D: Creating 3D Animations from Complex Photonics .gds-Files](https://github.com/QuentinWach/IC3D)
 
 I have been part of more than five [tape-outs](https://en.wikipedia.org/wiki/Tape-out) so far, creating up to 50% of all the designs on it as well as the overall wafer layout, ensuring that all designs are indeed functional, establishing and enforcing design standards, developing new building blocks to be used within our group, and running and automating large simulations.
