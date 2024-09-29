@@ -17,7 +17,7 @@ mathjax: true
   <div class="tag-container">
     {% assign all_tags = "" | split: "" %}
     {% for post in posts %}
-      {% if post.categories contains "personal" %}
+      {% if post.categories contains "blog" %}
         {% assign all_tags = all_tags | concat: post.tags | uniq %}
       {% endif %}
     {% endfor %}
@@ -25,7 +25,7 @@ mathjax: true
     {% for tag in all_tags %}
       {% assign count = 0 %}
       {% for post in posts %}
-        {% if post.categories contains "personal" and post.tags contains tag %}
+        {% if post.categories contains "blog" and post.tags contains tag %}
           {% assign count = count | plus: 1 %}
         {% endif %}
       {% endfor %}
@@ -64,7 +64,7 @@ mathjax: true
     <ul class="post-list">
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       {%- for post in posts -%}
-      {% if post.categories contains "personal" %}
+      {% if post.categories contains "blog" %}
 
         <a href="{{ post.url | relative_url }}" class="box post-item" data-tags="{{ post.tags | join: ',' }}">
           <li class="post-box">

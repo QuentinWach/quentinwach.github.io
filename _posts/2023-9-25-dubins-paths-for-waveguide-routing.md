@@ -5,14 +5,14 @@ title:  "Dubins Paths for Waveguide Routing"
 description: "What does the perfect waveguide routing look like? Dubins paths, already well known in robotics and control theory, turn out to be a simple and highly practical solution. This post notes a few useful recources and explains what the advantages of Dubins paths are compared to other waveguide interconnects that are often used."
 date:   2024-2-15 20:38:24 +0100
 authors: ["Quentin Wach"]
-tags: ["physics", "photonics", "routing", "gds", "hardware design", "computer engineering"]
+tags: ["physics", "photonics", "hardware design", "computer engineering"]
 image: "/images/dubin/wikipedia_4.png"
 tag_search: true
 toc: true
 toc_sticky: true
 weight: 60
 note: "Used daily for better, quicker, and easier routing."
-categories: "personal"
+categories: "blog"
 ---
 <!--Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.-->
 <span class="sidenote-left">
