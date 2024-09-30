@@ -115,7 +115,7 @@ Some people I loved/love working with and am very thankful to are
 
 <!--The differences between the bright future of humanity and the dark realities of our present are so large that I see it as categorically imperative to advance research and engineering solving humanities greatest challenges." (Me. I said that. Right here. I tend to be dramatic but that's what I believe.) -->
 
-##### Charge Transport in Nanostructures
+##### [Charge Transport in Nanostructures](https://notebooklm.google.com/notebook/bd6d5eec-dafe-4a6f-a8ac-0006759a2197/audio)
 <!--
 <style>
     img[alt=Nano] {float: right; width: 200px; border-radius: 10%; margin-left: 10px; box-shadow: 0px 0px 0px #14518386;}

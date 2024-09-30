@@ -73,6 +73,12 @@
     
       
       
+      <button class="tag-bubble" data-tag="physics">
+        physics (2)
+      </button>
+    
+      
+      
       <button class="tag-bubble" data-tag="computer graphics">
         computer graphics (1)
       </button>
@@ -99,12 +105,6 @@
       
       <button class="tag-bubble" data-tag="computer engineering">
         computer engineering (2)
-      </button>
-    
-      
-      
-      <button class="tag-bubble" data-tag="physics">
-        physics (1)
       </button>
     
       
@@ -161,6 +161,19 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -175,19 +188,6 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -262,6 +262,25 @@
             });
         });
       </script><ul class="post-list">
+
+        <a href="/blog/2024/09/28/rigid-bodies.html" class="box post-item" data-tags="physics">
+          <li class="post-box">
+            <div class="post-box-img"><img src="/images/applied mechanics/COver_Sims_2.png" alt="Applied Mechanics: Constrained Dynamics I" class="post-image"></div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                Applied Mechanics: Constrained Dynamics I
+              </h4><p class="post-summary">
+                <p>Explaining briefly (very, very briefly) what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics.</p>
+
+              </p><span class="post-meta">Sep 28, 2024</span>
+
+              <!-- Add word count and read time -->
+              
+              
+              <span class="post-meta"> • 1601 words • 8 min read</span></div>
+          </li>
+        </a>
 
         <a href="/blog/2024/09/18/first-shaders.html" class="box post-item" data-tags="computer graphics">
           <li class="post-box">

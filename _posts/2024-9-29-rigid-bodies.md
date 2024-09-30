@@ -152,7 +152,37 @@ For now, we still have to define what our system, should actually look like. A d
 
 
 
-### Solving the Matrix Equation
+### Solving the System of Equations
+All physics solvers come with certain pros and cons. Hence, for any non-trivial problem, we need to tailor the solver to our problem. 
+
+My notes on [[Constrained Dynamics]] (should) mention that solving the system of equations for typically  highly sparse matrices... Imagine executing the standard methods for calculating the solution here. You'd evaluate a bunch of equations that should be zero anyway. Indeed, computers too are absolutely horrible at solving equations involving sparse matrices [citation needed]!
+
+![[Pasted image 20240924100620.png]]
+(This is a sparse matrix as shown in the #video https://www.youtube.com/watch?v=oulfRfqTxJA&list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2&index=8 about the Engine Simulator by Ange the Great.)
+### Gaussian Elimination
+Gaussian elimination is fast enough for small matrices and we all know it from our linear algebra classes. Yet it has a time complexity of $O(n^3)$.
+## Conjugate Gradient Method
+This method seems to be much more stable. Funnily enough, it is also faster! Why? Because we actually don't need to calculate the matrix. But... it kinda breaks??? (Ange talked about this here: https://www.youtube.com/watch?v=n5CIlrOMKiU&list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2&index=9)
+## Position Based Dynamics
+This method is very fast. It is also stable. Yet it is not very accurate.
+paper: https://mmacklin.com/2017-EG-CourseNotes.pdf
+### Gauss-Seidel Method
+We need to compute with the entire matrix here.
+But, we can solve the equations iteratively, approximating the correct solution with every iteration ever more closely. [This video](https://www.youtube.com/watch?v=oulfRfqTxJA&list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2&index=8 ) (again) talks about how it can be used to speed up such physics simulations. Typically, we initialize the lambda vector with random values and then iteratively update them until the error is small enough. But amazingly, we can also just use the previous solution in the time-series as the starting point in this process which should reduce how many iterations are needed quite significantly. [By how much?] 
+
+The key problem with this method is that it is not guaranteed to always converge which can be extremely annoying. [Are there any solutions to this problem?]
+## SIMD Optimization of the Gauss-Seidel Method
+The paper https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2782869/ explains how to parallelize this very much serial method using SIMD instructions with the purpose to utilize massively parallel computing using GPGPUs for example. Awesome idea! [I need to look into that.]
+
+But again, the convergence and stability of this method is questionable.
+## A Bunch of more amazing Gauss-Seidel Optimizations!
+Short version: Instead of storing the entire matrix, we only store the non-zero values and don't do all the unnecessary multiplications by zero! We can expect an order of magnitude speed up here, possibly more as the system grows in complexity.
+
+About sparse matrices:
+https://en.wikipedia.org/wiki/Sparse_matrix
+
+This is an amazing video. A MUST WATCH!
+https://www.youtube.com/watch?v=P-WP1yMOkc4
 
 
 
