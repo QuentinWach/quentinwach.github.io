@@ -1,8 +1,8 @@
 ---
 layout: post
 mathjax: true
-title:  "Shaders"
-description: "Explaining briefly (very, very briefly) what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics."
+title:  "Playing with Shaders"
+description: "Explaining briefly what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics."
 date:   2024-09-18 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["computer graphics"]

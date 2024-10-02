@@ -1,13 +1,13 @@
 ---
 layout: post
 mathjax: true
-title:  "Applied Mechanics: Constrained Dynamics I"
+title:  "Constrained Dynamics"
 description: "Explaining briefly (very, very briefly) what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics."
-date:   2025-09-28 20:38:24 +0100
+date:   2024-09-28 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["physics"]
 tag_search: true
-image:     "/images/applied mechanics/COver_Sims_2.png"
+image:     ""
 weight:
 note: 
 categories: "blog"

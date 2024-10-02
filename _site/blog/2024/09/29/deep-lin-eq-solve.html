@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Solving Massive Systems of Linear Equations with Deep Learning | Q. Wach</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Solving Massive Systems of Linear Equations with Deep Learning" />
+<meta name="author" content="Quentin Wach" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="To give some background: systems of linear equations show up everywhere (and systems of non-linear equations can often be linearized), for example, in solving a constraint mechanical system as I discussed in my previous introduction to constrained dynamics. A variety of methods can be used to solve such systems, e.g. Gaussian elimination, the Conjugate Gradient Method, the Gauss-Seidel Method, Position-Based Dynamics, or Impulse-Based solvers. Yet, all of them are relatively inefficient and do not scale well to extremely large systems." />
+<meta property="og:description" content="To give some background: systems of linear equations show up everywhere (and systems of non-linear equations can often be linearized), for example, in solving a constraint mechanical system as I discussed in my previous introduction to constrained dynamics. A variety of methods can be used to solve such systems, e.g. Gaussian elimination, the Conjugate Gradient Method, the Gauss-Seidel Method, Position-Based Dynamics, or Impulse-Based solvers. Yet, all of them are relatively inefficient and do not scale well to extremely large systems." />
+<link rel="canonical" href="http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve.html" />
+<meta property="og:site_name" content="Q. Wach" />
+<meta property="og:image" content="http://localhost:4000/" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-29T21:38:24+02:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/" />
+<meta property="twitter:title" content="Solving Massive Systems of Linear Equations with Deep Learning" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Quentin Wach"},"dateModified":"2024-09-29T21:38:24+02:00","datePublished":"2024-09-29T21:38:24+02:00","description":"To give some background: systems of linear equations show up everywhere (and systems of non-linear equations can often be linearized), for example, in solving a constraint mechanical system as I discussed in my previous introduction to constrained dynamics. A variety of methods can be used to solve such systems, e.g. Gaussian elimination, the Conjugate Gradient Method, the Gauss-Seidel Method, Position-Based Dynamics, or Impulse-Based solvers. Yet, all of them are relatively inefficient and do not scale well to extremely large systems.","headline":"Solving Massive Systems of Linear Equations with Deep Learning","image":"http://localhost:4000/","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve.html"},"url":"http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" ><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Q. Wach" /><script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+  </script>
+</head>
+
+</head><body onload="document.body.style.opacity='1'"><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Q. Wach</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div style="height: 50px;">
+          </br>
+        </div>
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Solving Massive Systems of Linear Equations with Deep Learning</h1><p class="post-meta">by 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Quentin Wach</span></span>
+      
+      
+        • 
+        9
+       min read for 
+        1749
+       words •
+      <time class="dt-published" datetime="2024-09-29T21:38:24+02:00" itemprop="datePublished">
+        Sep 29, 2024
+      </time></p>
+  </header>
+
+  <div>
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>Systems of linear equations are fundamental in various fields of mathematics, physics, and engineering. They are typically represented in matrix form as:<sup id="fnref:syslin_wiki" role="doc-noteref"><a href="#fn:syslin_wiki" class="footnote" rel="footnote">1</a></sup></p>
+
+\[\hat{A} \cdot \vec{\lambda} = \vec{b}\]
+
+<p>where \(\hat{A}\) is an \(m \times n\) matrix, \(\vec{\lambda}\) is an \(n\)-dimensional vector of unknowns, and \(\vec{b}\) is an \(m\)-dimensional vector of constants. (And indeed systems of non-linear equations can often be linearized). These systems appear in numerous applications, including solving constraint mechanical systems, as I discussed in my previous introduction to constrained dynamics<sup id="fnref:QWConstrained" role="doc-noteref"><a href="#fn:QWConstrained" class="footnote" rel="footnote">2</a></sup>, electrical circuit analysis, economic models, computer graphics and image processing, or machine learning and optimization problems.</p>
+
+<p>A variety of methods can be used to solve such systems. Yet, all of them are relatively inefficient and do not scale well to extremely large systems. While matrix multiplications are extremely well parallelized, making them really fast on GPUs, and kick-starting the AI/deep learning revolution, this isn’t true of solving linear systems and matrix inversion which can be orders of magnitude slower than matmuls.</p>
+
+<blockquote>
+  <p>“99% of the complexity of rigid body formulations comes from using global solvers!” says Matthias Müller-Fischer<sup id="fnref:MatRigidBody" role="doc-noteref"><a href="#fn:MatRigidBody" class="footnote" rel="footnote">3</a></sup>.</p>
+</blockquote>
+
+<p>The list of other challenges regarding global solvers fills books. As such many variations and optimizations of these methods exist to improve their scaling, stability, accuracy, convergence times and so on. And while the list of classical methods to improve these solvers is long, deep learning is still a relatively unexplored path, it seems to me, yet a very promising one!</p>
+
+<p>Let’s first get a little bit of an overview of classical methods.</p>
+
+<h3 id="classical-solvers">Classical Solvers</h3>
+<p><strong>Gaussian Elimination</strong> is a direct method that transforms the augmented matrix \([\hat{A}|\vec{b}]\) into row echelon form. The <strong>Conjugate Gradient Method</strong> on the other hand is iterative method particularly effective for sparse, symmetric, positive-definite matrices. The <strong>Gauss-Seidel Method</strong> is an iterative method that updates each component of \(\vec{\lambda}\) using the latest available values of other components.</p>
+
+<p>Global solvers, like Gaussian elimination, consider the entire system at once. Local solvers, like the Gauss-Seidel method, focus on solving one equation at a time. The Gauss-Seidel method, for instance, iterates through the system:</p>
+
+<p>For the $i$-th equation:</p>
+
+\[\lambda_i = \frac{1}{a_{ii}} \left(b_i - \sum_{j&lt;i} a_{ij}\lambda_j - \sum_{j&gt;i} a_{ij}\lambda_j^{(k-1)}\right)\]
+
+<p>Where \(\lambda_j^{(k-1)}\) is the value from the previous iteration.</p>
+<h5 id="code-for-gaussian-elimination-conjugate-gradient-method-and-gauss-seidel-method">Code for Gaussian Elimination, Conjugate Gradient Method, and Gauss-Seidel Method</h5>
+
+<h5 id="results--comparison">Results &amp; Comparison</h5>
+<p>This comparison is meant to be taken with a grain of salt since the software and hardware implementation play a huge role in how well these methods perform.</p>
+
+<p>First, we compare Gaussian elimination, an LU decomposition-based solver, the conjugate gradient method and the Gauss Seidel method for dense random matrices.</p>
+
+<div style="text-align: center;">
+    <img src="/images/classic_solv_dense.png" alt="centerAI" style="width: 100%; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;" />
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <span style="font-size: 14px;">
+        My first shader, red drops moving from right to left, merging and splitting smoothly.
+    </span>
+</div>
+
+<p>The iterative methods come with some overhead and thus perform worse for smaller matrices but then start outperforming the global solvers for matrices of larger sizes.</p>
+
+<p>Below you can see a sparse matrix where most values are zero or close to zero and only values close to the diagonal of the matrix are large and contribute to the system of equations:</p>
+
+<div style="text-align: center;">
+    <img src="/images/sparse_matrix.png" alt="centerAI" style="width: 50%; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;" />
+</div>
+
+<p><span style="font-size: 14px;">
+    The amount of compute required to train (a) neural network and do inference (b) after training.
+    This figure was created by myself but the data was compiled by Jaime Sevilla et al.[^AIDemand_Data_1][^AIDemand_Data_2].
+</span></p>
+
+<p>Such matrices are very common e.g. in mechanical systems and the iterative solvers tend to perform much better for such matrices as well.</p>
+
+<h3 id="direct-approximation-with-a-neural-network">Direct Approximation with a Neural Network</h3>
+<p>The most straightforward approach <sup id="fnref:TUMNeuralApprox" role="doc-noteref"><a href="#fn:TUMNeuralApprox" class="footnote" rel="footnote">4</a></sup> is to train a neural network to directly approximate the solution \(\vec{\lambda}\) with a neural network \(f_\theta\) :
+\(\vec{\lambda} \approx f_\theta(\hat{A}, \vec{b}).\)
+Here, the network may simply be trained to minimize the loss
+\(L = \|\hat{A} \cdot f_\theta(\hat{A}, \vec{b}) - \vec{b}\|^2.\)
+The two glaring issues that come with such an approach are that 1. the neural architecture must be designed for a specific system, and 2. even with training it is not guaranteed that it will generalize well enough to model all edge cases accurately.</p>
+<h5 id="code">Code</h5>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+
+<span class="c1"># Define a simple neural network model
+</span><span class="k">class</span> <span class="nc">NeuralSolver</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="err"> </span> <span class="err"> </span> <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="nf">super</span><span class="p">(</span><span class="n">NeuralSolver</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="err"> </span> <span class="err"> </span> <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">relu</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">x</span>
+
+<span class="c1"># Initialize the model, criterion, and optimizer
+</span><span class="n">model</span> <span class="o">=</span> <span class="nc">NeuralSolver</span><span class="p">()</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="nc">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># Training loop
+</span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+<span class="err"> </span> <span class="err"> </span> <span class="c1"># Forward pass
+</span><span class="err"> </span> <span class="err"> </span> <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="err"> </span> <span class="err"> </span> <span class="c1"># Backward pass and optimization
+</span><span class="err"> </span> <span class="err"> </span> <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+
+<span class="c1"># Print the final output
+</span><span class="nf">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="results">Results</h5>
+
+<h3 id="deep-iterative-methods">Deep Iterative Methods</h3>
+<p>Neural networks can also be used to enhance traditional iterative methods<sup id="fnref:DeepIter" role="doc-noteref"><a href="#fn:DeepIter" class="footnote" rel="footnote">5</a></sup>. We may train a neural network to generate effective <em>“preconditioners”</em>  \(P_\theta\) for iterative methods like conjugate gradient. So instead of initializing the network randomly, we neural network gives us a good first guess:</p>
+
+\[\vec{\lambda}_0 = P_\theta(\hat{A}, \vec{b}).\]
+
+<p>This is basically the same idea as that of the direct neural network approximation and the returns are diminishing since, once we have the solution for a time-step \(t_1\) we can use that to inform the new solution i.e. to initialize the solver to find the solution for \(t_2\) which is likely close to that of \(t_1\). So rather than just initializing, we may also use a network \(U_\theta\) to learn a better update rules for iterative methods, in hopes to converge faster than the classical approaches:</p>
+
+\[\vec{\lambda}_{k+1} = \vec{\lambda}_k + U_\theta(\hat{A}, \vec{b}, \vec{\lambda}_k, \vec{r}_k).\]
+
+<p>(Here, $\vec{r}_k = \vec{b} - \hat{A}\vec{\lambda}_k$ is the residual.)</p>
+
+<h5 id="code-1">Code</h5>
+
+<h5 id="results-1">Results</h5>
+
+<h3 id="autoencoder-for-dimensionality-reduction">Autoencoder for Dimensionality Reduction</h3>
+<p>For high-dimensional problems, neural networks can be employed for dimensionality reduction<sup id="fnref:GU_DNNSolve" role="doc-noteref"><a href="#fn:GU_DNNSolve" class="footnote" rel="footnote">6</a></sup>. An encoder network \(E_\theta\): \(\mathbb{R}^n \rightarrow \mathbb{R}^k\) (where $k &lt; n$) can be used to project the high-dimensional problem into a lower-dimensional space. We then solve the reduced problem using traditional methods or other neural network approaches and a decoder network \(D_\phi\): \(\mathbb{R}^k \rightarrow \mathbb{R}^n\) is used to reconstruct the full-dimensional solution as the final step. The reduced problem becomes:</p>
+
+\[E_\theta(\hat{A}) \cdot \vec{\lambda}_\text{reduced} = E_\theta(\vec{b}).\]
+
+<p>And the solution is reconstructed as:</p>
+
+\[\vec{\lambda} = D_\phi(\vec{\lambda}_\text{reduced}).\]
+
+<h5 id="code-2">Code</h5>
+
+<h5 id="results-2">Results</h5>
+
+<h3 id="physics-informed-neural-networks-pinns">Physics-Informed Neural Networks (PINNs)</h3>
+<p>PINNs (also known as <em>“Theory-Trained Neural Networks”</em><sup id="fnref:PINN_Wiki" role="doc-noteref"><a href="#fn:PINN_Wiki" class="footnote" rel="footnote">7</a></sup>) on the other hand don’t merely learn from the error signal of the training data but they incorporate the physical constraints of the problem into the neural network<sup id="fnref:PINN_1" role="doc-noteref"><a href="#fn:PINN_1" class="footnote" rel="footnote">8</a></sup><sup id="fnref:PINN_Nature" role="doc-noteref"><a href="#fn:PINN_Nature" class="footnote" rel="footnote">9</a></sup><sup id="fnref:PINN_Proteins" role="doc-noteref"><a href="#fn:PINN_Proteins" class="footnote" rel="footnote">10</a></sup><sup id="fnref:PINN_Raissi" role="doc-noteref"><a href="#fn:PINN_Raissi" class="footnote" rel="footnote">11</a></sup>.</p>
+
+<p>For a differential equation \(\mathcal{N}[u] = 0\), the PINN loss might be:</p>
+
+\[L = \underbrace{\sum_i |\mathcal{N}[u_\theta](x_i)|^2}_\text{Physics-based loss} + \underbrace{\sum_j |u_\theta(x_j) - u(x_j)|^2}_\text{Data-based loss}\]
+
+<p>Where \(u_\theta\) is the neural network approximation of the solution.</p>
+
+<h5 id="code-3">Code</h5>
+
+<h5 id="results-3">Results</h5>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<h5 id="all-results">All Results</h5>
+
+<p>Not only do neural networks allow us to efficiently fight the curse of dimensionality but they are also inherently faster to execute on available hardware i.e. GPUs since running neural networks consists largely of matmul operations. But how can we ensure accuracy and allow for these methods to be adaptable to arbitrary systems or arbitrary dimensions?</p>
+
+<hr />
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:syslin_wiki" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/System_of_linear_equations">Wikipedia, <em>“System of linear equations”</em>, https://en.wikipedia.org/wiki/System_of_linear_equations (Accessed Sep 30, 2024)</a> <a href="#fnref:syslin_wiki" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:QWConstrained" role="doc-endnote">
+      <p>Quentin Wach, <em>“Constrained Dynamics”</em>, 2024 <a href="#fnref:QWConstrained" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:MatRigidBody" role="doc-endnote">
+      <p><a href="https://www.youtube.com/watch?v=zzy6u1z_l9A">Matthias Müller-Fischer, <em>“SCA2020: Detailed Rigid Body Simulation with Extended Position Based Dynamics”</em>, https://www.youtube.com/watch?v=zzy6u1z_l9A, 2020. (Accessed Sep. 29, 2024)</a> <a href="#fnref:MatRigidBody" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:TUMNeuralApprox" role="doc-endnote">
+      <p><a href="https://mediatum.ub.tum.de/doc/1632857/kwo12gbs02f2xqp5euupmw2y9.pdf">Iremnur Kidil, <em>“Neural Networks Solving Linear Systems”</em>, TU München, 2021, https://mediatum.ub.tum.de/doc/1632857/kwo12gbs02f2xqp5euupmw2y9.pdf (Accessed Sep 30, 2024</a> <a href="#fnref:TUMNeuralApprox" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:DeepIter" role="doc-endnote">
+      <p><a href="https://arxiv.org/abs/2204.00313">Yiqi Gu, Michael K. Ng, <em>“Deep neural networks for solving large linear systems arising rom high-dimensional problems”</em>, https://arxiv.org/abs/2204.00313 (Accessed Sep 30, 2024)</a> <a href="#fnref:DeepIter" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:GU_DNNSolve" role="doc-endnote">
+      <p><a href="http://yiqigu.org.cn/Linear_system.pdf">Yiqi Gu and Michael K. Ng, <em>“Deep Neural Networks for Solving Large Linear Systems Arising from High-Dimensional Problems”</em>, Siam J. Sci. Comput. Vol. 45, No. 5, 2023</a> <a href="#fnref:GU_DNNSolve" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:PINN_Wiki" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/Physics-informed_neural_networks">Wikipedia, _“Physics-informed neural networks”, https://en.wikipedia.org/wiki/Physics-informed_neural_networks (Accessed September 30, 2024)</a> <a href="#fnref:PINN_Wiki" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:PINN_1" role="doc-endnote">
+      <p><a href="https://compphysics.github.io/MachineLearning/doc/LectureNotes/_build/html/chapter11.html#">Computational Physics, <em>“Solving Differential Equations with Deep Learning”</em>, https://compphysics.github.io/MachineLearning/doc/LectureNotes/_build/html/chapter11.html#, (Accessed Sep 30, 2024)</a> <a href="#fnref:PINN_1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:PINN_Nature" role="doc-endnote">
+      <p><a href="https://www.nature.com/articles/s42254-021-00314-5">George Em. Karniadakis et al., <em>“Physics-informed machine learning”</em>, Nature Reviews Physics, 2021</a> <a href="#fnref:PINN_Nature" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:PINN_Proteins" role="doc-endnote">
+      <p><a href="https://openreview.net/pdf?id=5yn5shS6wN">Freyr Sverrisson et al., <em>“Physics-informed Deep Neural Network for Rigid-Body Protein Docking”</em>, ICLR, 2022</a> <a href="#fnref:PINN_Proteins" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:PINN_Raissi" role="doc-endnote">
+      <p><a href="https://arxiv.org/pdf/1711.10561">Maziar Raissi et al., <em>“Physics Informed Deep Learning (Part I): Data-driven Solutions of Nonlinear Partial Differential Equations”</em>, Arxix: https://arxiv.org/pdf/1711.10561 (Accessed Sep. 30, 2024)</a> <a href="#fnref:PINN_Raissi" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+  </div>
+
+
+<!--
+<h4>Did You Enjoy Reading This Article?</h4>
+<p>Here are some more articles/posts you might like as well:</p>
+
+
+
+
+
+<ul>
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/blog/2024/09/28/rigid-bodies.html">Constrained Dynamics</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/science-engineering/2024/07/23/terra.html">TERRA: The Tiny Terrain Generator</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/science-engineering/2024/07/23/fluids-intro.html">Introduction to Computational Fluid Dynamics</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/science-engineering/academia/2024/04/22/second-publication.html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/blog/2024/02/15/dubins-paths-for-waveguide-routing.html">Dubins Paths for Waveguide Routing</a></li>
+            
+
+            
+                
+</ul>
+-->
+
+
+  <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT 
+     *  THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR 
+     *  PLATFORM OR CMS.
+     *  
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: 
+     *  https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = 'http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve.html';  
+        
+        // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.identifier = '/blog/2024/09/29/deep-lin-eq-solve'; 
+    };
+    
+    (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+        var d = document, s = d.createElement('script');
+        
+        // IMPORTANT: Replace EXAMPLE with your forum shortname!
+        s.src = 'https://quentinwach.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the 
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">
+        comments powered by Disqus.
+    </a>
+</noscript><a class="u-url" href="/blog/2024/09/29/deep-lin-eq-solve.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+
+      <div class="footer-col">
+        <p></p>
+      </div>
+    
+    </div>
+
+    <div class="social-links">
+    
+      <i>"I just wondered how things were put together."</i> Claude Shannon.
+      </br>
+
+      Thank you for visiting!
+      You can reach out to me on social media.
+      <div class="social-media-list"><div class="social-media-list"><a href="https://x.com/QuentinWach" class="social-link">
+      <svg class="svg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      <span class="username">QuentinWach</span>
+    </a><a href="https://github.com/QuentinWach" class="social-link">
+      <svg class="svg-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      <span class="username">QuentinWach</span>
+    </a></div></div>
+    </div>
+
+  </div>
+
+</footer><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.tag-filter a').click(function(e){
+                e.preventDefault();
+                var tag = $(this).attr('href').substring(1);
+                $('.post').hide();
+                $('.post[data-tags~="' + tag + '"]').show();
+            });
+        });
+    </script>
+
+
+  </body>
+
+</html>
