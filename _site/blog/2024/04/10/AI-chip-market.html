@@ -72,34 +72,25 @@
         • 
         22
        min read for 
-        4031
+        4001
        words •
       <time class="dt-published" datetime="2024-04-10T21:38:24+02:00" itemprop="datePublished">
         Apr 10, 2024
       </time></p>
   </header>
 
+  <!-- Add content summary -->
+  <div class="content-summary">
+    <ul id="markdown-toc"></ul>
+  </div>
+
   <div>
     <div class="post-content e-content" itemprop="articleBody">
-      <style>
-    img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
-    img[alt=AIAccComp]:hover {
-                            transform: scale(1);
-                            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-                            z-index: 10000;
-    }
-</style>
-
-<p><img src="/images/AI_acc_comparison_QW_animated_WT.gif" alt="AIAccComp" />
-<span style="font-size: 14px;">
-    Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago <sup id="fnref:MFigure" role="doc-noteref"><a href="#fn:MFigure" class="footnote" rel="footnote">1</a></sup>.
-</span></p>
-
-<h2 id="introduction">Introduction</h2>
+      <h2 id="introduction">Introduction</h2>
 <p>Artificial general intelligence (AGI)
 <button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
 <span class="sidenote-right">
-    Google’s Deep Mind characterizes current general AIs as <strong>emerging AGI</strong>. Level 1. Examples, their researchers say, include: ChatGPT, Bard, Llama 2, and Gemini <sup id="fnref:GoogleAGI" role="doc-noteref"><a href="#fn:GoogleAGI" class="footnote" rel="footnote">2</a></sup>.
+    Google’s Deep Mind characterizes current general AIs as <strong>emerging AGI</strong>. Level 1. Examples, their researchers say, include: ChatGPT, Bard, Llama 2, and Gemini <sup id="fnref:GoogleAGI" role="doc-noteref"><a href="#fn:GoogleAGI" class="footnote" rel="footnote">1</a></sup>.
 </span>
 is speculated to arrive within only a couple of years from now. And with its emergence comes a plethora of issues. In these notes, I want to focus not on the consequences of AGI, nor what algorithms and software will lead to it, but rather the bottlenecks and problems there are especially regarding its hardware.</p>
 
@@ -107,8 +98,17 @@ is speculated to arrive within only a couple of years from now. And with its eme
   <p>“We may recall that the first steam engine had less than 0.1% efficiency and it took 200 years (1780 to 1980) to develop steam engines that reached biological efficiency.”</p>
 </blockquote>
 
-<p>writes Ruch et al. in 2011<sup id="fnref:RuchBioAI" role="doc-noteref"><a href="#fn:RuchBioAI" class="footnote" rel="footnote">3</a></sup>.
+<p>writes Ruch et al. in 2011<sup id="fnref:RuchBioAI" role="doc-noteref"><a href="#fn:RuchBioAI" class="footnote" rel="footnote">2</a></sup>.
 Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn’t otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is <em>the</em> enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought. But it is essential for making technologies widely available and allow for future technologies to build upon it!</p>
+
+<style>
+    img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
+</style>
+
+<p><img src="/images/AI_acc_comparison_QW_animated_WT.gif" alt="AIAccComp" />
+<span style="font-size: 14px;">
+    Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago <sup id="fnref:MFigure" role="doc-noteref"><a href="#fn:MFigure" class="footnote" rel="footnote">3</a></sup>.
+</span></p>
 
 <p>In 2020-2023, the bottleneck for AI was arguably the amount of hardware available due to a global chip shortage so vast it made history<sup id="fnref:ChipShortage" role="doc-noteref"><a href="#fn:ChipShortage" class="footnote" rel="footnote">4</a></sup><sup id="fnref:ChipShortage2" role="doc-noteref"><a href="#fn:ChipShortage2" class="footnote" rel="footnote">5</a></sup>. 
 In 2024, managing the voltage conversion is still a major issue for scaling up<sup id="fnref:MuskVTransformers" role="doc-noteref"><a href="#fn:MuskVTransformers" class="footnote" rel="footnote">6</a></sup>.
@@ -152,11 +152,6 @@ There is of course also a <strong>data problem</strong>. Our algorithms are stil
 </span></p>
 <style>
     img[alt=centerAI] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
-    img:hover {
-                            transform: scale(1.9);
-                            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
-                            z-index: 10000;
-}
 </style>
 
 <p><img src="/images/AI_compute.png" alt="centerAI" />
@@ -319,14 +314,14 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:MFigure" role="doc-endnote">
-      <p>Adapted based on a figure originally linked to <a href="https://NICSEFC.EE.TSINGHUA.EDU.CN">https://NICSEFC.EE.TSINGHUA.EDU.CN</a>. Yet, I was not able to find it again as the link seemed to have been broken. <a href="#fnref:MFigure" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
     <li id="fn:GoogleAGI" role="doc-endnote">
       <p>https://arxiv.org/pdf/2311.02462.pdf <a href="#fnref:GoogleAGI" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:RuchBioAI" role="doc-endnote">
       <p><a href="chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://www.zurich.ibm.com/pdf/news/Towards_5D_Scaling.pdf">P. Ruch et al., <em>Toward five-dimensionalscaling: How densityimproves efficiency infuture computers</em>, IBM, 2011</a> <a href="#fnref:RuchBioAI" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:MFigure" role="doc-endnote">
+      <p>Adapted based on a figure originally linked to <a href="https://NICSEFC.EE.TSINGHUA.EDU.CN">https://NICSEFC.EE.TSINGHUA.EDU.CN</a>. Yet, I was not able to find it again as the link seemed to have been broken. <a href="#fnref:MFigure" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:ChipShortage" role="doc-endnote">
       <p>https://en.wikipedia.org/wiki/2020%E2%80%932023_global_chip_shortage <a href="#fnref:ChipShortage" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
@@ -536,22 +531,6 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
         
 
         
-    
-
-        
-        
-
-        
-
-        
-    
-
-        
-        
-
-        
-
-        
             <li><a href="/blog/2024/02/15/dubins-paths-for-waveguide-routing.html">Dubins Paths for Waveguide Routing</a></li>
             
 
@@ -650,6 +629,41 @@ It doesn’t take a math genius to see that there are orders of magnitude in dif
     </a>
 </noscript><a class="u-url" href="/blog/2024/04/10/AI-chip-market.html" hidden></a>
 </article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+    const toc = document.getElementById('markdown-toc');
+    let h2Counter = 0;
+    let h3Counter = 0;
+
+    headings.forEach((heading, index) => {
+      const id = `section-${index}`;
+      heading.id = id;
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      
+      if (heading.tagName === 'H2') {
+        h2Counter++;
+        h3Counter = 0;
+        a.textContent = `${h2Counter}. ${heading.textContent}`;
+      } else if (heading.tagName === 'H3') {
+        h3Counter++;
+        a.textContent = `${h2Counter}.${h3Counter}. ${heading.textContent}`;
+        li.style.marginLeft = '20px';
+      }
+      
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+
+    if (toc.children.length === 0) {
+      document.querySelector('.content-summary').style.display = 'none';
+    }
+  });
+</script>
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/"></data>

@@ -79,6 +79,11 @@
       </time></p>
   </header>
 
+  <!-- Add content summary -->
+  <div class="content-summary">
+    <ul id="markdown-toc"></ul>
+  </div>
+
   <div>
     <div class="post-content e-content" itemprop="articleBody">
       <!-- "/images/Sketch3.png" -->
@@ -279,22 +284,6 @@
 
         
     
-
-        
-        
-
-        
-
-        
-    
-
-        
-        
-
-        
-
-        
-    
 </ul>
 -->
 
@@ -334,6 +323,41 @@
     </a>
 </noscript><a class="u-url" href="/2024/02/10/Who-am-I.html" hidden></a>
 </article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+    const toc = document.getElementById('markdown-toc');
+    let h2Counter = 0;
+    let h3Counter = 0;
+
+    headings.forEach((heading, index) => {
+      const id = `section-${index}`;
+      heading.id = id;
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      
+      if (heading.tagName === 'H2') {
+        h2Counter++;
+        h3Counter = 0;
+        a.textContent = `${h2Counter}. ${heading.textContent}`;
+      } else if (heading.tagName === 'H3') {
+        h3Counter++;
+        a.textContent = `${h2Counter}.${h3Counter}. ${heading.textContent}`;
+        li.style.marginLeft = '20px';
+      }
+      
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+
+    if (toc.children.length === 0) {
+      document.querySelector('.content-summary').style.display = 'none';
+    }
+  });
+</script>
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/"></data>

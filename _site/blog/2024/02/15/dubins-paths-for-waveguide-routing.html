@@ -79,6 +79,11 @@
       </time></p>
   </header>
 
+  <!-- Add content summary -->
+  <div class="content-summary">
+    <ul id="markdown-toc"></ul>
+  </div>
+
   <div>
     <div class="post-content e-content" itemprop="articleBody">
       <!--Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.-->
@@ -97,7 +102,7 @@
 </div>
 -->
 
-<h3 id="introduction">Introduction</h3>
+<h2 id="introduction">Introduction</h2>
 <p>I’ll try to keep this short and not ramble too much. I just want to get this out there since I found it rather useful and can’t believe it isn’t yet standard.</p>
 
 <p>When I started my work on layouts for photonic integrated circuit in September 2023, it became quickly obvious that the typical waveguide interconnects provided by libraries are not well behaved nor optimal as to improve the performance and compactness of the photonic integrated circuit. Most commonly, we have simple straights, circular arcs, all sorts of splines, as well as Euler-bends, in short: They are all simple analytical functions or splines that (try to) optimize themselves. All of these are either simple building blocks that leave most of the work to the designer who has to plan out and specify every route, or behave extremely poorly and lead to overly bendy results that may even cross each other.</p>
@@ -115,7 +120,7 @@
 
 <p>As it turns out, the answer is rather simple and long established in the field of robotics / control theory. <strong>Dubins paths!</strong></p>
 
-<h3 id="what-are-they">What are they?</h3>
+<h2 id="what-are-they">What are they?</h2>
 <p>Dubins paths are named after Lester Dubins, who introduced them in the 1950s<sup id="fnref:DubinPaper" role="doc-noteref"><a href="#fn:DubinPaper" class="footnote" rel="footnote">1</a></sup>. They refer to the shortest paths that a vehicle can take from one point to another while constrained to move at a specific minimum turning radius. These paths are thus commonly studied in the field of motion planning for vehicles, particularly in robotics and aerospace engineering.</p>
 
 <style>
@@ -136,10 +141,10 @@
 
 <p>You can see three examples of the possible paths in the figure I adapted here<sup id="fnref:WikiDubin" role="doc-noteref"><a href="#fn:WikiDubin" class="footnote" rel="footnote">2</a></sup>.</p>
 
-<h3 id="geometric-construction">Geometric Construction</h3>
+<h2 id="geometric-construction">Geometric Construction</h2>
 <p>Dubins did indeed prove that these trajectories are the shortest paths mathematically. The geometric construction is quite intuitive and a nice toy problem to figure out on ones own but it can quickly explode into multiple pages of pen and paper calculations and diagrams which is why I am not going to go into it here. Instead, I refer to a great overview and explanation of the synthesis of Dubins paths given by David A. Anisi<sup id="fnref:DubinImplementPaper" role="doc-noteref"><a href="#fn:DubinImplementPaper" class="footnote" rel="footnote">3</a></sup>. A wonderful and in-depth guide is also given by Andy G<sup id="fnref:DubinGuide" role="doc-noteref"><a href="#fn:DubinGuide" class="footnote" rel="footnote">4</a></sup>.</p>
 
-<h3 id="code">Code</h3>
+<h2 id="code">Code</h2>
 <p>There is an abundance of implementations of Dubins paths available on the internet<sup id="fnref:code1" role="doc-noteref"><a href="#fn:code1" class="footnote" rel="footnote">5</a></sup>.</p>
 
 <!--
@@ -479,7 +484,7 @@ def gds_solution(xs, pin1, pin2, solution):
 
 </code></pre></div></div>
 
-<h3 id="conclusion">Conclusion</h3>
+<h2 id="conclusion">Conclusion</h2>
 <p>In the figure below, a comparison between a dense array of Dubins paths and arrays using Nazcas s-bends and cobra splines is made:</p>
 
 <p><img src="/images/dubin/DubinAdvantage.PNG" alt="sleep_figure_1" /></p>
@@ -538,32 +543,6 @@ def gds_solution(xs, pin1, pin2, solution):
 
 
 <ul>
-    
-
-        
-        
-
-        
-
-        
-            <li><a href="/blog/2024/09/29/deep-lin-eq-solve.html">Solving Massive Systems of Linear Equations with Deep Learning</a></li>
-            
-
-            
-        
-    
-
-        
-        
-
-        
-
-        
-            <li><a href="/blog/2024/09/28/rigid-bodies.html">Constrained Dynamics</a></li>
-            
-
-            
-        
     
 
         
@@ -634,6 +613,48 @@ def gds_solution(xs, pin1, pin2, solution):
             
 
             
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/science-engineering/academia/2024/04/22/second-publication.html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/blog/2024/04/10/AI-chip-market.html">Neural Network Accelerators (2024)</a></li>
+            
+
+            
                 
 </ul>
 -->
@@ -674,6 +695,41 @@ def gds_solution(xs, pin1, pin2, solution):
     </a>
 </noscript><a class="u-url" href="/blog/2024/02/15/dubins-paths-for-waveguide-routing.html" hidden></a>
 </article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+    const toc = document.getElementById('markdown-toc');
+    let h2Counter = 0;
+    let h3Counter = 0;
+
+    headings.forEach((heading, index) => {
+      const id = `section-${index}`;
+      heading.id = id;
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      
+      if (heading.tagName === 'H2') {
+        h2Counter++;
+        h3Counter = 0;
+        a.textContent = `${h2Counter}. ${heading.textContent}`;
+      } else if (heading.tagName === 'H3') {
+        h3Counter++;
+        a.textContent = `${h2Counter}.${h3Counter}. ${heading.textContent}`;
+        li.style.marginLeft = '20px';
+      }
+      
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+
+    if (toc.children.length === 0) {
+      document.querySelector('.content-summary').style.display = 'none';
+    }
+  });
+</script>
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/"></data>

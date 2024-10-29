@@ -79,6 +79,11 @@
       </time></p>
   </header>
 
+  <!-- Add content summary -->
+  <div class="content-summary">
+    <ul id="markdown-toc"></ul>
+  </div>
+
   <div>
     <div class="post-content e-content" itemprop="articleBody">
       <p>I recently started getting more into low-level programming, implementing physics simulations and graphics which then lead me to write my first shader. And damn… shaders are awesome! But many of the copy-cat tutorials out there are terribly boring. I don’t want to see another colored triangle! Let’s actually (attempt to) build an awesome shader! First, I’ll give a little introduction then I’ll show you two simple shaders I made with detailed comments in the code.</p>
@@ -99,7 +104,7 @@
 
 <p>There are no sculpted or modelled objects in these scenes. Everything was defined and rendered using a complex composition of very simply equations. How?</p>
 
-<h3 id="opengl-shaders-rendering-parallelism-on-the-gpu">OpenGL Shaders: Rendering Parallelism On the GPU</h3>
+<h2 id="opengl-shaders-rendering-parallelism-on-the-gpu">OpenGL Shaders: Rendering Parallelism On the GPU</h2>
 <p>OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation<sup id="fnref:OpenGL" role="doc-noteref"><a href="#fn:OpenGL" class="footnote" rel="footnote">6</a></sup>.</p>
 
 <blockquote>
@@ -108,7 +113,7 @@
 
 <p>The basic idea of shaders is simply to parallelize, to compute using all the available resources a GPU provides in parallel. That is typically graphics but it can frankly be whatever you want. Thus, a core idea is to keep dependencies as little as possible. The program should typically only be linear, deterministic. You have a simple input like the pixel position on the screen and the shader will know exactly what to do. This is what makes it parallelizable. The more it depends on what is going on at other positions on the screen or other data or even previous data, the less parallelizable it will be and the less we’ll be able to truly make use of the power of the GPU.</p>
 
-<h3 id="drawing-objects-with-vertex-and-fragmentpixel-shaders">Drawing Objects with Vertex and Fragment/Pixel Shaders</h3>
+<h2 id="drawing-objects-with-vertex-and-fragmentpixel-shaders">Drawing Objects with Vertex and Fragment/Pixel Shaders</h2>
 <p>If we want to draw a object, we need to define the points that make the geometry of the object. That’s what the CPU does. (Sad.) We’ll then pass that input point information (vertices) to the GPU. The vertex shader then figures out where to draw these points on the screen. The fragment shader figures out what color each spot on the surface of the object should be<sup id="fnref:Barney" role="doc-noteref"><a href="#fn:Barney" class="footnote" rel="footnote">8</a></sup>.</p>
 
 <p>Of course, there are many more shaders like geometry and compute shaders. But alas…
@@ -116,7 +121,7 @@ A faster way which can directly utilize the GPU is defining distance functions!<
 
 <p>But I dislike reading and watching tutorial after tutorial. So let’s just get started!</p>
 
-<h3 id="example-1-lava-lamp">Example #1: Lava Lamp</h3>
+<h2 id="example-1-lava-lamp">Example #1: Lava Lamp</h2>
 <p>My first own shader (aside from the typical color gradients one does which is pretty much the “hello world” of shaders) is an animation comparable to a lava lamp. Or maybe spraying blood. 😅
 Here is the code:</p>
 
@@ -206,7 +211,7 @@ Here is the code:</p>
 
 <p>Okay. This was quite straightforward. So I wanted to attempt something similar like that landscape Inigo made! I pretty much hacked this together, there is a lot wrong with the following code but it does produce a somewhat pleasing result.</p>
 
-<h3 id="example-2-mountain-range">Example #2: Mountain Range</h3>
+<h2 id="example-2-mountain-range">Example #2: Mountain Range</h2>
 
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifdef GL_ES
 </span><span class="n">precision</span> <span class="n">mediump</span> <span class="kt">float</span><span class="p">;</span>
@@ -519,22 +524,6 @@ $$
         
 
         
-    
-
-        
-        
-
-        
-
-        
-    
-
-        
-        
-
-        
-
-        
             <li><a href="/science-engineering/2024/07/23/terra.html">TERRA: The Tiny Terrain Generator</a></li>
             
 
@@ -684,6 +673,41 @@ $$
     </a>
 </noscript><a class="u-url" href="/blog/2024/09/18/first-shaders.html" hidden></a>
 </article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+    const toc = document.getElementById('markdown-toc');
+    let h2Counter = 0;
+    let h3Counter = 0;
+
+    headings.forEach((heading, index) => {
+      const id = `section-${index}`;
+      heading.id = id;
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      
+      if (heading.tagName === 'H2') {
+        h2Counter++;
+        h3Counter = 0;
+        a.textContent = `${h2Counter}. ${heading.textContent}`;
+      } else if (heading.tagName === 'H3') {
+        h3Counter++;
+        a.textContent = `${h2Counter}.${h3Counter}. ${heading.textContent}`;
+        li.style.marginLeft = '20px';
+      }
+      
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+
+    if (toc.children.length === 0) {
+      document.querySelector('.content-summary').style.display = 'none';
+    }
+  });
+</script>
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/"></data>

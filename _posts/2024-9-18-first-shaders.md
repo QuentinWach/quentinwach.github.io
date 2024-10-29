@@ -32,14 +32,14 @@ The left shows a beautiful mountain landscape with a forest under a sunny sky[^s
 
 There are no sculpted or modelled objects in these scenes. Everything was defined and rendered using a complex composition of very simply equations. How?
 
-### OpenGL Shaders: Rendering Parallelism On the GPU
+## OpenGL Shaders: Rendering Parallelism On the GPU
 OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation[^OpenGL]. 
 
 >"A shader is a set of instructions to the GPU which are executed all at once for every pixel on the screen."[^TheHappyCat]
 
 The basic idea of shaders is simply to parallelize, to compute using all the available resources a GPU provides in parallel. That is typically graphics but it can frankly be whatever you want. Thus, a core idea is to keep dependencies as little as possible. The program should typically only be linear, deterministic. You have a simple input like the pixel position on the screen and the shader will know exactly what to do. This is what makes it parallelizable. The more it depends on what is going on at other positions on the screen or other data or even previous data, the less parallelizable it will be and the less we'll be able to truly make use of the power of the GPU.
 
-### Drawing Objects with Vertex and Fragment/Pixel Shaders
+## Drawing Objects with Vertex and Fragment/Pixel Shaders
 If we want to draw a object, we need to define the points that make the geometry of the object. That's what the CPU does. (Sad.) We'll then pass that input point information (vertices) to the GPU. The vertex shader then figures out where to draw these points on the screen. The fragment shader figures out what color each spot on the surface of the object should be[^Barney].
 
 Of course, there are many more shaders like geometry and compute shaders. But alas...
@@ -47,7 +47,7 @@ A faster way which can directly utilize the GPU is defining distance functions!
 
 But I dislike reading and watching tutorial after tutorial. So let's just get started!
 
-### Example #1: Lava Lamp
+## Example #1: Lava Lamp
 My first own shader (aside from the typical color gradients one does which is pretty much the "hello world" of shaders) is an animation comparable to a lava lamp. Or maybe spraying blood. 😅
 Here is the code:
 
@@ -138,7 +138,7 @@ void main() {
 
 Okay. This was quite straightforward. So I wanted to attempt something similar like that landscape Inigo made! I pretty much hacked this together, there is a lot wrong with the following code but it does produce a somewhat pleasing result.
 
-### Example #2: Mountain Range
+## Example #2: Mountain Range
 
 ```c
 #ifdef GL_ES

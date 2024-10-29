@@ -3,7 +3,7 @@ layout: post
 mathjax: true
 title:  "Solving Massive Systems of Linear Equations with Deep Learning"
 description: "To give some background: systems of linear equations show up everywhere (and systems of non-linear equations can often be linearized), for example, in solving a constraint mechanical system as I discussed in my previous introduction to constrained dynamics. A variety of methods can be used to solve such systems, e.g. Gaussian elimination, the Conjugate Gradient Method, the Gauss-Seidel Method, Position-Based Dynamics, or Impulse-Based solvers. Yet, all of them are relatively inefficient and do not scale well to extremely large systems."
-date:   2024-09-29 20:38:24 +0100
+date:   2025-09-29 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["physics", "deep-learning"]
 tag_search: true
@@ -12,6 +12,8 @@ weight:
 note: 
 categories: "blog"
 ---
+
+## Introduction
 Systems of linear equations are fundamental in various fields of mathematics, physics, and engineering. They are typically represented in matrix form as:[^syslin_wiki]
 
 $$
@@ -28,7 +30,7 @@ The list of other challenges regarding global solvers fills books. As such many 
 
 Let's first get a little bit of an overview of classical methods.
 
-### Classical Solvers
+## Classical Solvers
 **Gaussian Elimination** is a direct method that transforms the augmented matrix $$[\hat{A}|\vec{b}]$$ into row echelon form. The **Conjugate Gradient Method** on the other hand is iterative method particularly effective for sparse, symmetric, positive-definite matrices. The **Gauss-Seidel Method** is an iterative method that updates each component of $$\vec{\lambda}$$ using the latest available values of other components.
 
 Global solvers, like Gaussian elimination, consider the entire system at once. Local solvers, like the Gauss-Seidel method, focus on solving one equation at a time. The Gauss-Seidel method, for instance, iterates through the system:
@@ -74,7 +76,7 @@ Below you can see a sparse matrix where most values are zero or close to zero an
 Such matrices are very common e.g. in mechanical systems and the iterative solvers tend to perform much better for such matrices as well.
 
 
-### Direct Approximation with a Neural Network
+## Direct Approximation with a Neural Network
 The most straightforward approach [^TUMNeuralApprox] is to train a neural network to directly approximate the solution $$\vec{\lambda}$$ with a neural network $$f_\theta$$ :
 $$
 \vec{\lambda} \approx f_\theta(\hat{A}, \vec{b}).
@@ -121,10 +123,10 @@ for epoch in range(1000):
 print(outputs)
 ```
 
-##### Results
+### Results
 
 
-### Deep Iterative Methods
+## Deep Iterative Methods
 Neural networks can also be used to enhance traditional iterative methods[^DeepIter]. We may train a neural network to generate effective _"preconditioners"_  $$P_\theta$$ for iterative methods like conjugate gradient. So instead of initializing the network randomly, we neural network gives us a good first guess:
 
 $$
@@ -143,7 +145,7 @@ $$
 
 ##### Results
 
-### Autoencoder for Dimensionality Reduction
+## Autoencoder for Dimensionality Reduction
 For high-dimensional problems, neural networks can be employed for dimensionality reduction[^GU_DNNSolve]. An encoder network $$E_\theta$$: $$\mathbb{R}^n \rightarrow \mathbb{R}^k$$ (where $k < n$) can be used to project the high-dimensional problem into a lower-dimensional space. We then solve the reduced problem using traditional methods or other neural network approaches and a decoder network $$D_\phi$$: $$\mathbb{R}^k \rightarrow \mathbb{R}^n$$ is used to reconstruct the full-dimensional solution as the final step. The reduced problem becomes:
 
 $$
@@ -160,7 +162,7 @@ $$
 
 ##### Results
 
-### Physics-Informed Neural Networks (PINNs)
+## Physics-Informed Neural Networks (PINNs)
 PINNs (also known as _"Theory-Trained Neural Networks"_[^PINN_Wiki]) on the other hand don't merely learn from the error signal of the training data but they incorporate the physical constraints of the problem into the neural network[^PINN_1][^PINN_Nature][^PINN_Proteins][^PINN_Raissi]. 
 
 For a differential equation $$\mathcal{N}[u] = 0$$, the PINN loss might be:
@@ -175,7 +177,7 @@ Where $$u_\theta$$ is the neural network approximation of the solution.
 
 ##### Results
 
-### Conclusion
+## Conclusion
 
 ##### All Results
 
@@ -183,7 +185,6 @@ Where $$u_\theta$$ is the neural network approximation of the solution.
 Not only do neural networks allow us to efficiently fight the curse of dimensionality but they are also inherently faster to execute on available hardware i.e. GPUs since running neural networks consists largely of matmul operations. But how can we ensure accuracy and allow for these methods to be adaptable to arbitrary systems or arbitrary dimensions?
 
 
----
 [^QWConstrained]: Quentin Wach, _"Constrained Dynamics"_, 2024
 [^MatRigidBody]: [Matthias Müller-Fischer, _"SCA2020: Detailed Rigid Body Simulation with Extended Position Based Dynamics"_, https://www.youtube.com/watch?v=zzy6u1z_l9A, 2020. (Accessed Sep. 29, 2024)](https://www.youtube.com/watch?v=zzy6u1z_l9A)
 [^TUMNeuralApprox]: [Iremnur Kidil, _"Neural Networks Solving Linear Systems"_, TU München, 2021, https://mediatum.ub.tum.de/doc/1632857/kwo12gbs02f2xqp5euupmw2y9.pdf (Accessed Sep 30, 2024](https://mediatum.ub.tum.de/doc/1632857/kwo12gbs02f2xqp5euupmw2y9.pdf)

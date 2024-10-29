@@ -1,357 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-10-02T13:09:59+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Q. Wach</title><subtitle></subtitle><entry><title type="html">Solving Massive Systems of Linear Equations with Deep Learning</title><link href="http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve.html" rel="alternate" type="text/html" title="Solving Massive Systems of Linear Equations with Deep Learning" /><published>2024-09-29T21:38:24+02:00</published><updated>2024-09-29T21:38:24+02:00</updated><id>http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve</id><content type="html" xml:base="http://localhost:4000/blog/2024/09/29/deep-lin-eq-solve.html"><![CDATA[<p>Systems of linear equations are fundamental in various fields of mathematics, physics, and engineering. They are typically represented in matrix form as:<sup id="fnref:syslin_wiki" role="doc-noteref"><a href="#fn:syslin_wiki" class="footnote" rel="footnote">1</a></sup></p>
-
-\[\hat{A} \cdot \vec{\lambda} = \vec{b}\]
-
-<p>where \(\hat{A}\) is an \(m \times n\) matrix, \(\vec{\lambda}\) is an \(n\)-dimensional vector of unknowns, and \(\vec{b}\) is an \(m\)-dimensional vector of constants. (And indeed systems of non-linear equations can often be linearized). These systems appear in numerous applications, including solving constraint mechanical systems, as I discussed in my previous introduction to constrained dynamics<sup id="fnref:QWConstrained" role="doc-noteref"><a href="#fn:QWConstrained" class="footnote" rel="footnote">2</a></sup>, electrical circuit analysis, economic models, computer graphics and image processing, or machine learning and optimization problems.</p>
-
-<p>A variety of methods can be used to solve such systems. Yet, all of them are relatively inefficient and do not scale well to extremely large systems. While matrix multiplications are extremely well parallelized, making them really fast on GPUs, and kick-starting the AI/deep learning revolution, this isn’t true of solving linear systems and matrix inversion which can be orders of magnitude slower than matmuls.</p>
-
-<blockquote>
-  <p>“99% of the complexity of rigid body formulations comes from using global solvers!” says Matthias Müller-Fischer<sup id="fnref:MatRigidBody" role="doc-noteref"><a href="#fn:MatRigidBody" class="footnote" rel="footnote">3</a></sup>.</p>
-</blockquote>
-
-<p>The list of other challenges regarding global solvers fills books. As such many variations and optimizations of these methods exist to improve their scaling, stability, accuracy, convergence times and so on. And while the list of classical methods to improve these solvers is long, deep learning is still a relatively unexplored path, it seems to me, yet a very promising one!</p>
-
-<p>Let’s first get a little bit of an overview of classical methods.</p>
-
-<h3 id="classical-solvers">Classical Solvers</h3>
-<p><strong>Gaussian Elimination</strong> is a direct method that transforms the augmented matrix \([\hat{A}|\vec{b}]\) into row echelon form. The <strong>Conjugate Gradient Method</strong> on the other hand is iterative method particularly effective for sparse, symmetric, positive-definite matrices. The <strong>Gauss-Seidel Method</strong> is an iterative method that updates each component of \(\vec{\lambda}\) using the latest available values of other components.</p>
-
-<p>Global solvers, like Gaussian elimination, consider the entire system at once. Local solvers, like the Gauss-Seidel method, focus on solving one equation at a time. The Gauss-Seidel method, for instance, iterates through the system:</p>
-
-<p>For the $i$-th equation:</p>
-
-\[\lambda_i = \frac{1}{a_{ii}} \left(b_i - \sum_{j&lt;i} a_{ij}\lambda_j - \sum_{j&gt;i} a_{ij}\lambda_j^{(k-1)}\right)\]
-
-<p>Where \(\lambda_j^{(k-1)}\) is the value from the previous iteration.</p>
-<h5 id="code-for-gaussian-elimination-conjugate-gradient-method-and-gauss-seidel-method">Code for Gaussian Elimination, Conjugate Gradient Method, and Gauss-Seidel Method</h5>
-
-<h5 id="results--comparison">Results &amp; Comparison</h5>
-<p>This comparison is meant to be taken with a grain of salt since the software and hardware implementation play a huge role in how well these methods perform.</p>
-
-<p>First, we compare Gaussian elimination, an LU decomposition-based solver, the conjugate gradient method and the Gauss Seidel method for dense random matrices.</p>
-
-<div style="text-align: center;">
-    <img src="/images/classic_solv_dense.png" alt="centerAI" style="width: 100%; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;" />
-</div>
-
-<div style="text-align: center; margin-bottom: 15px;">
-    <span style="font-size: 14px;">
-        My first shader, red drops moving from right to left, merging and splitting smoothly.
-    </span>
-</div>
-
-<p>The iterative methods come with some overhead and thus perform worse for smaller matrices but then start outperforming the global solvers for matrices of larger sizes.</p>
-
-<p>Below you can see a sparse matrix where most values are zero or close to zero and only values close to the diagonal of the matrix are large and contribute to the system of equations:</p>
-
-<div style="text-align: center;">
-    <img src="/images/sparse_matrix.png" alt="centerAI" style="width: 50%; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;" />
-</div>
-
-<p><span style="font-size: 14px;">
-    The amount of compute required to train (a) neural network and do inference (b) after training.
-    This figure was created by myself but the data was compiled by Jaime Sevilla et al.[^AIDemand_Data_1][^AIDemand_Data_2].
-</span></p>
-
-<p>Such matrices are very common e.g. in mechanical systems and the iterative solvers tend to perform much better for such matrices as well.</p>
-
-<h3 id="direct-approximation-with-a-neural-network">Direct Approximation with a Neural Network</h3>
-<p>The most straightforward approach <sup id="fnref:TUMNeuralApprox" role="doc-noteref"><a href="#fn:TUMNeuralApprox" class="footnote" rel="footnote">4</a></sup> is to train a neural network to directly approximate the solution \(\vec{\lambda}\) with a neural network \(f_\theta\) :
-\(\vec{\lambda} \approx f_\theta(\hat{A}, \vec{b}).\)
-Here, the network may simply be trained to minimize the loss
-\(L = \|\hat{A} \cdot f_\theta(\hat{A}, \vec{b}) - \vec{b}\|^2.\)
-The two glaring issues that come with such an approach are that 1. the neural architecture must be designed for a specific system, and 2. even with training it is not guaranteed that it will generalize well enough to model all edge cases accurately.</p>
-<h5 id="code">Code</h5>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
-<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
-<span class="kn">import</span> <span class="n">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
-
-<span class="c1"># Define a simple neural network model
-</span><span class="k">class</span> <span class="nc">NeuralSolver</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="err"> </span> <span class="err"> </span> <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="nf">super</span><span class="p">(</span><span class="n">NeuralSolver</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-
-<span class="err"> </span> <span class="err"> </span> <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">relu</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">return</span> <span class="n">x</span>
-
-<span class="c1"># Initialize the model, criterion, and optimizer
-</span><span class="n">model</span> <span class="o">=</span> <span class="nc">NeuralSolver</span><span class="p">()</span>
-<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">MSELoss</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="nc">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-
-<span class="c1"># Training loop
-</span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
-<span class="err"> </span> <span class="err"> </span> <span class="c1"># Forward pass
-</span><span class="err"> </span> <span class="err"> </span> <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-<span class="err"> </span> <span class="err"> </span> <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-<span class="err"> </span> <span class="err"> </span> <span class="c1"># Backward pass and optimization
-</span><span class="err"> </span> <span class="err"> </span> <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
-<span class="err"> </span> <span class="err"> </span> <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
-<span class="err"> </span> <span class="err"> </span> <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
-
-<span class="c1"># Print the final output
-</span><span class="nf">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h5 id="results">Results</h5>
-
-<h3 id="deep-iterative-methods">Deep Iterative Methods</h3>
-<p>Neural networks can also be used to enhance traditional iterative methods<sup id="fnref:DeepIter" role="doc-noteref"><a href="#fn:DeepIter" class="footnote" rel="footnote">5</a></sup>. We may train a neural network to generate effective <em>“preconditioners”</em>  \(P_\theta\) for iterative methods like conjugate gradient. So instead of initializing the network randomly, we neural network gives us a good first guess:</p>
-
-\[\vec{\lambda}_0 = P_\theta(\hat{A}, \vec{b}).\]
-
-<p>This is basically the same idea as that of the direct neural network approximation and the returns are diminishing since, once we have the solution for a time-step \(t_1\) we can use that to inform the new solution i.e. to initialize the solver to find the solution for \(t_2\) which is likely close to that of \(t_1\). So rather than just initializing, we may also use a network \(U_\theta\) to learn a better update rules for iterative methods, in hopes to converge faster than the classical approaches:</p>
-
-\[\vec{\lambda}_{k+1} = \vec{\lambda}_k + U_\theta(\hat{A}, \vec{b}, \vec{\lambda}_k, \vec{r}_k).\]
-
-<p>(Here, $\vec{r}_k = \vec{b} - \hat{A}\vec{\lambda}_k$ is the residual.)</p>
-
-<h5 id="code-1">Code</h5>
-
-<h5 id="results-1">Results</h5>
-
-<h3 id="autoencoder-for-dimensionality-reduction">Autoencoder for Dimensionality Reduction</h3>
-<p>For high-dimensional problems, neural networks can be employed for dimensionality reduction<sup id="fnref:GU_DNNSolve" role="doc-noteref"><a href="#fn:GU_DNNSolve" class="footnote" rel="footnote">6</a></sup>. An encoder network \(E_\theta\): \(\mathbb{R}^n \rightarrow \mathbb{R}^k\) (where $k &lt; n$) can be used to project the high-dimensional problem into a lower-dimensional space. We then solve the reduced problem using traditional methods or other neural network approaches and a decoder network \(D_\phi\): \(\mathbb{R}^k \rightarrow \mathbb{R}^n\) is used to reconstruct the full-dimensional solution as the final step. The reduced problem becomes:</p>
-
-\[E_\theta(\hat{A}) \cdot \vec{\lambda}_\text{reduced} = E_\theta(\vec{b}).\]
-
-<p>And the solution is reconstructed as:</p>
-
-\[\vec{\lambda} = D_\phi(\vec{\lambda}_\text{reduced}).\]
-
-<h5 id="code-2">Code</h5>
-
-<h5 id="results-2">Results</h5>
-
-<h3 id="physics-informed-neural-networks-pinns">Physics-Informed Neural Networks (PINNs)</h3>
-<p>PINNs (also known as <em>“Theory-Trained Neural Networks”</em><sup id="fnref:PINN_Wiki" role="doc-noteref"><a href="#fn:PINN_Wiki" class="footnote" rel="footnote">7</a></sup>) on the other hand don’t merely learn from the error signal of the training data but they incorporate the physical constraints of the problem into the neural network<sup id="fnref:PINN_1" role="doc-noteref"><a href="#fn:PINN_1" class="footnote" rel="footnote">8</a></sup><sup id="fnref:PINN_Nature" role="doc-noteref"><a href="#fn:PINN_Nature" class="footnote" rel="footnote">9</a></sup><sup id="fnref:PINN_Proteins" role="doc-noteref"><a href="#fn:PINN_Proteins" class="footnote" rel="footnote">10</a></sup><sup id="fnref:PINN_Raissi" role="doc-noteref"><a href="#fn:PINN_Raissi" class="footnote" rel="footnote">11</a></sup>.</p>
-
-<p>For a differential equation \(\mathcal{N}[u] = 0\), the PINN loss might be:</p>
-
-\[L = \underbrace{\sum_i |\mathcal{N}[u_\theta](x_i)|^2}_\text{Physics-based loss} + \underbrace{\sum_j |u_\theta(x_j) - u(x_j)|^2}_\text{Data-based loss}\]
-
-<p>Where \(u_\theta\) is the neural network approximation of the solution.</p>
-
-<h5 id="code-3">Code</h5>
-
-<h5 id="results-3">Results</h5>
-
-<h3 id="conclusion">Conclusion</h3>
-
-<h5 id="all-results">All Results</h5>
-
-<p>Not only do neural networks allow us to efficiently fight the curse of dimensionality but they are also inherently faster to execute on available hardware i.e. GPUs since running neural networks consists largely of matmul operations. But how can we ensure accuracy and allow for these methods to be adaptable to arbitrary systems or arbitrary dimensions?</p>
-
-<hr />
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:syslin_wiki" role="doc-endnote">
-      <p><a href="https://en.wikipedia.org/wiki/System_of_linear_equations">Wikipedia, <em>“System of linear equations”</em>, https://en.wikipedia.org/wiki/System_of_linear_equations (Accessed Sep 30, 2024)</a> <a href="#fnref:syslin_wiki" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:QWConstrained" role="doc-endnote">
-      <p>Quentin Wach, <em>“Constrained Dynamics”</em>, 2024 <a href="#fnref:QWConstrained" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:MatRigidBody" role="doc-endnote">
-      <p><a href="https://www.youtube.com/watch?v=zzy6u1z_l9A">Matthias Müller-Fischer, <em>“SCA2020: Detailed Rigid Body Simulation with Extended Position Based Dynamics”</em>, https://www.youtube.com/watch?v=zzy6u1z_l9A, 2020. (Accessed Sep. 29, 2024)</a> <a href="#fnref:MatRigidBody" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:TUMNeuralApprox" role="doc-endnote">
-      <p><a href="https://mediatum.ub.tum.de/doc/1632857/kwo12gbs02f2xqp5euupmw2y9.pdf">Iremnur Kidil, <em>“Neural Networks Solving Linear Systems”</em>, TU München, 2021, https://mediatum.ub.tum.de/doc/1632857/kwo12gbs02f2xqp5euupmw2y9.pdf (Accessed Sep 30, 2024</a> <a href="#fnref:TUMNeuralApprox" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:DeepIter" role="doc-endnote">
-      <p><a href="https://arxiv.org/abs/2204.00313">Yiqi Gu, Michael K. Ng, <em>“Deep neural networks for solving large linear systems arising rom high-dimensional problems”</em>, https://arxiv.org/abs/2204.00313 (Accessed Sep 30, 2024)</a> <a href="#fnref:DeepIter" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:GU_DNNSolve" role="doc-endnote">
-      <p><a href="http://yiqigu.org.cn/Linear_system.pdf">Yiqi Gu and Michael K. Ng, <em>“Deep Neural Networks for Solving Large Linear Systems Arising from High-Dimensional Problems”</em>, Siam J. Sci. Comput. Vol. 45, No. 5, 2023</a> <a href="#fnref:GU_DNNSolve" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:PINN_Wiki" role="doc-endnote">
-      <p><a href="https://en.wikipedia.org/wiki/Physics-informed_neural_networks">Wikipedia, _“Physics-informed neural networks”, https://en.wikipedia.org/wiki/Physics-informed_neural_networks (Accessed September 30, 2024)</a> <a href="#fnref:PINN_Wiki" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:PINN_1" role="doc-endnote">
-      <p><a href="https://compphysics.github.io/MachineLearning/doc/LectureNotes/_build/html/chapter11.html#">Computational Physics, <em>“Solving Differential Equations with Deep Learning”</em>, https://compphysics.github.io/MachineLearning/doc/LectureNotes/_build/html/chapter11.html#, (Accessed Sep 30, 2024)</a> <a href="#fnref:PINN_1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:PINN_Nature" role="doc-endnote">
-      <p><a href="https://www.nature.com/articles/s42254-021-00314-5">George Em. Karniadakis et al., <em>“Physics-informed machine learning”</em>, Nature Reviews Physics, 2021</a> <a href="#fnref:PINN_Nature" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:PINN_Proteins" role="doc-endnote">
-      <p><a href="https://openreview.net/pdf?id=5yn5shS6wN">Freyr Sverrisson et al., <em>“Physics-informed Deep Neural Network for Rigid-Body Protein Docking”</em>, ICLR, 2022</a> <a href="#fnref:PINN_Proteins" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:PINN_Raissi" role="doc-endnote">
-      <p><a href="https://arxiv.org/pdf/1711.10561">Maziar Raissi et al., <em>“Physics Informed Deep Learning (Part I): Data-driven Solutions of Nonlinear Partial Differential Equations”</em>, Arxix: https://arxiv.org/pdf/1711.10561 (Accessed Sep. 30, 2024)</a> <a href="#fnref:PINN_Raissi" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name>Quentin Wach</name></author><category term="blog" /><category term="physics" /><category term="deep-learning" /><summary type="html"><![CDATA[To give some background: systems of linear equations show up everywhere (and systems of non-linear equations can often be linearized), for example, in solving a constraint mechanical system as I discussed in my previous introduction to constrained dynamics. A variety of methods can be used to solve such systems, e.g. Gaussian elimination, the Conjugate Gradient Method, the Gauss-Seidel Method, Position-Based Dynamics, or Impulse-Based solvers. Yet, all of them are relatively inefficient and do not scale well to extremely large systems.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/" /><media:content medium="image" url="http://localhost:4000/" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Constrained Dynamics</title><link href="http://localhost:4000/blog/2024/09/28/rigid-bodies.html" rel="alternate" type="text/html" title="Constrained Dynamics" /><published>2024-09-28T21:38:24+02:00</published><updated>2024-09-28T21:38:24+02:00</updated><id>http://localhost:4000/blog/2024/09/28/rigid-bodies</id><content type="html" xml:base="http://localhost:4000/blog/2024/09/28/rigid-bodies.html"><![CDATA[<p>Physics simulations are as abundant as in the sciences, if not more, in movies, games, and engineering. Many of the problems to be solved have rigid and soft-body physics as the primary elements and most contain such bodies at least in part as they interact with other physics such as fluids.</p>
-
-<h2 id="introduction">Introduction</h2>
-<p>Let’s build and break some stuff. Let’s solve the mathematics of the trebuchet. Let’s simulate the collapse of bridges and houses. Let’s simulate complex pulley systems, gears and clocks, and do so correctly!</p>
-
-<p>I am quite the fan of the game Teardown and its maker Dennis Gustafsson<sup id="fnref:voxagon_blog" role="doc-noteref"><a href="#fn:voxagon_blog" class="footnote" rel="footnote">1</a></sup>. I’ve also long been jealous of <em>Ange the Great</em> and his custom physics engines<sup id="fnref:ange_engine_vids" role="doc-noteref"><a href="#fn:ange_engine_vids" class="footnote" rel="footnote">2</a></sup> to implement complex constrained physics systems. So some time ago, I went down the rabbit hole of the physics of constrained systems and discovered that barely any of it was ever even mentioned during my undergrad physics program. Nor are there any graduate courses that talk about such things.</p>
-
-<p>While Ange explains the basic ideas and some of the mathematics of how to solve such systems and even links some sources<sup id="fnref:Witkin_constrained" role="doc-noteref"><a href="#fn:Witkin_constrained" class="footnote" rel="footnote">3</a></sup>, which others talk about as well<sup id="fnref:brashtop_phys_blog" role="doc-noteref"><a href="#fn:brashtop_phys_blog" class="footnote" rel="footnote">4</a></sup>. Yet, they aren’t quite as detailed as I would wish for.</p>
-
-<p>So this is my take on it.</p>
-
-<p>I will begin laying out the general approach. Then we will discuss various common methods to solve such a system of equations. Then we will learn how to define all the possible constraints to set up any constraint rigid body system we can think of.</p>
-
-<h3 id="starting-point-analytical-mechanics">Starting Point: Analytical Mechanics</h3>
-<p>Much of the mathematics below is based on an article by Zoltán Jakab<sup id="fnref:paper_jakab" role="doc-noteref"><a href="#fn:paper_jakab" class="footnote" rel="footnote">5</a></sup>. We start with the Euler-Lagrange equation with additional</p>
-
-\[\frac{d}{dt} \frac{\partial \mathcal L}{\partial \dot r_k} - \frac{\partial \mathcal L}{\partial r_k} + \sum_i \lambda_i \frac{\partial f_i}{r_k} = 0.\]
-
-<p>With that, we will:</p>
-<ol>
-  <li>Calculate the forces &amp; constraints that effect the bodies.</li>
-  <li>Apply an integrator to calculate the new state.</li>
-</ol>
-
-<h3 id="our-data-as-vectors-and-matrices">Our Data as Vectors and Matrices</h3>
-<p>We create a vector of all the vectors in the system, both linear and angular!</p>
-
-\[\vec{v} = (v_{1x}, v_{1y}, v_{1z}, \omega_{1x}, \omega_{1y}, ...)\]
-
-<p>We do the same for the positions and orientations:</p>
-
-\[\vec{x} = (x_{1x}, x_{1y}, x_{1z}, \theta_{1x}, \theta_{1y}, ...).\]
-
-<p>We repeat this. Let \(\vec{a}\) be the linear and angular acceleration defined in the same fashion. And \(\vec{F}\) the vector of all the forces and torque. The masses \(M_i\) we define as a matrix</p>
-
-\[\hat{M} = \begin{pmatrix} M_1 &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; M_2 &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp; \cdots &amp; M_n \end{pmatrix} \qquad \text{where} \quad M_n \quad \text{is} \quad M_n = \begin{pmatrix} m_n E &amp; 0 \\ 0 &amp; I_n \end{pmatrix}\]
-
-<p>with $m_n$ the mass of the $n$-th rigid body and $I_n$ the moments of inertia about the center of mass.</p>
-<h3 id="the-base-equations-newton-euler-approach">The Base Equations: Newton-Euler Approach</h3>
-<p>The Newton-Euler Equations are then</p>
-
-\[\mathbf{F} = \hat{M} \cdot \mathbf{a} + \mathbf{G}.\]
-
-<p>$\mathbf{G}$ is the gyroscopic term in matrix form (often ignored). With the Lagrangian</p>
-
-\[\mathcal{L} = T(\dot{q_i}) - V(q_i),\]
-
-<p>note that $V(q_i)$ is only position-dependent), and the Euler-Lagrange Equation</p>
-
-\[\frac{d}{dt} \left( \frac{\partial \mathcal{L}}{\partial \dot{q_i}} \right) - \frac{\partial \mathcal{L}}{\partial q_i} + \sum \lambda_k \frac{\partial f_k}{\partial q_i} = 0\]
-
-<p>we plug $\mathcal{L}$ into the Euler-Lagrange equation</p>
-
-\[\frac{d}{dt} \left( \frac{\partial (T(\dot{q_i}) - V(q_i))}{\partial \dot{q_i}} \right) - \frac{\partial (T(\dot{q_i}) - V(q_i))}{\partial q_i} = \cdots\]
-
-<p>which simplifies to</p>
-
-\[\begin{align}
-\underbrace{\frac{d}{dt} \left( \frac{\partial T}{\partial \dot{q_i}} \right)}_{m \cdot a} - \underbrace{\frac{\partial V}{\partial q_i}}_{\nabla V} + \underbrace{\sum \lambda_k \frac{\partial f_k}{\partial q_i}}_{J^T \lambda} &amp;= 0 \\\\
-
-\Leftrightarrow \qquad \underbrace{m \cdot a}_{F} - \underbrace{\nabla V}_{N} + \underbrace{\hat J^T \lambda}_{C} &amp;= 0
-\end{align}\]
-
-<p>where $\hat J$ is the Jacobian matrix of the constraint function $f$, $\lambda$ is the vector of Lagrange multipliers, F$ represented the inertial forces, $N$ are non-constraint forces (e.g. gravity), and $C$ are constraint forces. This resembles the Newton-Euler equation $N + C = M \cdot a$ and may also be called a “Continuous-Time Equation” which we will now need to discretize so we can solve it numerically for $\lambda$. We will do so by introducing the time-step $h$.</p>
-
-<h3 id="discretization-using-euler-integration">Discretization Using Euler Integration</h3>
-<p>In discrete time-stepping, we use a simple explicit Euler scheme to update the velocity $v$:</p>
-
-\[v_2 = v_1 + h \cdot a\]
-
-<p>with $v_2$ the velocity at the next time step, $v_1$ the velocity at the current time step, and $a$ the acceleration, of course.</p>
-
-<p>If we now take what we may call the “constraint equation”</p>
-
-\[J v + b = 0\]
-
-<p>with an introduced bias term $b$ (which could account for things like external forces e.g. a motor, drift correction, etc.) we can update it to be discrete:</p>
-
-\[J(v_1 + h \cdot a) + b = 0.\]
-
-<p>We can also rewrite our previous continuous-time equation as the equation of motion</p>
-
-\[a = \hat{M}^{-1}(N+J^T\lambda)\]
-
-<p>and insert this back into our now discretized constraint equation which gives us</p>
-
-\[J(v_1 + h \cdot \hat{M}^{-1}(N+J^T\lambda)) + b = 0.\]
-
-<p>We expand</p>
-
-\[J \cdot v_1 + J \cdot h \cdot \hat{M}^{-1} N + Jh \hat{M}^{-1} J^T \lambda + b = 0\]
-
-<p>and isolate the $\lambda$ term</p>
-
-\[J \hat{M}^{-1} J^T \lambda = - \big[ J (v_1 + h \hat{M}^{-1} N) + b \big]\]
-
-<p>which is an equation of the form</p>
-
-\[\hat{A} \cdot \lambda = \vec{b}\]
-
-<p>with \(\hat{A}\) a matrix and \(\vec{b}\) a vector. This is very important. The nature of \(\hat{A}\) is especially important. More on that later when we discuss how to solve this equation.</p>
-<h3 id="deriving--implementing-constraints">Deriving &amp; Implementing Constraints</h3>
-<p>For now, we still have to define what our system, should actually look like. A double pendulum? A ball in bowl? A catapult? A skyscraper? A piston engine? There are various constraints to be discussed which we will need to describe any arbitrary mechanical system.</p>
-
-<h3 id="solving-the-system-of-equations">Solving the System of Equations</h3>
-<p>All physics solvers come with certain pros and cons. Hence, for any non-trivial problem, we need to tailor the solver to our problem.</p>
-
-<p>My notes on [[Constrained Dynamics]] (should) mention that solving the system of equations for typically  highly sparse matrices… Imagine executing the standard methods for calculating the solution here. You’d evaluate a bunch of equations that should be zero anyway. Indeed, computers too are absolutely horrible at solving equations involving sparse matrices [citation needed]!</p>
-
-<p>![[Pasted image 20240924100620.png]]
-(This is a sparse matrix as shown in the #video https://www.youtube.com/watch?v=oulfRfqTxJA&amp;list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2&amp;index=8 about the Engine Simulator by Ange the Great.)</p>
-<h3 id="gaussian-elimination">Gaussian Elimination</h3>
-<p>Gaussian elimination is fast enough for small matrices and we all know it from our linear algebra classes. Yet it has a time complexity of $O(n^3)$.</p>
-<h2 id="conjugate-gradient-method">Conjugate Gradient Method</h2>
-<p>This method seems to be much more stable. Funnily enough, it is also faster! Why? Because we actually don’t need to calculate the matrix. But… it kinda breaks??? (Ange talked about this here: https://www.youtube.com/watch?v=n5CIlrOMKiU&amp;list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2&amp;index=9)</p>
-<h2 id="position-based-dynamics">Position Based Dynamics</h2>
-<p>This method is very fast. It is also stable. Yet it is not very accurate.
-paper: https://mmacklin.com/2017-EG-CourseNotes.pdf</p>
-<h3 id="gauss-seidel-method">Gauss-Seidel Method</h3>
-<p>We need to compute with the entire matrix here.
-But, we can solve the equations iteratively, approximating the correct solution with every iteration ever more closely. <a href="https://www.youtube.com/watch?v=oulfRfqTxJA&amp;list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2&amp;index=8">This video</a> (again) talks about how it can be used to speed up such physics simulations. Typically, we initialize the lambda vector with random values and then iteratively update them until the error is small enough. But amazingly, we can also just use the previous solution in the time-series as the starting point in this process which should reduce how many iterations are needed quite significantly. [By how much?]</p>
-
-<p>The key problem with this method is that it is not guaranteed to always converge which can be extremely annoying. [Are there any solutions to this problem?]</p>
-<h2 id="simd-optimization-of-the-gauss-seidel-method">SIMD Optimization of the Gauss-Seidel Method</h2>
-<p>The paper https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2782869/ explains how to parallelize this very much serial method using SIMD instructions with the purpose to utilize massively parallel computing using GPGPUs for example. Awesome idea! [I need to look into that.]</p>
-
-<p>But again, the convergence and stability of this method is questionable.</p>
-<h2 id="a-bunch-of-more-amazing-gauss-seidel-optimizations">A Bunch of more amazing Gauss-Seidel Optimizations!</h2>
-<p>Short version: Instead of storing the entire matrix, we only store the non-zero values and don’t do all the unnecessary multiplications by zero! We can expect an order of magnitude speed up here, possibly more as the system grows in complexity.</p>
-
-<p>About sparse matrices:
-https://en.wikipedia.org/wiki/Sparse_matrix</p>
-
-<p>This is an amazing video. A MUST WATCH!
-https://www.youtube.com/watch?v=P-WP1yMOkc4</p>
-
-<p>While written in a very non-academic style, I’d love to see you cite the writing below if it helped you in hopes that I might see who I helped and how. You can cite me either as <strong>Quentin Wach, <em>“Constrained Dynamics”</em>, 2024</strong> or using:</p>
-
-<p><span class="sidenote-right"></span></p>
-<div class="language-bibtex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">@misc</span><span class="p">{</span><span class="nl">wach2024constrained</span><span class="p">,</span>
-  <span class="na">author</span> <span class="p">=</span> <span class="s">{Quentin Wach}</span><span class="p">,</span>
-  <span class="na">title</span> <span class="p">=</span> <span class="s">{Constrained Dynamics}</span><span class="p">,</span>
-  <span class="na">year</span> <span class="p">=</span> <span class="s">{2024}</span><span class="p">,</span>
-  <span class="na">howpublished</span> <span class="p">=</span> <span class="s">{\url{https://www.quentinwach.com/constrained-dynamics}}</span><span class="p">,</span>
-  <span class="na">note</span> <span class="p">=</span> <span class="s">{Blog post}</span><span class="p">,</span>
-  <span class="na">month</span> <span class="p">=</span> <span class="s">{Sep}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:voxagon_blog" role="doc-endnote">
-      <p><a href="https://voxagon.se/">Dennis Gustafsson’s Homepage, https://voxagon.se/</a> <a href="#fnref:voxagon_blog" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:ange_engine_vids" role="doc-endnote">
-      <p><a href="https://www.youtube.com/watch?v=TtgS-b191V0&amp;list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2">Ange The Great, <em>“Original Engine Simulator”</em>, https://www.youtube.com/watch?v=TtgS-b191V0&amp;list=PLUahe1BHkKtW3ekopap0g-BxRMyk8UDU2</a> <a href="#fnref:ange_engine_vids" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:Witkin_constrained" role="doc-endnote">
-      <p><a href="https://www.cs.cmu.edu/~baraff/sigcourse/notesf.pdf">Andrew Witkin, <em>“Constrained Dynamics”</em>, 1997</a> <a href="#fnref:Witkin_constrained" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:brashtop_phys_blog" role="doc-endnote">
-      <p><a href="https://brashandplucky.com/2023/09/05/constrained-dynamics-iv.html">Brash and Plucky, <em>“Constrained Dynamics IV”</em>, https://brashandplucky.com/2023/09/05/constrained-dynamics-iv.html</a> <a href="#fnref:brashtop_phys_blog" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:paper_jakab" role="doc-endnote">
-      <p><a href="https://cescg.org/wp-content/uploads/2021/03/Jakab-Real-Time-Rigid-Body-Simulation-with-Constraints-1.pdf">Zoltán Jakab, _“Real-Time Rigid Body Simulation with Constraints”, Proceedings of CESCG, 2021</a> <a href="#fnref:paper_jakab" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name>Quentin Wach</name></author><category term="blog" /><category term="physics" /><summary type="html"><![CDATA[Explaining briefly (very, very briefly) what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/" /><media:content medium="image" url="http://localhost:4000/" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Playing with Shaders</title><link href="http://localhost:4000/blog/2024/09/18/first-shaders.html" rel="alternate" type="text/html" title="Playing with Shaders" /><published>2024-09-18T21:38:24+02:00</published><updated>2024-09-18T21:38:24+02:00</updated><id>http://localhost:4000/blog/2024/09/18/first-shaders</id><content type="html" xml:base="http://localhost:4000/blog/2024/09/18/first-shaders.html"><![CDATA[<p>I recently started getting more into low-level programming, implementing physics simulations and graphics which then lead me to write my first shader. And damn… shaders are awesome! But many of the copy-cat tutorials out there are terribly boring. I don’t want to see another colored triangle! Let’s actually (attempt to) build an awesome shader! First, I’ll give a little introduction then I’ll show you two simple shaders I made with detailed comments in the code.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-10-29T04:06:00+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Q. Wach</title><subtitle></subtitle><entry><title type="html">Playing with Shaders</title><link href="http://localhost:4000/blog/2024/09/18/first-shaders.html" rel="alternate" type="text/html" title="Playing with Shaders" /><published>2024-09-18T21:38:24+02:00</published><updated>2024-09-18T21:38:24+02:00</updated><id>http://localhost:4000/blog/2024/09/18/first-shaders</id><content type="html" xml:base="http://localhost:4000/blog/2024/09/18/first-shaders.html"><![CDATA[<p>I recently started getting more into low-level programming, implementing physics simulations and graphics which then lead me to write my first shader. And damn… shaders are awesome! But many of the copy-cat tutorials out there are terribly boring. I don’t want to see another colored triangle! Let’s actually (attempt to) build an awesome shader! First, I’ll give a little introduction then I’ll show you two simple shaders I made with detailed comments in the code.</p>
 
 <p>Two of the most amazing examples of scenes created with shaders, raw mathematics, were created by the great and famous Inigo Quilez<sup id="fnref:inigo_web" role="doc-noteref"><a href="#fn:inigo_web" class="footnote" rel="footnote">1</a></sup><sup id="fnref:Inigo_youtube" role="doc-noteref"><a href="#fn:Inigo_youtube" class="footnote" rel="footnote">2</a></sup>, who is also the creator of Shadertoy<sup id="fnref:Shadertoy" role="doc-noteref"><a href="#fn:Shadertoy" class="footnote" rel="footnote">3</a></sup> among many other things:</p>
 
@@ -369,7 +16,7 @@ https://www.youtube.com/watch?v=P-WP1yMOkc4</p>
 
 <p>There are no sculpted or modelled objects in these scenes. Everything was defined and rendered using a complex composition of very simply equations. How?</p>
 
-<h3 id="opengl-shaders-rendering-parallelism-on-the-gpu">OpenGL Shaders: Rendering Parallelism On the GPU</h3>
+<h2 id="opengl-shaders-rendering-parallelism-on-the-gpu">OpenGL Shaders: Rendering Parallelism On the GPU</h2>
 <p>OpenGL is probably the most common/known shader language and if you have any more technical questions you should definitely read through their website/documentation<sup id="fnref:OpenGL" role="doc-noteref"><a href="#fn:OpenGL" class="footnote" rel="footnote">6</a></sup>.</p>
 
 <blockquote>
@@ -378,7 +25,7 @@ https://www.youtube.com/watch?v=P-WP1yMOkc4</p>
 
 <p>The basic idea of shaders is simply to parallelize, to compute using all the available resources a GPU provides in parallel. That is typically graphics but it can frankly be whatever you want. Thus, a core idea is to keep dependencies as little as possible. The program should typically only be linear, deterministic. You have a simple input like the pixel position on the screen and the shader will know exactly what to do. This is what makes it parallelizable. The more it depends on what is going on at other positions on the screen or other data or even previous data, the less parallelizable it will be and the less we’ll be able to truly make use of the power of the GPU.</p>
 
-<h3 id="drawing-objects-with-vertex-and-fragmentpixel-shaders">Drawing Objects with Vertex and Fragment/Pixel Shaders</h3>
+<h2 id="drawing-objects-with-vertex-and-fragmentpixel-shaders">Drawing Objects with Vertex and Fragment/Pixel Shaders</h2>
 <p>If we want to draw a object, we need to define the points that make the geometry of the object. That’s what the CPU does. (Sad.) We’ll then pass that input point information (vertices) to the GPU. The vertex shader then figures out where to draw these points on the screen. The fragment shader figures out what color each spot on the surface of the object should be<sup id="fnref:Barney" role="doc-noteref"><a href="#fn:Barney" class="footnote" rel="footnote">8</a></sup>.</p>
 
 <p>Of course, there are many more shaders like geometry and compute shaders. But alas…
@@ -386,7 +33,7 @@ A faster way which can directly utilize the GPU is defining distance functions!<
 
 <p>But I dislike reading and watching tutorial after tutorial. So let’s just get started!</p>
 
-<h3 id="example-1-lava-lamp">Example #1: Lava Lamp</h3>
+<h2 id="example-1-lava-lamp">Example #1: Lava Lamp</h2>
 <p>My first own shader (aside from the typical color gradients one does which is pretty much the “hello world” of shaders) is an animation comparable to a lava lamp. Or maybe spraying blood. 😅
 Here is the code:</p>
 
@@ -476,7 +123,7 @@ Here is the code:</p>
 
 <p>Okay. This was quite straightforward. So I wanted to attempt something similar like that landscape Inigo made! I pretty much hacked this together, there is a lot wrong with the following code but it does produce a somewhat pleasing result.</p>
 
-<h3 id="example-2-mountain-range">Example #2: Mountain Range</h3>
+<h2 id="example-2-mountain-range">Example #2: Mountain Range</h2>
 
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifdef GL_ES
 </span><span class="n">precision</span> <span class="n">mediump</span> <span class="kt">float</span><span class="p">;</span>
@@ -734,4 +381,4 @@ $$
       <p><a href="https://www.youtube.com/watch?v=3mfvZ-mdtZQ">Barney Code’s Introduction to Shaders: Learn the Basics! https://www.youtube.com/watch?v=3mfvZ-mdtZQ</a> <a href="#fnref:Barney" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Quentin Wach</name></author><category term="blog" /><category term="computer graphics" /><summary type="html"><![CDATA[Explaining briefly what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/shader_2.png" /><media:content medium="image" url="http://localhost:4000/images/shader_2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Image Ranker: The Web App for Fast Ranking of Large Image Collections</title><link href="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html" rel="alternate" type="text/html" title="Image Ranker: The Web App for Fast Ranking of Large Image Collections" /><published>2024-08-28T21:38:24+02:00</published><updated>2024-08-28T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/08/28/image-ranker</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="app" /><category term="machine learning" /><summary type="html"><![CDATA[Training generative image models requires a way to compare images and provide feedback on which images are better. I built a web app to do just that.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/imagerank3.png" /><media:content medium="image" url="http://localhost:4000/images/imagerank3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Building a 16-Bit Computer: From NAND to Pong</title><link href="http://localhost:4000/2024/08/01/hack-comp.html" rel="alternate" type="text/html" title="Building a 16-Bit Computer: From NAND to Pong" /><published>2024-08-01T21:38:24+02:00</published><updated>2024-08-01T21:38:24+02:00</updated><id>http://localhost:4000/2024/08/01/hack-comp</id><content type="html" xml:base="http://localhost:4000/2024/08/01/hack-comp.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="verilog" /><category term="gds" /><category term="integrated circuits" /><category term="computer" /><summary type="html"><![CDATA[Verilog implementation and detailed explanation of the Hack computer architecture with the help of Logisim, Icarus Verilog, and GTKWave. A .gds mask layout can be generated with the OpenLane 130 nm PDK.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/hack_computer.png" /><media:content medium="image" url="http://localhost:4000/images/hack_computer.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Webiny</title><link href="http://localhost:4000/2024/07/27/webiny.html" rel="alternate" type="text/html" title="Webiny" /><published>2024-07-27T21:38:24+02:00</published><updated>2024-07-27T21:38:24+02:00</updated><id>http://localhost:4000/2024/07/27/webiny</id><content type="html" xml:base="http://localhost:4000/2024/07/27/webiny.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="internet" /><category term="application" /><summary type="html"><![CDATA[A minimal single-tab web browser written in Python without caching, cookies, chronic logins, etc. It only took 30 min to make but it's a nice little tool for when you want to focus and not get distracted while still having access to the internet.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/webiny.png" /><media:content medium="image" url="http://localhost:4000/images/webiny.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Computational Fluid Dynamics</title><link href="http://localhost:4000/science-engineering/2024/07/23/fluids-intro.html" rel="alternate" type="text/html" title="Introduction to Computational Fluid Dynamics" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/fluids-intro</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/fluids-intro.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="physics" /><category term="game" /><category term="fluid-dynamics" /><summary type="html"><![CDATA[Where we will discuss the Navier-Stokes equations and then break down the problem with the presence of solid objects implementing a simple real-time solver in Python.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/ink_fluid_comp.gif" /><media:content medium="image" url="http://localhost:4000/images/ink_fluid_comp.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">TERRA: The Tiny Terrain Generator</title><link href="http://localhost:4000/science-engineering/2024/07/23/terra.html" rel="alternate" type="text/html" title="TERRA: The Tiny Terrain Generator" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/terra</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/terra.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="physics" /><category term="computer graphics" /><summary type="html"><![CDATA[This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/terra.png" /><media:content medium="image" url="http://localhost:4000/images/terra.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">IC3D: Render .gds Files in 3D</title><link href="http://localhost:4000/science-engineering/2024/07/23/IC3D.html" rel="alternate" type="text/html" title="IC3D: Render .gds Files in 3D" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/IC3D</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/IC3D.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="gds" /><category term="integrated circuits" /><category term="photonics" /><summary type="html"><![CDATA[.gds to .gltf file conversion and workflow to create photo-real animations of your photonic/electronic integrated circuits. Compared to other scripts, this one takes into account complex nested cell structures, rotations, and flips as one typically encounters them in photonic integrated circuits.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/xyz3.png" /><media:content medium="image" url="http://localhost:4000/images/xyz3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Sudoku: Generator and Solver</title><link href="http://localhost:4000/2024/06/22/Sudoku.html" rel="alternate" type="text/html" title="Sudoku: Generator and Solver" /><published>2024-06-22T21:38:24+02:00</published><updated>2024-06-22T21:38:24+02:00</updated><id>http://localhost:4000/2024/06/22/Sudoku</id><content type="html" xml:base="http://localhost:4000/2024/06/22/Sudoku.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="puzzle" /><category term="python" /><category term="AI" /><category term="game" /><summary type="html"><![CDATA[Generate Sudokus of any difficulty, generate beautiful images of them or just save them as .txt files, and solve them using a backtracking algorithm. I then ask: Can neurosymbolic AIs learn Sudoku, too?]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/sudoku_head.png" /><media:content medium="image" url="http://localhost:4000/images/sudoku_head.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</div>]]></content><author><name>Quentin Wach</name></author><category term="blog" /><category term="computer graphics" /><summary type="html"><![CDATA[Explaining briefly what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/shader_2.png" /><media:content medium="image" url="http://localhost:4000/images/shader_2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Image Ranker: The Web App for Fast Ranking of Large Image Collections</title><link href="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html" rel="alternate" type="text/html" title="Image Ranker: The Web App for Fast Ranking of Large Image Collections" /><published>2024-08-28T21:38:24+02:00</published><updated>2024-08-28T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/08/28/image-ranker</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="app" /><category term="machine learning" /><summary type="html"><![CDATA[Training generative image models requires a way to compare images and provide feedback on which images are better. I built a web app to do just that.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/imagerank3.png" /><media:content medium="image" url="http://localhost:4000/images/imagerank3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Building a 16-Bit Computer: From NAND to Pong</title><link href="http://localhost:4000/2024/08/01/hack-comp.html" rel="alternate" type="text/html" title="Building a 16-Bit Computer: From NAND to Pong" /><published>2024-08-01T21:38:24+02:00</published><updated>2024-08-01T21:38:24+02:00</updated><id>http://localhost:4000/2024/08/01/hack-comp</id><content type="html" xml:base="http://localhost:4000/2024/08/01/hack-comp.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="verilog" /><category term="gds" /><category term="integrated circuits" /><category term="computer" /><summary type="html"><![CDATA[Verilog implementation and detailed explanation of the Hack computer architecture with the help of Logisim, Icarus Verilog, and GTKWave. A .gds mask layout can be generated with the OpenLane 130 nm PDK.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/hack_computer.png" /><media:content medium="image" url="http://localhost:4000/images/hack_computer.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Webiny</title><link href="http://localhost:4000/2024/07/27/webiny.html" rel="alternate" type="text/html" title="Webiny" /><published>2024-07-27T21:38:24+02:00</published><updated>2024-07-27T21:38:24+02:00</updated><id>http://localhost:4000/2024/07/27/webiny</id><content type="html" xml:base="http://localhost:4000/2024/07/27/webiny.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="internet" /><category term="application" /><summary type="html"><![CDATA[A minimal single-tab web browser written in Python without caching, cookies, chronic logins, etc. It only took 30 min to make but it's a nice little tool for when you want to focus and not get distracted while still having access to the internet.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/webiny.png" /><media:content medium="image" url="http://localhost:4000/images/webiny.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">TERRA: The Tiny Terrain Generator</title><link href="http://localhost:4000/science-engineering/2024/07/23/terra.html" rel="alternate" type="text/html" title="TERRA: The Tiny Terrain Generator" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/terra</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/terra.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="physics" /><category term="computer graphics" /><summary type="html"><![CDATA[This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/terra.png" /><media:content medium="image" url="http://localhost:4000/images/terra.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">IC3D: Render .gds Files in 3D</title><link href="http://localhost:4000/science-engineering/2024/07/23/IC3D.html" rel="alternate" type="text/html" title="IC3D: Render .gds Files in 3D" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/IC3D</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/IC3D.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="gds" /><category term="integrated circuits" /><category term="photonics" /><summary type="html"><![CDATA[.gds to .gltf file conversion and workflow to create photo-real animations of your photonic/electronic integrated circuits. Compared to other scripts, this one takes into account complex nested cell structures, rotations, and flips as one typically encounters them in photonic integrated circuits.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/xyz3.png" /><media:content medium="image" url="http://localhost:4000/images/xyz3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Computational Fluid Dynamics</title><link href="http://localhost:4000/science-engineering/2024/07/23/fluids-intro.html" rel="alternate" type="text/html" title="Introduction to Computational Fluid Dynamics" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/fluids-intro</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/fluids-intro.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="physics" /><category term="game" /><category term="fluid-dynamics" /><summary type="html"><![CDATA[Where we will discuss the Navier-Stokes equations and then break down the problem with the presence of solid objects implementing a simple real-time solver in Python.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/ink_fluid_comp.gif" /><media:content medium="image" url="http://localhost:4000/images/ink_fluid_comp.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Sudoku: Generator and Solver</title><link href="http://localhost:4000/2024/06/22/Sudoku.html" rel="alternate" type="text/html" title="Sudoku: Generator and Solver" /><published>2024-06-22T21:38:24+02:00</published><updated>2024-06-22T21:38:24+02:00</updated><id>http://localhost:4000/2024/06/22/Sudoku</id><content type="html" xml:base="http://localhost:4000/2024/06/22/Sudoku.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="puzzle" /><category term="python" /><category term="AI" /><category term="game" /><summary type="html"><![CDATA[Generate Sudokus of any difficulty, generate beautiful images of them or just save them as .txt files, and solve them using a backtracking algorithm. I then ask: Can neurosymbolic AIs learn Sudoku, too?]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/sudoku_head.png" /><media:content medium="image" url="http://localhost:4000/images/sudoku_head.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</title><link href="http://localhost:4000/science-engineering/academia/2024/04/22/second-publication.html" rel="alternate" type="text/html" title="Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures" /><published>2024-04-22T21:38:24+02:00</published><updated>2024-04-22T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/academia/2024/04/22/second-publication</id><content type="html" xml:base="http://localhost:4000/science-engineering/academia/2024/04/22/second-publication.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="academia" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[The charge transport in semiconductor quantum dots and nanorods is studied theoretically, predicting strong field-dependent nonlinear mobility effects and intra-pulse gain. We studied the temperature- and size-sensitive mobility spectra, crucial for applications like 6G tech and nano electronics in general.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" /><media:content medium="image" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Augmenting Obsidian.md with AI</title><link href="http://localhost:4000/science-engineering/2024/04/16/AI-obsidian.html" rel="alternate" type="text/html" title="Augmenting Obsidian.md with AI" /><published>2024-04-16T00:00:00+02:00</published><updated>2024-04-16T00:00:00+02:00</updated><id>http://localhost:4000/science-engineering/2024/04/16/AI-obsidian</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/04/16/AI-obsidian.html"><![CDATA[]]></content><author><name>[&quot;Quentin Wach&quot;]</name></author><category term="science-engineering" /><category term="python" /><category term="obsidian" /><category term="productivity" /><category term="AI" /><summary type="html"><![CDATA[A simple Python script to quickly organize your markdown notes in Obsidian.md using OpenAI's large language models. Any random, untagged, empty, or unlinked notes? No more. This little script will fill the gaps, connect what belongs together, and even create high level organizing nodes if a specific topic has a lot of notes. It also provides additional meta-information and visualizations.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/obsidian-AI/1x1_image.png" /><media:content medium="image" url="http://localhost:4000/images/obsidian-AI/1x1_image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

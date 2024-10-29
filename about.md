@@ -85,7 +85,7 @@ Work-inspired side projects:
 
 I am a physics student at the [Technical University of Berlin (TUB)](https://www.tu.berlin/en/) with research experience associated with the **[Department of Nonlinear Optics](https://www.tu.berlin/en/nlo)**. I am regularly contributing to **[open-source soft- and hardware](https://github.com/QuentinWach)** and currently working as a research assistant with the **[Hybrid Photonics Group at the Fraunhofer HHI](https://www.hhi.fraunhofer.de/en/index.html)**, **generally active in areas requiring a good understanding of both computers and physics.**
 
-Like designing opto-electronic integrated circuits, developing design, analysis, and automation tools, writing computer simulations to answer questions in physics, training deep neural networks, and more. **I simply try to make myself useful**. 
+Like designing opto-electronic integrated circuits, developing design, analysis, and automation tools, writing computer simulations to answer questions in physics, training deep neural networks, and more. <!--**I simply try to make myself useful**. -->
 
 <!--technologies like analog computing hardware to empower artificial intelligence and neuromorphic computing both in form of electronics as well as photonics.-->
 
@@ -107,7 +107,7 @@ Some people I loved/love working with and am very thankful to are
     <div class="tag">M.Sc. Martin Kresse</div>
 </div>
 -->
-<div style="height: 50px;">
+<div style="height: 25px;">
 </div>
 >_"There is a great satisfaction in building good tools for other people to use."_ Freeman Dyson
 <div style="height: 20px;">
@@ -115,7 +115,7 @@ Some people I loved/love working with and am very thankful to are
 
 <!--The differences between the bright future of humanity and the dark realities of our present are so large that I see it as categorically imperative to advance research and engineering solving humanities greatest challenges." (Me. I said that. Right here. I tend to be dramatic but that's what I believe.) -->
 
-##### [Charge Transport in Nanostructures](https://notebooklm.google.com/notebook/bd6d5eec-dafe-4a6f-a8ac-0006759a2197/audio)
+##### Charge Transport in Nanostructures
 <!--
 <style>
     img[alt=Nano] {float: right; width: 200px; border-radius: 10%; margin-left: 10px; box-shadow: 0px 0px 0px #14518386;}

@@ -107,7 +107,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
+            var repo = $('.github-stars[data-repo="QuentinWach/Animating-Science"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -120,7 +120,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Animating-Science"]');
+            var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -185,19 +185,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -212,6 +199,19 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/computer-engineering"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Sudoku"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -304,31 +304,6 @@
           </li>
         </a>
 
-        <a href="/science-engineering/2024/07/23/terra.html" class="box">
-          <li class="post-box">
-            <div class="post-box-img"><img src="images/terra.png" alt="TERRA: The Tiny Terrain Generator" class="post-image"></div>
-            <div class="post-box-txt">
-              
-              <h4 class="post-title">
-                <!-- <a class="post-link" href="/science-engineering/2024/07/23/terra.html"> -->
-                  TERRA: The Tiny Terrain Generator
-                <!--</a>-->
-              </h4><p class="post-summary">
-                <p>This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.</p>
-
-              </p><span class="post-meta">Jul 23, 2024</span><span class="post-meta"> • </span>
-                <span class="github-stars" data-repo="QuentinWach/terra">
-                  <span class="material-symbols-rounded">star</span>
-                  <span class="star-count">
-                    
-                      N/A
-                    
-                  </span>
-                </span>
-                <span class="post-meta">on GitHub</span></div>
-          </li>
-        </a>
-
         <a href="/science-engineering/2020/01/01/animating-science.html" class="box">
           <li class="post-box">
             <div class="post-box-img"><img src="/images/science animations/happy4_c3.gif" alt="Simulating & Animating Science with Python" class="post-image"></div>
@@ -353,6 +328,31 @@
                 <span class="post-meta">on GitHub</span><span class="post-meta"> • </span>
                 <span class="material-symbols-outlined">sticky_note_2</span>
                 <span class="post-note">+100K views across the internet.</span></div>
+          </li>
+        </a>
+
+        <a href="/science-engineering/2024/07/23/terra.html" class="box">
+          <li class="post-box">
+            <div class="post-box-img"><img src="images/terra.png" alt="TERRA: The Tiny Terrain Generator" class="post-image"></div>
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                <!-- <a class="post-link" href="/science-engineering/2024/07/23/terra.html"> -->
+                  TERRA: The Tiny Terrain Generator
+                <!--</a>-->
+              </h4><p class="post-summary">
+                <p>This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.</p>
+
+              </p><span class="post-meta">Jul 23, 2024</span><span class="post-meta"> • </span>
+                <span class="github-stars" data-repo="QuentinWach/terra">
+                  <span class="material-symbols-rounded">star</span>
+                  <span class="star-count">
+                    
+                      N/A
+                    
+                  </span>
+                </span>
+                <span class="post-meta">on GitHub</span></div>
           </li>
         </a>
 

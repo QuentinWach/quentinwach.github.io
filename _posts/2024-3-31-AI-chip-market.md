@@ -12,19 +12,6 @@ weight:
 note: 
 categories: "blog"
 ---
-<style>
-    img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
-    img[alt=AIAccComp]:hover {
-                            transform: scale(1);
-                            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-                            z-index: 10000;
-    }
-</style>
-![AIAccComp](/images/AI_acc_comparison_QW_animated_WT.gif)
-<span style="font-size: 14px;">
-    Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago [^MFigure].
-</span>
-
 ## Introduction
 Artificial general intelligence (AGI)
 <button class="sidenote-button-right"><span class="material-symbols-outlined">sticky_note_2</span></button>
@@ -37,6 +24,14 @@ is speculated to arrive within only a couple of years from now. And with its eme
 
 writes Ruch et al. in 2011[^RuchBioAI].
 Initial utility is typically achieved through effectiveness. We build something that gets the job done. And we do not mind how long it takes or how much it costs as long as it fixes the problem we couldn't otherwise solve. We saw and see the same thing happening with the rise of the digital computer and now with modern AI based on artificial neural networks. CPUs and GPUs are general tools. Architectures meant to accomplish whatever task we throw at it. And time is _the_ enemy of any technology company. Accelerate or be out-competed. Companies are willing to spend millions to innovate and train giant neural networks and billions to build the required infrastructure just to stay in the game. Efficiency is or has been an afterthought. But it is essential for making technologies widely available and allow for future technologies to build upon it!
+
+<style>
+    img[alt=AIAccComp] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
+</style>
+![AIAccComp](/images/AI_acc_comparison_QW_animated_WT.gif)
+<span style="font-size: 14px;">
+    Speed of computing as dependent on the consumed power for different hardware architectures: GPUs, digital ASICs, mixed signal ASICs, and FPGAs. I adapted and animated this figure based on a figure I found and saved quite some time ago [^MFigure].
+</span>
 
 In 2020-2023, the bottleneck for AI was arguably the amount of hardware available due to a global chip shortage so vast it made history[^ChipShortage][^ChipShortage2]. 
 In 2024, managing the voltage conversion is still a major issue for scaling up[^MuskVTransformers].
@@ -75,11 +70,6 @@ _"Compute"_ or computing power is simply a general term to describe how much com
 </span>
 <style>
     img[alt=centerAI] { float: right; width: 100%; border-radius:5px; margin-left: 10px;, margin-bottom: 10px; margin-top: 10px; }
-    img:hover {
-                            transform: scale(1.9);
-                            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
-                            z-index: 10000;
-}
 </style>
 ![centerAI](/images/AI_compute.png)
 <span style="font-size: 14px;">
@@ -197,9 +187,6 @@ What I and others ask is **what is the computer of the future?** I started writi
 </span>
 
 
-[^1]: A
-[^2]: B
-[^3]: C
 [^Python]: [Python, https://www.python.org/](https://www.python.org/)
 [^AIDemand_Data_1]: [Sevilla et al., _Compute Trends Across Three Eras of Machine Learning_, ArXiv, 2022](https://arxiv.org/pdf/2202.05924.pdf)
 [^AIDemand_Data_2]: [Epoch AI, _Compute Trends_, https://epochai.org/blog/compute-trends](https://epochai.org/blog/compute-trends)
