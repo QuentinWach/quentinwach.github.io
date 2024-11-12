@@ -70,9 +70,9 @@
       
       
         • 
-        17
+        15
        min read for 
-        3074
+        2792
        words •
       <time class="dt-published" datetime="2024-02-15T20:38:24+01:00" itemprop="datePublished">
         Feb 15, 2024
@@ -88,6 +88,7 @@
     <div class="post-content e-content" itemprop="articleBody">
       <!--Read the <a href="/pdfs/Dubins Paths for Waveguide Routing - Quentin Wach - 2023.pdf"><button class="PDFButton">PDF</button></a>.-->
 <p><span class="sidenote-left">
+✨ <em>(Updated: Nov 12, 2024.)</em> Dubins paths are now integrated in GDSFactory! See the <a href="https://gdsfactory.github.io/gdsfactory/notebooks/04_routing.html">GDSFactory documentation</a> for more information. <br /><br />
 <em>(Updated: March 12, 2024.)</em> I deleted the majority of the code I presented when I posted this first as it was quite hacky and all the recources can be found in the links below. It should also be added that, while much of the photonics community does not seem to be aware of Dubins paths and instead talk about s-bends and so on, I believe libraries already implement similar methods and Dubins paths are more or less just a generalization that can make life easier at times. It sure did for me and my work.
 </span></p>
 
@@ -336,7 +337,11 @@ def dubins_path(start, end, radius):
 ```
 -->
 
-<p>It doesn’t take much time to either do an implementation from scratch or adapt preexisting code. We can then wrap it all up into a single, simple to use function just like any other provided by the design library you might be using. In this case, I have been using the Nazca library<sup id="fnref:NazcaLib" role="doc-noteref"><a href="#fn:NazcaLib" class="footnote" rel="footnote">6</a></sup> which comes with several interconnects, including straights and circular arcs which are used often but very tedious and slow to work with alone. Using <code class="language-plaintext highlighter-rouge">dubin_p2p()</code>, we can simply define the start pin, the end pin, and our code will route a Dubins path between them using the straights and circular arcs provided by Nazca. Of course, this can be easily adapted to other tools like GDSFactory<sup id="fnref:GDSFactory" role="doc-noteref"><a href="#fn:GDSFactory" class="footnote" rel="footnote">7</a></sup>.</p>
+<p>It doesn’t take much time to either do an implementation from scratch or adapt preexisting code. We can then wrap it all up into a single, simple to use function just like any other provided by the design library you might be using. Previously, I have been using the Nazca library<sup id="fnref:NazcaLib" role="doc-noteref"><a href="#fn:NazcaLib" class="footnote" rel="footnote">6</a></sup> which comes with several interconnects, including straights and circular arcs which are used often but very tedious and slow to work with alone. But with Dubins paths, we can simply define the start pin, the end pin, and our code will route a Dubins path between them using the straights and circular arcs provided by Nazca. The same can be done with GDSFactory<sup id="fnref:GDSFactory" role="doc-noteref"><a href="#fn:GDSFactory" class="footnote" rel="footnote">7</a></sup> as well.</p>
+
+<blockquote>
+  <p>✨ <em>[Update Nov 12, 2024]</em> <strong>Dubins paths are now integrated in GDSFactory as <code class="language-plaintext highlighter-rouge">route_dubin()</code>!</strong> See the <a href="https://gdsfactory.github.io/gdsfactory/notebooks/04_routing.html">GDSFactory documentation</a> for more information.</p>
+</blockquote>
 
 <!--
 ```python
@@ -438,51 +443,6 @@ def gds_solution(xs, pin1, pin2, solution):
             current_position = new_position
     return C
 -->
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#########################################################################
-# Use this when designing your PIC with Nazca!
-#########################################################################
-</span>
-<span class="c1"># Create Dubins path between two pins in Nazca
-</span><span class="k">def</span> <span class="nf">dubin_p2p</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pin1</span><span class="p">,</span> <span class="n">pin2</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-    <span class="sh">"""</span><span class="s">
-    Finds and creates the shortest possible path between two vectors
-    (pin1 and pin2) with a minimum bending radius,
-    a so called </span><span class="sh">"</span><span class="s">Dubins path</span><span class="sh">"</span><span class="s">. This Dubins path is made of two
-    circular bends and a straight waveguide.
-    Returns a cell containing these waveguides.
-
-    IMPORTANT
-    =========
-    In this version, you NEED to specify to put the path at the starting
-    pin so if pin1=IO.pin[</span><span class="sh">"</span><span class="s">a0</span><span class="sh">"</span><span class="s">] you must add .put(IO.pin[</span><span class="sh">"</span><span class="s">a0</span><span class="sh">"</span><span class="s">]).
-    Else, the Dubins path will be generated correctly
-    but possibly at the wrong position. 
-    
-    PARAMETERS
-    ==========
-    xs:     Crosssection parameters.
-    pin1:   The start pin to which the Dubins path attaches.
-    pin2:   The end pin to where the Dubins path ends.
-    radius: The minimum bending radius for the Dubins paths.
-    width:  The width of the waveguides dubin_p2p creates.
-    </span><span class="sh">"""</span>
-    <span class="c1"># Get the pin vectors from pin1 and pin2
-</span>    <span class="n">START</span> <span class="o">=</span> <span class="n">pin1</span><span class="p">.</span><span class="nf">xya</span><span class="p">()</span>
-    <span class="n">END</span> <span class="o">=</span> <span class="n">pin2</span><span class="p">.</span><span class="nf">xya</span><span class="p">()</span>
-
-    <span class="c1"># Change the angle for the second pin
-</span>    <span class="n">new_end</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">END</span><span class="p">)</span>
-    <span class="n">new_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">180</span>
-    <span class="n">END</span> <span class="o">=</span> <span class="nf">tuple</span><span class="p">(</span><span class="n">new_end</span><span class="p">)</span>
-
-    <span class="c1"># Find the Dubins path between pin1 and pin2
-</span>    <span class="n">path</span> <span class="o">=</span> <span class="nf">dubins_path</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">START</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">END</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
-
-    <span class="c1"># Create the Dubins path with nazca using bends and straights
-</span>    <span class="k">return</span> <span class="nf">gds_solution</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pin1</span><span class="p">,</span> <span class="n">pin2</span><span class="p">,</span> <span class="n">solution</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
-
-</code></pre></div></div>
 
 <h2 id="conclusion">Conclusion</h2>
 <p>In the figure below, a comparison between a dense array of Dubins paths and arrays using Nazcas s-bends and cobra splines is made:</p>

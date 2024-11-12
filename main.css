@@ -996,6 +996,7 @@ h4.post-title {
 }
 
 .post-published {
+  font-family: "Lora", serif;
   background-color: rgb(220, 20, 60);
   font-size: 14px;
   color: white;
@@ -1004,8 +1005,10 @@ h4.post-title {
   padding-right: 8px;
   padding-bottom: 3px;
   padding-top: 2px;
-  margin-left: 2px;
-  white-space:nowrap;
+  margin-left: 0px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  align-items: center; /* Center vertically */
 }
 
 .sidenote-right {
@@ -1337,4 +1340,10 @@ sup[id^="fnref"] {
   fill: currentColor;
   padding: 5px 3px 2px 5px;
   vertical-align: text-bottom;
+}
+
+@media print {
+  .site-header {
+    display: none;
+  }
 }
