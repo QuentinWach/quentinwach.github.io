@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>File Management in Tauri 2.0 with Rust | Q. Wach</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="File Management in Tauri 2.0 with Rust" />
+<meta name="author" content="Quentin Wach" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you are just getting started with Tauri 2.0, opening, modifying, and saving files can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let’s make a simple text file editor." />
+<meta property="og:description" content="If you are just getting started with Tauri 2.0, opening, modifying, and saving files can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let’s make a simple text file editor." />
+<link rel="canonical" href="http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html" />
+<meta property="og:site_name" content="Q. Wach" />
+<meta property="og:image" content="http://localhost:4000/images/tauri_editor.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-26T20:38:24+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/images/tauri_editor.png" />
+<meta property="twitter:title" content="File Management in Tauri 2.0 with Rust" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Quentin Wach"},"dateModified":"2024-11-26T20:38:24+01:00","datePublished":"2024-11-26T20:38:24+01:00","description":"If you are just getting started with Tauri 2.0, opening, modifying, and saving files can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let’s make a simple text file editor.","headline":"File Management in Tauri 2.0 with Rust","image":"http://localhost:4000/images/tauri_editor.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html"},"url":"http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" ><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Q. Wach" /><script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+  </script>
+</head>
+
+</head><body onload="document.body.style.opacity='1'"><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Q. Wach</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div style="height: 50px;">
+          </br>
+        </div>
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">File Management in Tauri 2.0 with Rust</h1><p class="post-meta">by 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Quentin Wach</span></span>
+      
+      
+        • 
+        7
+       min read for 
+        1305
+       words •
+      <time class="dt-published" datetime="2024-11-26T20:38:24+01:00" itemprop="datePublished">
+        Nov 26, 2024
+      </time></p>
+  </header>
+
+  <!-- Add content summary -->
+  <div class="content-summary">
+    <ul id="markdown-toc"></ul>
+  </div>
+
+  <div>
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>Tauri 2.0<sup id="fnref:Tauri2" role="doc-noteref"><a href="#fn:Tauri2" class="footnote" rel="footnote">1</a></sup> is a big step forward for the framework. It is a big step forward for Rust as well. But if you are just getting started with it, you might find that the documentation is not quite as thorough as you would like it to be and none of the current AI’s have learned yet how to use it making them useless if not a hindrance!</p>
+
+<p>So, when you are just getting started, opening, modifying, and saving files can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let’s make a simple text file editor (which I lovingly called <em>fedit</em> short for <em>“fucking edit!”</em> in my angry desperation to get this working) like this:</p>
+
+<p><img src="/images/tauri_editor.png" alt="" /></p>
+
+<h2 id="setup">Setup</h2>
+<p>Clone the repository and navigate into the project folder:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/QuentinWach/fedit
+<span class="nb">cd </span>fedit
+</code></pre></div></div>
+<p>Then run the app with:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run tauri dev
+</code></pre></div></div>
+
+<p>You should see a window popping up just like in the image above. You can open a text file by clicking on the <em>Open</em> button and then selecting a file using the system dialog window that will pop up as well as save the file by clicking on the <em>Save</em> button which will open another dialog window asking you to specify the file name and directory. Modifications can be done in the text editor window.</p>
+
+<h2 id="user-interface--components">User Interface &amp; Components</h2>
+<p>The UI here is created with React components<sup id="fnref:React" role="doc-noteref"><a href="#fn:React" class="footnote" rel="footnote">2</a></sup> you’ll find in the <code class="language-plaintext highlighter-rouge">components/</code> folder. The Editor component returns the following:</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"editor-container"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="p">=</span><span class="s">"button-container"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="nx">handleOpen</span><span class="si">}</span><span class="p">&gt;</span>Open<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="p">=</span><span class="si">{</span><span class="nx">handleSave</span><span class="si">}</span><span class="p">&gt;</span>Save<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">textarea</span>
+        <span class="na">className</span><span class="p">=</span><span class="s">"editor-textarea"</span>
+        <span class="na">value</span><span class="p">=</span><span class="si">{</span><span class="nx">content</span><span class="si">}</span>
+        <span class="na">onChange</span><span class="p">=</span><span class="si">{</span><span class="nx">handleContentChange</span><span class="si">}</span>
+        <span class="na">placeholder</span><span class="p">=</span><span class="s">"Type your text here..."</span>
+    <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div></div>
+<p>You can see, it really is just the two mentioned buttons and a textarea below. But when clicking the buttons, the <code class="language-plaintext highlighter-rouge">handleOpen</code> and <code class="language-plaintext highlighter-rouge">handleSave</code> functions are called. Let’s look at <code class="language-plaintext highlighter-rouge">handleOpen</code> as an example to understand how this works:</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">handleOpen</span> <span class="o">=</span> <span class="k">async </span><span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="c1">// Open a file selection dialog</span>
+        <span class="kd">const</span> <span class="nx">selected</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">open</span><span class="p">({</span>
+            <span class="na">multiple</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="na">filters</span><span class="p">:</span> <span class="p">[{</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Text</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">extensions</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">md</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">txt</span><span class="dl">'</span><span class="p">]</span>
+            <span class="p">}]</span>
+        <span class="p">});</span>
+        
+        <span class="k">if </span><span class="p">(</span><span class="nx">selected</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Read the file content using our Rust command</span>
+            <span class="kd">const</span> <span class="nx">fileContent</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">invoke</span><span class="p">(</span><span class="dl">'</span><span class="s1">open_file</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+                <span class="na">path</span><span class="p">:</span> <span class="nx">selected</span>
+            <span class="p">});</span>
+            <span class="nf">setContent</span><span class="p">(</span><span class="nx">fileContent</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">File opened successfully!</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error opening file:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>We use the <code class="language-plaintext highlighter-rouge">open</code> function to open a file selection dialog window to search for text files. This function (together with the <code class="language-plaintext highlighter-rouge">save</code> function) is provided by the <code class="language-plaintext highlighter-rouge">api</code> package which we import at the beginning of the <code class="language-plaintext highlighter-rouge">.jsx</code>-file with:</p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">open</span><span class="p">,</span> <span class="nx">save</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@tauri-apps/plugin-dialog</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div></div>
+<p>Next, we feed the selected file path to the <code class="language-plaintext highlighter-rouge">invoke</code> function which is used to call the <code class="language-plaintext highlighter-rouge">open_file</code> Rust function. To be able to use the <code class="language-plaintext highlighter-rouge">invoke</code> function, we need to import at the beginning of the file like this:</p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">invoke</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@tauri-apps/api/core</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="rust-functions">Rust Functions</h2>
+<p>Using <code class="language-plaintext highlighter-rouge">invoke</code> we can call Rust<sup id="fnref:Rust" role="doc-noteref"><a href="#fn:Rust" class="footnote" rel="footnote">3</a></sup> functions from our JavaScript code. To do so, we need to declare the function in our <code class="language-plaintext highlighter-rouge">main.rs</code> file:</p>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[tauri::command]</span>
+<span class="k">fn</span> <span class="nf">open_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span> <span class="nb">String</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="nn">fs</span><span class="p">::</span><span class="nf">read_to_string</span><span class="p">(</span><span class="nn">PathBuf</span><span class="p">::</span><span class="nf">from</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="nf">.map_err</span><span class="p">(|</span><span class="n">e</span><span class="p">|</span> <span class="n">e</span><span class="nf">.to_string</span><span class="p">())</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>The first line <code class="language-plaintext highlighter-rouge">#[tauri::command]</code> is used to declare the function as a Tauri command. This is necessary for the <code class="language-plaintext highlighter-rouge">invoke</code> function to be able to call it from JavaScript. The function then takes the path of the directory as a <code class="language-plaintext highlighter-rouge">String</code> as an argument and returns a <code class="language-plaintext highlighter-rouge">Result&lt;String, String&gt;</code> which is a common Rust pattern for returning a value or an error.</p>
+
+<p>For this, we import the <code class="language-plaintext highlighter-rouge">fs</code> module to be able to read the file content and the <code class="language-plaintext highlighter-rouge">PathBuf</code> struct to be able to handle the path as a <code class="language-plaintext highlighter-rouge">PathBuf</code> object.</p>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="n">fs</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">path</span><span class="p">::</span><span class="n">PathBuf</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>We then make sure that we can call the <code class="language-plaintext highlighter-rouge">open_file</code> (and <code class="language-plaintext highlighter-rouge">save_file</code>) function from JavaScript and initialize the dialog plugin by adding the following lines to the <code class="language-plaintext highlighter-rouge">build</code> function in the <code class="language-plaintext highlighter-rouge">main.rs</code> file:</p>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">.invoke_handler</span><span class="p">(</span><span class="nn">tauri</span><span class="p">::</span><span class="nd">generate_handler!</span><span class="p">[</span><span class="n">save_file</span><span class="p">,</span> <span class="n">open_file</span><span class="p">])</span>
+<span class="nf">.plugin</span><span class="p">(</span><span class="nn">tauri_plugin_dialog</span><span class="p">::</span><span class="nf">init</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+<p>Lastly, and importantly, we need to make sure that we list the capabilities we want to use in our <code class="language-plaintext highlighter-rouge">tauri.conf.json</code> file:</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"security"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"csp"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p>We just need to add the empty <code class="language-plaintext highlighter-rouge">capabilities</code> list to the <code class="language-plaintext highlighter-rouge">security</code> section to get it to work. If you don’t include it, Tauri’s security model may restrict access to core APIs like file system operations. This is because the absence implies a configuration omission, and Tauri errs on the side of caution. This is meant to prevent malicious code from accessing your system through your application but also part of Tauri’s philosophy of being aware of what your application is doing specifically.</p>
+
+<p>We also need to add</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"withGlobalTauri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></code></pre></div></div>
+<p>to actually enable global Tauri API access in the JavaScript code.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>With that, you should be able to open, edit, and save text files in your Tauri application.</p>
+
+<p>One might compare this setup to how easy it is creating and modifying files using Python and wonder why we bother with Rust and all the hassle. But of course Python does not have the same security, it is absurdly slow, it is quite difficult to create beautiful and complex GUIs with Python which also easily compile into cross-platform executables.</p>
+
+<p>So I hope this helped and if you have any questions or suggestions, feel free to leave a comment below. 😊</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:Tauri2" role="doc-endnote">
+      <p><a href="https://v2.tauri.app/start/">Tauri 2.0 Documentation</a> <a href="#fnref:Tauri2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:React" role="doc-endnote">
+      <p><a href="https://react.dev/">React Documentation</a> <a href="#fnref:React" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:Rust" role="doc-endnote">
+      <p><a href="https://www.rust-lang.org/">Rust Documentation</a> <a href="#fnref:Rust" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+  </div>
+
+
+<!--
+<h4>Did You Enjoy Reading This Article?</h4>
+<p>Here are some more articles/posts you might like as well:</p>
+
+
+
+
+
+<ul>
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+</ul>
+-->
+
+
+  <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT 
+     *  THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR 
+     *  PLATFORM OR CMS.
+     *  
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: 
+     *  https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = 'http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html';  
+        
+        // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.identifier = '/blog/2024/11/26/files-in-tauri-v2'; 
+    };
+    
+    (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+        var d = document, s = d.createElement('script');
+        
+        // IMPORTANT: Replace EXAMPLE with your forum shortname!
+        s.src = 'https://quentinwach.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the 
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">
+        comments powered by Disqus.
+    </a>
+</noscript><a class="u-url" href="/blog/2024/11/26/files-in-tauri-v2.html" hidden></a>
+</article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+    const toc = document.getElementById('markdown-toc');
+    let h2Counter = 0;
+    let h3Counter = 0;
+
+    headings.forEach((heading, index) => {
+      const id = `section-${index}`;
+      heading.id = id;
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      
+      if (heading.tagName === 'H2') {
+        h2Counter++;
+        h3Counter = 0;
+        a.textContent = `${h2Counter}. ${heading.textContent}`;
+      } else if (heading.tagName === 'H3') {
+        h3Counter++;
+        a.textContent = `${h2Counter}.${h3Counter}. ${heading.textContent}`;
+        li.style.marginLeft = '20px';
+      }
+      
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+
+    if (toc.children.length === 0) {
+      document.querySelector('.content-summary').style.display = 'none';
+    }
+  });
+</script>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+
+      <div class="footer-col">
+        <p></p>
+      </div>
+    
+    </div>
+
+    <div class="social-links">
+    
+      <i>"I just wondered how things were put together."</i> Claude Shannon.
+      </br>
+
+      Thank you for visiting!
+      You can reach out to me on social media.
+      <div class="social-media-list"><div class="social-media-list"><a href="https://x.com/QuentinWach" class="social-link">
+      <svg class="svg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      <span class="username">QuentinWach</span>
+    </a><a href="https://github.com/QuentinWach" class="social-link">
+      <svg class="svg-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      <span class="username">QuentinWach</span>
+    </a></div></div>
+    </div>
+
+  </div>
+
+</footer><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.tag-filter a').click(function(e){
+                e.preventDefault();
+                var tag = $(this).attr('href').substring(1);
+                $('.post').hide();
+                $('.post[data-tags~="' + tag + '"]').show();
+            });
+        });
+    </script>
+
+
+  </body>
+
+</html>

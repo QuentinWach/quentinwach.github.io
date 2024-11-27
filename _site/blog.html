@@ -73,6 +73,12 @@
     
       
       
+      <button class="tag-bubble" data-tag="software">
+        software (1)
+      </button>
+    
+      
+      
       <button class="tag-bubble" data-tag="computer graphics">
         computer graphics (1)
       </button>
@@ -161,6 +167,19 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -175,19 +194,6 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -263,6 +269,27 @@
         });
       </script><ul class="post-list">
 
+        <a href="/blog/2024/11/26/files-in-tauri-v2.html" class="box post-item" data-tags="software">
+          <li class="post-box">
+
+            <div class="post-box-img"><img src="/images/tauri_editor.png" alt="File Management in Tauri 2.0 with Rust" class="post-image"></div>
+
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                File Management in Tauri 2.0 with Rust
+              </h4><p class="post-summary">
+                <p>If you are just getting started with Tauri 2.0, opening, modifying, and saving files can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let’s make a simple text file editor.</p>
+
+              </p><span class="post-meta">Nov 26, 2024</span>
+
+              <!-- Add word count and read time -->
+              
+              
+              <span class="post-meta"> • 1305 words • 6 min read</span></div>
+          </li>
+        </a>
+
         <a href="/blog/2024/09/18/first-shaders.html" class="box post-item" data-tags="computer graphics">
           <li class="post-box">
 
@@ -280,21 +307,21 @@
               <!-- Add word count and read time -->
               
               
-              <span class="post-meta"> • 3696 words • 18 min read</span></div>
+              <span class="post-meta"> • 3694 words • 18 min read</span></div>
           </li>
         </a>
 
         <a href="/blog/2024/04/10/AI-chip-market.html" class="box post-item" data-tags="artificial intelligence,electronics,hardware design,computer engineering">
           <li class="post-box">
 
-            <div class="post-box-img"><img src="/images/AI_acc_comparison_QW_animated_WTtitle.gif" alt="Neural Network Accelerators (2024)" class="post-image"></div>
+            <div class="post-box-img"><img src="/images/ai_market_still.jpg" alt="Neural Network Accelerators (2024)" class="post-image"></div>
 
             <div class="post-box-txt">
               
               <h4 class="post-title">
                 Neural Network Accelerators (2024)
               </h4><p class="post-summary">
-                <p>An short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum.</p>
+                <p>A short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum.</p>
 
               </p><span class="post-meta">Apr 10, 2024</span>
 

@@ -2,12 +2,12 @@
 layout: post
 mathjax: true
 title:  "Neural Network Accelerators (2024)"
-description: "An short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum."
+description: "A short overview of mostly commercial AI hardware. A rough comparison of ASICs, FPGAs, GPUs, and looking at compute requirements and energy consumption. I end this post with the realization that we need to take a first-principles physics approach to narrow down what future AI accelerator designs will have to look like because the market is complex and largely driven by momentum."
 date:   2024-04-10 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["artificial intelligence", "electronics", "hardware design", "computer engineering"]
 tag_search: true
-image:          "/images/AI_acc_comparison_QW_animated_WTtitle.gif"
+image:          "/images/ai_market_still.jpg"
 weight:
 note: 
 categories: "blog"

@@ -47,7 +47,7 @@ A faster way which can directly utilize the GPU is defining distance functions!
 
 But I dislike reading and watching tutorial after tutorial. So let's just get started!
 
-## Example #1: Lava Lamp
+## Example: Lava Lamp
 My first own shader (aside from the typical color gradients one does which is pretty much the "hello world" of shaders) is an animation comparable to a lava lamp. Or maybe spraying blood. 😅
 Here is the code:
 
@@ -138,7 +138,7 @@ void main() {
 
 Okay. This was quite straightforward. So I wanted to attempt something similar like that landscape Inigo made! I pretty much hacked this together, there is a lot wrong with the following code but it does produce a somewhat pleasing result.
 
-## Example #2: Mountain Range
+## Example: Mountain Range
 
 ```c
 #ifdef GL_ES

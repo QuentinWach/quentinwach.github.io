@@ -2,7 +2,7 @@
 layout: post
 mathjax: true
 title:  "Constrained Dynamics"
-description: "Explaining briefly (very, very briefly) what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics."
+description: "Where we derive the math for rigid body physics, various constraints, and how to implement them with high accuracy and performance."
 date:   2025-09-28 20:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["physics"]
@@ -57,7 +57,7 @@ $\mathbf{G}$ is the gyroscopic term in matrix form (often ignored). With the Lag
 
 $$\mathcal{L} = T(\dot{q_i}) - V(q_i),$$
 
-note that $$V(q_i)$$ is only position-dependent), and the Euler-Lagrange Equation
+note that $$V(q_i)$$ is only position-dependent, and the Euler-Lagrange Equation
 
 $$
 \frac{d}{dt} \left( \frac{\partial \mathcal{L}}{\partial \dot{q_i}} \right) - \frac{\partial \mathcal{L}}{\partial q_i} + \sum \lambda_k \frac{\partial f_k}{\partial q_i} = 0
@@ -141,10 +141,10 @@ For now, we still have to define what our system, should actually look like. A d
 The general equations of motion for two rigid bodies
 
 $$
-a(t) = M^(-1) \cdot F_total = M^(-1) \cdot (F_ext + F_c)
+a(t) = F_{\text{total}} / M = (F_{\text{ext}} + F_c) / M
 $$
 
-where $$\vec{a}(t)$$ is the accelaration vector, $$M$$ is the mass matrix, $$\vec{F}_{total}$$ is the total force, $$\vec{F}_{ext}$$ are external forces, and $$\vec{F}_c$$ are constraint forces, and $$F_c$$ are constraint forces.
+where $$\vec{a}(t)$$ is the acceleration vector, $$M$$ is the mass matrix, $$\vec{F}_{\text{total}}$$ is the total force, $$\vec{F}_{\text{ext}}$$ are external forces, and $$\vec{F}_c$$ are constraint forces, and $$F_c$$ are constraint forces.
 
 A general constraint is defined as:
 
@@ -155,7 +155,7 @@ $$
 The time derivative of this constraint gives the velocity constraint:
 
 $$
-Ċ(s) = Jv(t) + b = 0
+\dot{C}(s) = J \cdot \vec{v}(t) + b = 0
 $$
 
 where $$J$$ is the Jacobian matrix, $$v(t)$$ is the velocity vector, and $$b$$ is the bias velocity vector.
@@ -163,23 +163,23 @@ where $$J$$ is the Jacobian matrix, $$v(t)$$ is the velocity vector, and $$b$$ i
 The constraint force is calculated as:
 
 $$
-F_c = J^T λ
+F_c = J^T \lambda
 $$
 
-Where λ is the Lagrange multiplier.
+Where $$\lambda$$ is the Lagrange multiplier.
 
-We solve for λ:
+We solve for $$\lambda$$:
 
 $$
-λ' = -K^(-1)(Jv'_i + b)
+\lambda' = -K^{-1}(J \cdot v'_i + b)
 $$
 
-with $$K = JM^(-1)J^T$$, $$v'_i = v_i + M^(-1)F_ext Δt$$, and $$\lambda' = \lambda Δt$$.
+with $$K = JM^{-1}J^T$$, $$v'_i = v_i + M^{-1}F_{\text{ext}} Δt$$, and $$\lambda' = \lambda Δt$$.
 
 The penetration depth (constraint function) is:
 
 $$
-C_pen(s) = (p_2 - p_1) · n_1 ≥ 0
+C_{\text{pen}}(s) = (\vec{p}_2 - \vec{p}_1) \cdot \vec{n}_1 \geq 0
 $$
 
 where $$p_1$$ and $$p_2$$ are contact points and $$n_1$$ is the contact normal.
@@ -187,7 +187,7 @@ where $$p_1$$ and $$p_2$$ are contact points and $$n_1$$ is the contact normal.
 The Jacobian for this constraint is:
 
 $$
-J_pen = [-n_1^T  -(r_1 × n_1)^T  n_1^T  (r_2 × n_1)^T]
+J_{\text{pen}} = [-\vec{n}_1^T  -(\vec{r}_1 \times \vec{n}_1)^T  \vec{n}_1^T  (\vec{r}_2 \times \vec{n}_1)^T]
 $$
 
 To use these constraints in a simulation:
@@ -199,10 +199,10 @@ To use these constraints in a simulation:
 5. Update velocities and positions using:
 
 $$
-\begin{align}
-v_i+1 &= v_i + Δt M^(-1)(F_ext + F_c) \\
+\begin{align*}
+v_i+1 &= v_i + Δt M^{-1}(F_{\text{ext}} + F_c) \\
 s_i+1 &= s_i + Δt S v_i+1
-\end{align}
+\end{align*}
 $$
 
 This process ensures that the constraints are satisfied at each time step, preventing penetration between bodies and simulating friction effects. The key idea is to use the constraint equations to compute forces that keep the bodies in a valid configuration while allowing realistic motion.
@@ -223,10 +223,10 @@ $$
 The Jacobian, $$ \vec{J} $$, for this constraint can be defined as:
 
 $$
-\vec{J} = \left[-\hat{n}, -(\vec{r_1} \times \hat{n}), \hat{n}, (\vec{r_2} \times \hat{n})\right]
+\vec{J} = \left[-\vec{n}, -(\vec{r}_1 \times \vec{n}), \vec{n}, (\vec{r}_2 \times \vec{n}) \right]
 $$
 
-where $$ \hat{n} = \frac{\vec{p_2} - \vec{p_1}}{|\vec{p_2} - \vec{p_1}|} $$ is the normalized direction vector from $$ \vec{p_1} $$ to $$ \vec{p_2} $$, and $$ \vec{r_1} $$, $$ \vec{r_2} $$ are the distances from the center of mass to the points on each rigid body. Solving this constraint ensures the distance remains constant, simulating a fixed rod between the bodies.
+where $$ \vec{n} = \frac{\vec{p}_2 - \vec{p}_1}{\| \vec{p}_2 - \vec{p}_1 \|} $$ is the normalized direction vector from $$ \vec{p}_1 $$ to $$ \vec{p}_2 $$, and $$ \vec{r}_1 $$, $$ \vec{r}_2 $$ are the distances from the center of mass to the points on each rigid body. Solving this constraint ensures the distance remains constant, simulating a fixed rod between the bodies.
 
 ### Slider Joint
 The slider joint restricts relative motion between two bodies to a single linear axis, such as a piston in a cylinder. The constraint can be defined by ensuring that the relative velocity perpendicular to the slide direction is zero:
