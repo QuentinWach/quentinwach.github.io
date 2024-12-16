@@ -1,7 +1,7 @@
 ---
 layout: post
 mathjax: true
-title:  "Professional Matplotlib with Python (2020)"
+title:  "Professional Figures with Matplotlib (2020)"
 description: "An introduction into the Matplotlib API, how to get started customizing plots, and create professional figures for your scientific work."
 date:   2020-1-1
 authors: ["Quentin Wach"]
