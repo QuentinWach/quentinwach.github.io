@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Professional Matplotlib with Python (2020) | Q. Wach</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Professional Matplotlib with Python (2020)" />
+<meta name="author" content="Quentin Wach" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An introduction into the Matplotlib API, how to get started customizing plots, and create professional figures for your scientific work." />
+<meta property="og:description" content="An introduction into the Matplotlib API, how to get started customizing plots, and create professional figures for your scientific work." />
+<link rel="canonical" href="http://localhost:4000/blog/2020/01/01/animating-science.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2020/01/01/animating-science.html" />
+<meta property="og:site_name" content="Q. Wach" />
+<meta property="og:image" content="http://localhost:4000/images/science%20animations/happy4_c3.gif" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-01T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/images/science%20animations/happy4_c3.gif" />
+<meta property="twitter:title" content="Professional Matplotlib with Python (2020)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Quentin Wach"},"dateModified":"2020-01-01T00:00:00+01:00","datePublished":"2020-01-01T00:00:00+01:00","description":"An introduction into the Matplotlib API, how to get started customizing plots, and create professional figures for your scientific work.","headline":"Professional Matplotlib with Python (2020)","image":"http://localhost:4000/images/science%20animations/happy4_c3.gif","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2020/01/01/animating-science.html"},"url":"http://localhost:4000/blog/2020/01/01/animating-science.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" ><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Q. Wach" /><script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+  </script>
+</head>
+
+</head><body onload="document.body.style.opacity='1'"><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Q. Wach</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about">About</a><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/side-projects">Side-Projects</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div style="height: 50px;">
+          </br>
+        </div>
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Professional Matplotlib with Python (2020)</h1><p class="post-meta">by 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Quentin Wach</span></span>
+      
+      
+        • 
+        22
+       min read for 
+        4123
+       words •
+      <time class="dt-published" datetime="2020-01-01T00:00:00+01:00" itemprop="datePublished">
+        Jan 1, 2020
+      </time></p>
+  </header>
+
+  <!-- Add content summary -->
+  <div class="content-summary">
+    <ul id="markdown-toc"></ul>
+  </div>
+
+  <div>
+    <div class="post-content e-content" itemprop="articleBody">
+      <!--
+A free collection of tutorials and simulation examples that aim to showcase and explain the animation capabilites one has using Python. This includes chemical reaction diffusion, the viral spread in pandemics, fractals, chaotic pendulums with springs, Conway's game of life, quantum states of hydrogen, galaxy collisions, and much more.
+-->
+
+<p><span class="sidenote-left">
+    (<em>Note, Dec 14, 2024.)</em> This blog post was originally published on my old blog about scientific animations which, in my naivety, I had written entirely in raw HTML, CSS, and JavaScript. Naturally, this did not scale. But since students still ask me how to use Matplotlib beyond the basics and how I make my figures and animations, I now took the time to reformat and release it here again. All of the graphics you see here (with exception of the Python logo) were created with Matplotlib. I hope it helps!
+</span>
+In this blog post you will learn the technical basics of how to create professional figures with <a href="https://www.python.org/">Python</a> and Matplotlib. If you take only one idea out of this tutorial, let it be this:</p>
+
+<p><strong>Do not trust the default! - Customize everything!</strong></p>
+
+<p>Hence this tutorial is not oriented towards students just starting out and searching for coding advice or directions in how to set up their environment. - If however you already have some experience coding and using Python, and you want to start visualizing your data or simulation without moving to another tool, and do so properly, this is the guide you have been searching for.</p>
+
+<!-- Start of Selection -->
+<div style="display: flex; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px; width: 70px; filter: grayscale(100%);">
+    <img src="/images/anim_science_imgs/python.png" alt="Python" />
+</div>
+<!-- End of Selection -->
+
+<h2 id="why-choose-python-with-matplotlib">Why choose Python with Matplotlib?</h2>
+
+<p>There are many great tools to create interactive visualizations and animations for science most notably <em>Mathematica</em> and <em>Matlab</em>. Many academics in STEM use them, but there is no discussion that if you want to create beautiful, solid and creative visualizations that are to be published, <em>Matplotlib</em> is the way to go.</p>
+
+<p>It offers the precision other tools lack and creates clean plots without aliasing, correct vectorizations and formatting no matter what backend. There is nothing you can’t access and thus you can customize anything you desire. Every single plot object like figures and axes or even individual ticks, lines, labels or points can be changed to fit your needs.</p>
+
+<p>All of that can be done with Python which is the most popular programming language in STEM research mostly because it’s very high level and therefore very easy to use especially for bigger projects. It offers a wide range of other modules besides Matplotlib that can be imported to extend it’s functionality and the community is working relentlessly to enable anyone to do anything with Python. You want to create and test new algorithms and design circuits for quantum computing? You want to prototype custom machine learning models as fast as possible? Analyze big data? Run with Python.</p>
+
+<p>Both are completely free for everyone.
+<!-- Start of Selection --></p>
+<div style="display: flex; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px; width: 70px; filter: grayscale(100%);">
+    <img src="/images/anim_science_imgs/matplot.png" alt="Matplot" />
+</div>
+<!-- End of Selection -->
+
+<h2 id="how-do-i-work-through-this">How do I work through this?</h2>
+
+<p>I encourage you to create a Jupyter notebook for this particular tutorial so that you can play around with the given codesnippets and examples, but later on, when we start animating, it will be best to work with a simple editor and the terminal.</p>
+
+<p>Please install Numpy as well if you dared not to do until now despite it being the fundamental Python package for scientific computing.</p>
+
+<p>Do not use Pylab all the much if at all, please.</p>
+
+<h2 id="the-matplotlib-api">The Matplotlib API</h2>
+
+<p>Most tutorials are very focused on very rudimentary aspects of this library or only show you a very special example. Let’s do things differently and get at least some overview so that we can actually form the general understanding we need to truly be able to grow our plotting powers.</p>
+
+<p>With Matplotlib you have access to <a href="https://matplotlib.org/3.2.0/api/index.html">56 submodules</a>.</p>
+
+<p>You might find this a bit overwelming at first, but the module is carefully desgined to be very <strong>object oriented</strong> and the naming conventions are mostly quite intuitive as you will realize soon. In fact, you won’t even really have to understand anything at first, because you can simply load <a href="https://matplotlib.org/3.2.1/api/pyplot_summary.html">matplotlib.pyplot</a> for a <strong>command line approach</strong> which makes it very easy to get the basics done quickly. (Sadly Matplotlib’s biggest issue is it’s <a href="https://matplotlib.org/3.2.1/api/index.html#usage-patterns"><strong>API</strong></a>. This is mostly because it is heavily influenced by Matlab.) These two aspects, the <code class="language-plaintext highlighter-rouge">pyplot</code> and the object oriented approach are the most common ways of using this vast library.</p>
+
+<h2 id="primitives--containers">Primitives &amp; Containers</h2>
+
+<p>In Matplotlib objects are seperated into primitives and containers.</p>
+
+<p>“The primitives represent the standard graphical objects we want to paint onto our canvas: Line2D, Rectangle, Text, AxesImage, etc., and the containers are places to put them (Axis, Axes and Figure). The standard use is to create a Figure instance, use the Figure to create one or more Axes or Subplot instances, and use the Axes instance helper methods to create the primitives.” <a href="https://matplotlib.org/3.2.1/api/index.html#usage-patterns" target="_blank"> Read more.</a></p>
+
+<p>Most of the time we will be interested in customizing the primitives like the font family of a text or the thickness and color of a line.</p>
+
+<h2 id="artist-objects">Artist Objects</h2>
+<!--https://matplotlib.org/3.2.0/tutorials/intermediate/artists.
+html-->
+<p>The class from which all other objects inherit their basic properties is the artist. It’s list of basic options to configure is quite long. You can use <a href="https://matplotlib.org/3.2.0/api/_as_gen/matplotlib.artist.getp.html#matplotlib.artist.getp" target="_blank"> <code class="language-plaintext highlighter-rouge">matplotlib.artist.getp()</code> </a> to print out the properties of any object. This way you may change the background colors, the positioning order / z-order or fix objects so that they don’t get animated etc..
+In general, properties of any object ‘o’ can be changed with <code class="language-plaintext highlighter-rouge">o.set(alpha=0.5, animated=False)</code> for example.</p>
+
+<p>The reason for why it is called Artist is that this is where Matplotlib defines how to render objects to the canvas.</p>
+
+<h2 id="the-figure--axes"><a href="https://matplotlib.org/3.2.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" target="_blank">The Figure</a> &amp; <a href="https://matplotlib.org/3.2.1/api/axes_api.html#matplotlib.axes.Axes" target="_blank">Axes</a></h2>
+
+<p>The complete image we create is the <code class="language-plaintext highlighter-rouge">matplotlib.figure.Figure</code>, and it holds all the axes objects.</p>
+
+<div style="display: flex; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px; width: 100%;">
+    <img src="/images/anim_science_imgs/E6.svg" alt="E6" />
+</div>
+
+<p>The axes container holds the vast majority of all the objects used in a figures. Here we can directly add our data and create a plot, which makes this object the center of our attention most of the time. There are a bunch of helper methods like <code class="language-plaintext highlighter-rouge">ax.plot()</code>, <code class="language-plaintext highlighter-rouge">ax.scatter()</code> or <code class="language-plaintext highlighter-rouge">ax.imshow()</code> which enable the display of your data inside these containers. We do not have to limit ourselves to simple x-y-plots, yet as the name of this object also tells us, there are still the axis container that we have to explore:</p>
+
+<h2 id="axis--ticks"><a href="https://matplotlib.org/3.2.1/api/axis_api.html?highlight=axis#module-matplotlib.axis" target="_blank">Axis</a> &amp; <a href="https://matplotlib.org/3.2.1/api/axis_api.html?highlight=tick#matplotlib.axis.Tick" target="_blank">Ticks</a></h2>
+
+<p>The Axis is the place where our data is actually stored and will be generated automatically by the named helper methods. This instance of the Artist then draws the tick lines, the grid lines, the tick labels as well as the axis label, which can then be customized separately, too!</p>
+
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <img src="/images/anim_science_imgs/E7.svg" alt="E7" />
+</div>
+
+<p>The then created Tick object is the container which holds these tick and grid line instances, and also the label instances to name each axis.
+We will learn to customize all of those soon!</p>
+
+<h2 id="filling-figures">Filling Figures</h2>
+<p>Let’s start at the top by defining our figure. We’ll then be adding axes or subplots, fill it with the data and then fine tune the details! - After importing the helpful little <code class="language-plaintext highlighter-rouge">pyplot</code> submodule as <code class="language-plaintext highlighter-rouge">plt</code>, we create our figure, define the axes independently and then add them together by writing:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># create figure
+</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">2.5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="c1"># define axes
+</span><span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nc">Axes</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">facecolor</span><span class="o">=</span><span class="sh">'</span><span class="s">crimson</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nc">Axes</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">facecolor</span><span class="o">=</span><span class="sh">'</span><span class="s">steelblue</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># add axes to figure
+</span><span class="n">fig</span><span class="p">.</span><span class="nf">add_axes</span><span class="p">(</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">add_axes</span><span class="p">(</span><span class="n">ax1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Which returns a plot similar to the one shown here:</p>
+
+<!-- Start of Selection -->
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <img src="/images/anim_science_imgs/E5.svg" alt="E5" />
+</div>
+<!-- End of Selection -->
+
+<p>Here is a nice <a href="https://matplotlib.org/matplotblog/posts/an-inquiry-into-matplotlib-figures/" target="_blank">post on figures</a>. - In some of the examples we will visualize the propagation of a simulation and then measure a few features we are interested in and plot them in an additional subplot next to the main one. This comes handy also when we want to plot a series of images from your animation in your paper.</p>
+
+<h2 id="subplots--the-grid"><a href="https://matplotlib.org/3.2.1/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" target="_blank">Subplots &amp; the Grid</a></h2>
+
+<p>I’ve already explained that Matplotlib uses the Axes container to hold and draw data. Multiple plots in a single figure are called <em>subplots</em> and Matplotlib offers an additional functionality <code class="language-plaintext highlighter-rouge">add_subplot()</code> to simplify their creation.</p>
+
+<p>Although both <code class="language-plaintext highlighter-rouge">add_axes()</code> and <code class="language-plaintext highlighter-rouge">add_subplot()</code> create a <code class="language-plaintext highlighter-rouge">matplotlib.axes.Axes</code> object, the way they do so is quite different. We can use <code class="language-plaintext highlighter-rouge">add_axes()</code> and specify the exact absolute position of the rectangle of this object on the canvas. But this results in us having to constantly tweak the positioning as the plot becomes more complicated. Instead of that, we might as well just call <code class="language-plaintext highlighter-rouge">add_subplot()</code> which handles the placing of axes objects in an even grid with a certain number of cells automatically. All we have to do is specify in which cell of the grid the axes should go. When creating subplots, this leaves enough space around the axes for the title, ticks and labels. The positioning changes dynamically as we continue to work on our figure.</p>
+
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <img src="/images/anim_science_imgs/E9.svg" alt="E9" />
+</div>
+
+<p>Another nice way which allows for subplots to occupy multiple cells as seen in the image is <code class="language-plaintext highlighter-rouge">subplot2grid()</code>. The subplots span over several columns and rows of the grid. This functionality builds on another fundamental part, in fact, the grid itself.</p>
+
+<h2 id="gridspec"><a href="https://matplotlib.org/3.2.1/api/_as_gen/matplotlib.gridspec.GridSpec.html" target="_blank">GridSpec</a></h2>
+
+<p>We can specify the geometry of the grid in which a subplot will be placed with <code class="language-plaintext highlighter-rouge">gridspec()</code>. But not just by defining the number of rows and columns. We can also specify where the grid should be placed and how much distance their should be between subplots etc. … This allows us to become very creative with our grid designs. We can place multiple grids in a figure and even grids inside grids!</p>
+
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <img src="/images/anim_science_imgs/E10.svg" alt="E10" />
+</div>
+
+<p>The basic procedure here goes as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># create figure
+</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># define grid specifications
+</span><span class="n">gs</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_gridspec</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.90</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="c1"># add subplots to the grid
+</span><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Go on and test it out. It can easily be extended for more complicated grid arrangements. <a href="https://matplotlib.org/3.2.1/tutorials/intermediate/gridspec.html" target="_blank">Read more.</a></p>
+
+<p>After adding the grid specifications, embedding axes as subplots on the grid or grids and filling in the data, then - if the general ratios of the image seem right - we start finalizing the details.</p>
+
+<h2 id="plotting-details">Plotting Details</h2>
+<p>I assume you already know about the basics of changing line and dot colors and thickness. Since this information is so widely spread throughout the internet I won’t bother talking about it. Yet, a few other very simple things are not talked about that much starting with limits of the axes.</p>
+
+<!-- LIMITS 
+<hr>
+<p><b><a>Limits</a></b></p>
+-->
+
+<h3 id="ticks"><a href="https://matplotlib.org/3.2.1/api/ticker_api.html" target="_blank">Ticks</a></h3>
+
+<p>They are small but well formatted ticks are integral for publishing-ready figures and again Matplotlib enables us to fully configure them, both major and minor ticks independently.</p>
+
+<p><strong>Tick formatters</strong> can be used to change their appearance the way we want, deleting the labels on the ticks, display them as percentages and <a href="https://matplotlib.org/3.2.1/api/ticker_api.html" target="_blank">more</a>.</p>
+
+<p><strong>Tick locators</strong> are used to specify where ticks should appear. These derive from the base class <strong>matplotlib.ticker.Locator</strong>.</p>
+
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px; margin-left: auto; margin-right: auto; width: 80%;">
+    <img src="/images/anim_science_imgs/E11.svg" alt="E11" />
+</div>
+
+<p>(<strong>Note</strong>: Because handling dates as ticks can be especially tricky matplotlib provides additional locators in <a href="https://matplotlib.org/3.2.1/api/dates_api.html" target="_blank">matplotlib.dates</a>. Read <a href="https://matplotlib.org/3.2.1/gallery/text_labels_and_annotations/date.html" target="_blank">more</a>)</p>
+
+<p>The tick locations can be changed either change the scaling when setting up the axes object like here:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">axes</span><span class="p">(</span><span class="n">xscale</span><span class="o">=</span><span class="sh">'</span><span class="s">log</span><span class="sh">'</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="sh">'</span><span class="s">log</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Or by importing the ticker class and adding one or two lines similar to this example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.ticker</span> <span class="k">as</span> <span class="n">ticker</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">xaxis</span><span class="p">.</span><span class="nf">set_major_locator</span><span class="p">(</span><span class="n">ticker</span><span class="p">.</span><span class="nc">FixedLocator</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<p>We can hide both ticks and labels using</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ax</span><span class="p">.</span><span class="n">xaxis</span><span class="p">.</span><span class="nf">set_major_locator</span><span class="p">(</span><span class="n">plt</span><span class="p">.</span><span class="nc">NullLocator</span><span class="p">())</span>     <span class="c1"># x-axis without ticks
+</span><span class="n">ax</span><span class="p">.</span><span class="n">xaxis</span><span class="p">.</span><span class="nf">set_major_formatter</span><span class="p">(</span><span class="n">plt</span><span class="p">.</span><span class="nc">NullFormatter</span><span class="p">())</span> <span class="c1"># x-axis without labels
+</span></code></pre></div></div>
+
+<p>The same holds true for minor ticks, which aren’t visible by default.</p>
+
+<h3 id="spines">Spines</h3>
+<p>The spines are the lines that form the borders of the plot area. They are essentially the axes of the plot and can be customized to enhance the visual appeal of your figures. You can control the visibility, position, and appearance of spines using the <code class="language-plaintext highlighter-rouge">spines</code> attribute of the Axes object.</p>
+
+<p>For example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Sample data
+</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+
+<span class="c1"># Create a figure and axis
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">()</span>
+
+<span class="c1"># Plot data
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Customize spines
+</span><span class="n">ax</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">top</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>  <span class="c1"># Hide the top spine
+</span><span class="n">ax</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>  <span class="c1"># Hide the right spine
+</span><span class="n">ax</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">left</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_color</span><span class="p">(</span><span class="sh">'</span><span class="s">blue</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># Change the color of the left spine
+</span><span class="n">ax</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">bottom</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_color</span><span class="p">(</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># Change the color of the bottom spine
+</span><span class="n">ax</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">left</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_linewidth</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Change the width of the left spine
+</span><span class="n">ax</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">bottom</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_linewidth</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Change the width of the bottom spine
+</span>
+<span class="c1"># Set labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">X-axis Label</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Y-axis Label</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Here, we hide the top and right spines, change the color of the left spine to blue, and the bottom spine to green. Additionally, we adjust the line width of the left and bottom spines to make them more prominent.</p>
+
+<h2 id="text-math--annotations">Text, Math &amp; Annotations</h2>
+<p>Most of the time text of any kind won’t be necessary or will in fact only confuse the recipient looking at the figure. Relevant text must usually be added next to the picture and not be a part of it as to not distract or confuse.</p>
+
+<p>Nonetheless displaying some math, units and axes descriptions are essential. To keep the figure as visually clean as possible and get it’s message across without throwing around with ugly fonts, we need to know how to customize these as well.</p>
+
+<h3 id="fonts"><a href="https://matplotlib.org/3.1.0/api/font_manager_api.html#matplotlib.font_manager.FontManager" target="_blank">Fonts</a></h3>
+
+<p>Matplotlib supports any type of font you throw at as long it is installed at your system and also a <a>.ttf</a> or <a>.afm</a> file. Here are a few more or less random examples:</p>
+
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <img src="/images/anim_science_imgs/text_sheet.png" alt="text_sheet" />
+</div>
+
+<p>Certain font families can change the personality of a plot drastically. In general, less is more, Comic Sans is a joke and if you can go without text, go without.</p>
+
+<p>The general method of changing any text font to a new one (here ‘fontname’) goes somewhat like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">matplotlib.font_manager</span> <span class="k">as</span> <span class="n">fm</span>
+
+<span class="n">prop</span> <span class="o">=</span> <span class="n">fm</span><span class="p">.</span><span class="nc">FontProperties</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="sh">'</span><span class="s">/usr/share/fonts/truetype/fontname.ttf</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">text</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">prop</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>If a font is not rendered this may have two reasons. Matplotlib might either need to refresh it’s font cache:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">matplotlib</span><span class="p">.</span><span class="n">font_manager</span><span class="p">.</span><span class="nf">_rebuild</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="labels">Labels</h3>
+<p>Labels are essential for providing context to your plots. They help the viewer understand what the axes represent and what the data signifies. In Matplotlib, you can easily add labels to your axes using the <code class="language-plaintext highlighter-rouge">set_xlabel()</code> and <code class="language-plaintext highlighter-rouge">set_ylabel()</code> methods on the Axes object. Here’s how you can do it:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Sample data
+</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+
+<span class="c1"># Create a figure and axis
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">()</span>
+
+<span class="c1"># Plot data
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Set labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">X-axis Label</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Y-axis Label</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>In this example, we create a simple line plot and add labels to both the x-axis and y-axis. This makes the plot more informative and easier to understand.</p>
+
+<h3 id="annotations">Annotations</h3>
+<p>Annotations allow you to add notes or highlight specific points in your plot. This can be particularly useful for emphasizing important data points or providing additional information. You can use the <code class="language-plaintext highlighter-rouge">annotate()</code> method to add annotations to your plots. Here’s an example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Sample data
+</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+
+<span class="c1"># Create a figure and axis
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">()</span>
+
+<span class="c1"># Plot data
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Annotate a specific point
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">annotate</span><span class="p">(</span><span class="sh">'</span><span class="s">Important Point</span><span class="sh">'</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+             <span class="n">arrowprops</span><span class="o">=</span><span class="nf">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="sh">'</span><span class="s">black</span><span class="sh">'</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.05</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>In this example, we annotate the point (3, 5) with a label “Important Point” and an arrow pointing to it. This helps draw attention to significant data points in your visualization.</p>
+
+<h3 id="text">Text</h3>
+<p>Adding text to your plots can provide additional context or explanations. You can use the <code class="language-plaintext highlighter-rouge">text()</code> method to place text at specific coordinates within your plot. Here’s how to do it:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Sample data
+</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+
+<span class="c1"># Create a figure and axis
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">()</span>
+
+<span class="c1"># Plot data
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Add text to the plot
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="sh">'</span><span class="s">This is a text annotation</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">blue</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>In this example, we add a text annotation at the coordinates (3, 6) with a specified font size and color. This can be useful for providing explanations or highlighting specific aspects of your data.</p>
+
+<h3 id="math">Math</h3>
+<p>Matplotlib also supports LaTeX-style math expressions, allowing you to include mathematical notation in your plots. To use LaTeX formatting, you can set the <code class="language-plaintext highlighter-rouge">usetex</code> option in the <code class="language-plaintext highlighter-rouge">rc</code> module. Here’s an example of how to include a mathematical expression in your plot:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># for LaTeX font
+</span><span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">rc</span>
+<span class="nf">rc</span><span class="p">(</span><span class="sh">'</span><span class="s">font</span><span class="sh">'</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="sh">'</span><span class="s">family</span><span class="sh">'</span><span class="p">:</span><span class="sh">'</span><span class="s">sans-serif</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">sans-serif</span><span class="sh">'</span><span class="p">:[</span><span class="sh">'</span><span class="s">Helvetica</span><span class="sh">'</span><span class="p">]})</span>
+<span class="nf">rc</span><span class="p">(</span><span class="sh">'</span><span class="s">text</span><span class="sh">'</span><span class="p">,</span> <span class="n">usetex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>we can add <a href="https://www.latex-project.org/"> LaTeX </a> equations to our plot. For example, we may write</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># red LaTeX expression
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">8.5</span><span class="p">,</span><span class="sa">r</span><span class="sh">"</span><span class="s">$(x-1)^3 + 1$</span><span class="sh">"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">"</span><span class="s">crimson</span><span class="sh">"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>to plot the expression \((x-1)^3 + 1\) at the center of a given plot.</p>
+
+<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    <img src="/images/anim_science_imgs/E1.svg" alt="E1" />
+</div>
+
+<p>By changing the rc parameters you have now made changes to the style. To reverse this, you can use <a href="https://matplotlib.org/3.2.0/api/style_api.html" target="_blank"> <code class="language-plaintext highlighter-rouge">matplotlib.style.use('default')</code> </a> or <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.rcdefaults.html" target="_blank"> <code class="language-plaintext highlighter-rouge">rcdefaults()</code> </a> to restore the default rc parameters.</p>
+
+<h2 id="style">Style</h2>
+
+<p>It turns out that Matplotlib already has a big <a href="https://matplotlib.org/3.2.0/gallery/style_sheets/style_sheets_reference.html" target="_blank">library of styles</a> you can choose from at the beginning of you script. Just like we reset the style in the previous section we can import a style by writing:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">matplotlib</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">'</span><span class="s">ggplot</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>(In this case, the imported changes to the style are designed to emulate the look of a plotting package for R.) We can also load multiple styles one after another to create mixed versions where each following loaded style overwrites some special rc parameters. Please take a peak at the <a href="https://matplotlib.org/3.2.0/gallery/style_sheets/style_sheets_reference.html" target="_blank">style sheets</a> but don’t think we are finished here. A master of his craft creates his own defining style. Let’s look at how we can write our own that we can save as a seperate file and then simply load with this one line.</p>
+
+<h2 id="whats-next">What’s Next?</h2>
+<p>I hope you have learned a couple of things about the Matplotlib API. If you want to learn more, I recommend you to read the <a href="https://matplotlib.org/stable/tutorials/index.html" target="_blank">tutorials</a> and <a href="https://matplotlib.org/3.2.0/gallery/index.html" target="_blank">gallery</a> sections of the Matplotlib documentation. And if you really want to level up your Matplotlib skills, I recommend you to read the <a href="https://github.com/rougier/scientific-visualization-book?tab=readme-ov-file" target="_blank">Scientific Visualization Book</a> by Nicolas P. Rougier<sup id="fnref:SciVisBook" role="doc-noteref"><a href="#fn:SciVisBook" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:SciVisBook" role="doc-endnote">
+      <p>Nicolas P. Rougier, <em>Scientific Visualization: Python &amp; Matplotlib</em>, 2019, 978-2-9579901-0-8, <em>hal-03427242</em>, <a href="https://github.com/rougier/scientific-visualization-book">https://github.com/rougier/scientific-visualization-book</a> <a href="#fnref:SciVisBook" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+  </div>
+
+
+<!--
+<h4>Did You Enjoy Reading This Article?</h4>
+<p>Here are some more articles/posts you might like as well:</p>
+
+
+
+
+
+<ul>
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/science-engineering/2024/12/03/fluids-intro.html">Introduction to Computational Fluid Dynamics</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/blog/2024/11/26/files-in-tauri-v2.html">File Management in Tauri 2.0 with Rust</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/blog/2024/09/18/first-shaders.html">OpenGL Shaders</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+            <li><a href="/science-engineering/2024/07/23/terra.html">TERRA: The Tiny Terrain Generator</a></li>
+            
+
+            
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+
+        
+        
+
+        
+
+        
+    
+</ul>
+-->
+
+
+  <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT 
+     *  THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR 
+     *  PLATFORM OR CMS.
+     *  
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: 
+     *  https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = 'http://localhost:4000/blog/2020/01/01/animating-science.html';  
+        
+        // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.identifier = '/blog/2020/01/01/animating-science'; 
+    };
+    
+    (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+        var d = document, s = d.createElement('script');
+        
+        // IMPORTANT: Replace EXAMPLE with your forum shortname!
+        s.src = 'https://quentinwach.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the 
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">
+        comments powered by Disqus.
+    </a>
+</noscript><a class="u-url" href="/blog/2020/01/01/animating-science.html" hidden></a>
+</article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+    const toc = document.getElementById('markdown-toc');
+    let h2Counter = 0;
+    let h3Counter = 0;
+
+    headings.forEach((heading, index) => {
+      const id = `section-${index}`;
+      heading.id = id;
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      
+      if (heading.tagName === 'H2') {
+        h2Counter++;
+        h3Counter = 0;
+        a.textContent = `${h2Counter}. ${heading.textContent}`;
+      } else if (heading.tagName === 'H3') {
+        h3Counter++;
+        a.textContent = `${h2Counter}.${h3Counter}. ${heading.textContent}`;
+        li.style.marginLeft = '20px';
+      }
+      
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+
+    if (toc.children.length === 0) {
+      document.querySelector('.content-summary').style.display = 'none';
+    }
+  });
+</script>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+
+      <div class="footer-col">
+        <p></p>
+      </div>
+    
+    </div>
+
+    <div class="social-links">
+    
+      <i>"I just wondered how things were put together."</i> Claude Shannon.
+      </br>
+
+      Thank you for visiting!
+      You can reach out to me on social media.
+      <div class="social-media-list"><div class="social-media-list"><a href="https://x.com/QuentinWach" class="social-link">
+      <svg class="svg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      <span class="username">QuentinWach</span>
+    </a><a href="https://github.com/QuentinWach" class="social-link">
+      <svg class="svg-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      <span class="username">QuentinWach</span>
+    </a></div></div>
+    </div>
+
+  </div>
+
+</footer><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.tag-filter a').click(function(e){
+                e.preventDefault();
+                var tag = $(this).attr('href').substring(1);
+                $('.post').hide();
+                $('.post[data-tags~="' + tag + '"]').show();
+            });
+        });
+    </script>
+
+
+  </body>
+
+</html>

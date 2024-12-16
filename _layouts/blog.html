@@ -96,7 +96,11 @@ mathjax: true
               <span class="post-meta"> • {{ words }} words • {{ read_time }} min read</span>
                 
               {%- if post.published -%}
-                <span class="post-meta"> • Peer-reviewed & published in </span> <span class="post-published">{{ post.published }}</span>
+                {% if post.peer-reviewed == "true" %}
+                  <span class="post-meta"> • Peer-reviewed & published in </span> <span class="post-published">{{ post.published }}</span>
+                {% else %}
+                  <span class="post-meta"> • Published in </span> <span class="post-published">{{ post.published }}</span>
+                {% endif %}
               {%- endif -%}
 
               {%- if post.github -%}

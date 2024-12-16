@@ -74,13 +74,13 @@
       
       
       <button class="tag-bubble" data-tag="software">
-        software (1)
+        software (2)
       </button>
     
       
       
       <button class="tag-bubble" data-tag="computer graphics">
-        computer graphics (1)
+        computer graphics (2)
       </button>
     
       
@@ -128,6 +128,19 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
+            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
+            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
+                var star_count = data.stargazers_count;
+                repo.find('.star-count').text(star_count);
+
+                // Append the star count to the Liquid array
+                
+            });
+        });
+      </script><!-- Fetch the number of stars from the GitHub repo -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/image-ranker"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
@@ -167,7 +180,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/Introduction-to-Fluid-Simulations"]');
+            var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -181,19 +194,6 @@
       <script type="text/javascript">
         $(document).ready(function(){
             var repo = $('.github-stars[data-repo="QuentinWach/terra"]');
-            $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
-                var star_count = data.stargazers_count;
-                repo.find('.star-count').text(star_count);
-
-                // Append the star count to the Liquid array
-                
-            });
-        });
-      </script><!-- Fetch the number of stars from the GitHub repo -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function(){
-            var repo = $('.github-stars[data-repo="QuentinWach/IC3D"]');
             $.getJSON('https://api.github.com/repos/' + repo.data('repo'), function(data){
                 var star_count = data.stargazers_count;
                 repo.find('.star-count').text(star_count);
@@ -286,7 +286,7 @@
               <!-- Add word count and read time -->
               
               
-              <span class="post-meta"> • 1305 words • 6 min read</span></div>
+              <span class="post-meta"> • 1339 words • 6 min read</span></div>
           </li>
         </a>
 
@@ -349,9 +349,39 @@
               <!-- Add word count and read time -->
               
               
-              <span class="post-meta"> • 2792 words • 13 min read</span><span class="post-meta"> • </span>
+              <span class="post-meta"> • 2792 words • 13 min read</span>
+                  <span class="post-meta"> • Published in </span> <span class="post-published">GDSFactory</span>
+                <span class="post-meta"> • </span>
                 <span class="material-symbols-outlined">sticky_note_2</span>
                 <span class="post-note">Used daily for better, quicker, and easier routing.</span></div>
+          </li>
+        </a>
+
+        <a href="/blog/2020/01/01/animating-science.html" class="box post-item" data-tags="software,computer graphics">
+          <li class="post-box">
+
+            <div class="post-box-img"><img src="/images/science animations/happy4_c3.gif" alt="Professional Matplotlib with Python (2020)" class="post-image"></div>
+
+            <div class="post-box-txt">
+              
+              <h4 class="post-title">
+                Professional Matplotlib with Python (2020)
+              </h4><p class="post-summary">
+                <p>An introduction into the Matplotlib API, how to get started customizing plots, and create professional figures for your scientific work.</p>
+
+              </p><span class="post-meta">Jan 1, 2020</span>
+
+              <!-- Add word count and read time -->
+              
+              
+              <span class="post-meta"> • 4123 words • 20 min read</span><span class="post-meta"> • </span>
+                <span class="github-stars" data-repo=QuentinWach/Animating-Science>
+                  <span class="material-symbols-rounded">star</span><span class="star-count">Loading...</span>
+
+                </span>
+                <span class="post-meta">on GitHub</span><span class="post-meta"> • </span>
+                <span class="material-symbols-outlined">sticky_note_2</span>
+                <span class="post-note">+100K views across the internet.</span></div>
           </li>
         </a></ul>
 

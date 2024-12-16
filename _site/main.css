@@ -480,7 +480,7 @@ li {
   */
  .site-footer {
    border-top: 1px solid #e8e8e84d;
-   padding: 30px 0;
+   padding: 0px 0px 60px 0px;
    text-align: center;
    opacity: 0.5;
  }
@@ -550,7 +550,7 @@ li {
   * Page content
   */
  .page-content {
-   padding: 30px 0;
+   padding: 30px 0px 0px 0px;
    flex: 1;
  }
  
@@ -571,9 +571,15 @@ li {
  }
  
  .post-meta {
-   font-size: 14px;
+   font-size: 13px;
    padding-top: 5px;
+   line-height: 1;
  }
+
+ .post-note {
+  font-size: 13px;
+  line-height: 1;
+}
  
  .post-link {
    display: block;
@@ -588,9 +594,9 @@ li {
 }
 */
 .post-box {
-  padding: 10px 15px 10px 15px;
+  padding: 5px 10px 5px 10px;
   background-color: #ffffff;
-  border: 1px solid #e7e7e771;
+  border: 0px solid #e7e7e771;
   border-radius: 5px;
   box-shadow: 0px 2px 4px #00000000;
   transition: all 0.1s ease-in-out;
@@ -601,10 +607,13 @@ li {
   align-items: left;
 }
 .post-box:hover {
-  box-shadow: 0px 3px 10px rgba(0, 13, 27, 0.247);
+  box-shadow: 0px 2px 5px rgba(0, 13, 27, 0.247);
   filter: grayscale(0%);
   opacity: 1.0;
 }
+
+
+
  /**
   * Posts
   */
@@ -613,7 +622,7 @@ li {
  }
  
  .post-title {
-   font-size: 42px;
+   font-size: 36px; /* 42px */
    letter-spacing: 0px;
    line-height: 1;
  }
@@ -976,7 +985,7 @@ html {
 }
 .post-image {
   border-radius: 5px;
-  width: 200px;
+  width: 150px;
   object-fit: scale-down;
   margin-left: 0px;
   z-index: 1000;
@@ -998,11 +1007,11 @@ h4.post-title {
 .post-published {
   font-family: "Lora", serif;
   background-color: rgb(220, 20, 60);
-  font-size: 14px;
+  font-size: 13px;
   color: white;
   border-radius: 5px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   padding-bottom: 3px;
   padding-top: 2px;
   margin-left: 0px;
@@ -1128,7 +1137,7 @@ h4.post-title {
   'FILL' 1,
   'wght' 200,
   'GRAD' 200,
-  'opsz' 24
+  'opsz' 19
 }
 
 .material-symbols-outlined {
@@ -1139,17 +1148,16 @@ h4.post-title {
   'FILL' 0,
   'wght' 200,
   'GRAD' 200,
-  'opsz' 24
+  'opsz' 19
 }
 
 
 
 .github-stars {
   align-items: center;
-  font-size: 14px;
   font-weight: 400;
   background-color: #faa200;
-  font-size: 14px;
+  font-size: 13px;
   color: white;
   border-radius: 5px;
   padding-left: 4px;

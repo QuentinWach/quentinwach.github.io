@@ -1,6 +1,184 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-27T23:16:28+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Q. Wach</title><subtitle></subtitle><entry><title type="html">File Management in Tauri 2.0 with Rust</title><link href="http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html" rel="alternate" type="text/html" title="File Management in Tauri 2.0 with Rust" /><published>2024-11-26T20:38:24+01:00</published><updated>2024-11-26T20:38:24+01:00</updated><id>http://localhost:4000/blog/2024/11/26/files-in-tauri-v2</id><content type="html" xml:base="http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html"><![CDATA[<p>Tauri 2.0<sup id="fnref:Tauri2" role="doc-noteref"><a href="#fn:Tauri2" class="footnote" rel="footnote">1</a></sup> is a big step forward for the framework. It is a big step forward for Rust as well. But if you are just getting started with it, you might find that the documentation is not quite as thorough as you would like it to be and none of the current AI’s have learned yet how to use it making them useless if not a hindrance!</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-12-16T21:03:28+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Q. Wach</title><subtitle></subtitle><entry><title type="html">Introduction to Computational Fluid Dynamics</title><link href="http://localhost:4000/science-engineering/2024/12/03/fluids-intro.html" rel="alternate" type="text/html" title="Introduction to Computational Fluid Dynamics" /><published>2024-12-03T20:38:24+01:00</published><updated>2024-12-03T20:38:24+01:00</updated><id>http://localhost:4000/science-engineering/2024/12/03/fluids-intro</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/12/03/fluids-intro.html"><![CDATA[<!--
+# Jon Stam's Real-Time Fluid Simulator
 
-<p>So, when you are just getting started, opening, modifying, and saving files can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let’s make a simple text file editor (which I lovingly called <em>fedit</em> short for <em>“fucking edit!”</em> in my angry desperation to get this working) like this:</p>
+<img align="right" width="40%" margin-left="20px" src="1st_test_smoke.png">
+-->
+
+<p>We will look at a 2D simulation here first using a grid-approach or <em>“Eulerian”</em> approach. Moving to 3D is quite trivial. It is <em>Eulerian</em> because we use a grid rather than points for the computations. Below, we will be mainly following the work of Matthias Müller <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> with added details and insights from various other sources.</p>
+
+<p>We assume that:</p>
+<ol>
+  <li>Water is an <a href="https://en.wikipedia.org/wiki/Incompressible_flow">incompressable fluid</a>.</li>
+  <li>It has no <a href="https://en.wikipedia.org/wiki/Viscosity">viscosity</a> (even though adding it would be rather easy).</li>
+</ol>
+
+<p>The steps we have to take to create a fast and more or less realist looking fluid simulation as typical for games are simple:</p>
+<ol>
+  <li>Initialize the densities within the grid as well as where the obstacles are. (More on that in a bit.)</li>
+  <li>Add/apply forces like gravity, wind, or random turbulances.</li>
+  <li>“Project” the grid. In other words, enforce that the density in every cell has the correct density such that the fluid is not compressed.</li>
+  <li>“Advect” the velocities of the fluids.</li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="fig1.svg" alt="Fig1" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><strong>Figure 1.</strong> <em>Outline of the fluid dynamics algorithm. We first initializse the densities and objects within the grid, then enter the simulation loop where we apply forces at each step, diffuse the fluid, the “project” in order to enforce compressibility, and lastely “advect” in order to redirect the velocities of the fluid.</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Our velocity vector</p>
+
+\[\vec{\text{v} } =
+        \begin{pmatrix}
+            u \\
+            v
+        \end{pmatrix}\]
+
+<p>are saved not within the centers of the cells (<em>“collocated”</em> grid) but rather at the boundaries creating a so called <em>“staggered”</em> grid.</p>
+
+<p>The indices for the grid positions are notated as \(i, j\) .</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="fig2.svg" alt="Fig2" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><strong>Figure 2.</strong> <em>The staggered grid within which all the fluid dynamics are computed.</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="velocity-update">Velocity Update</h3>
+<p>Now, for all \(i,j\) we update the velocity</p>
+
+\[v_x^{i,j} \leftarrow v_x^{i,j} + \Delta t \cdot g\]
+
+<p>with the gravity \(g: -9.81\;\) m/s for time-steps \(\Delta t\) of e.g. \(\frac{1}{30}\;\) s.</p>
+
+<blockquote>
+  <p><strong>Question</strong>: This is the simplest form of integration called the <a href="https://en.wikipedia.org/wiki/Euler_method">Euler method</a>. If you have ever worked with chaotic systems, you’ll may know that this can lead to large errors quickly! So why does this work here? Or does it?</p>
+</blockquote>
+
+<h3 id="divergence-total-outflow">Divergence (Total Outflow)</h3>
+<p>We calculate the total outflow of a cell as</p>
+
+\[d \leftarrow v_x^{i,j+1}-v_x^{i,j} + v_y^{i+1,j} - v_y^{i,j}.\]
+
+<p>If \(d\) is positive, we have too much outflow. If it is negative, we have too much inflow. Only if \(d = 0\) is our fluid as incompressible as we desire!</p>
+
+<p>Thus we must force incompressibility!</p>
+
+<h3 id="forcing-incompressibility">Forcing Incompressibility</h3>
+<p>First, we compute the divergence.
+We can then handle obstacles or walls by fixing those velocity vectors. So for static object, that point of the border would be zero. But if it is moving this will of course impact the velocity and we can simulate how the fluid is being pushed around!</p>
+
+<h3 id="general-case">General Case</h3>
+<p>It is useful to define the scalar value \(s^{i,j}\) for each cell, where objects are zero and fluids 1. We update it as</p>
+
+\[s \leftarrow  s^{i+1. j} + s^{i-1, j} + s^{i,j+1} + s^{i,j-1}\]
+
+<p>and</p>
+
+\[v_x^{i,j} \leftarrow v_x^{i,j} + d \cdot s^{i-1,j}/s \\\\
+v_x^{i+1,j} \leftarrow v_x^{i+1,j} + d \cdot s^{i+1,j}/s \\\\
+v_y^{i,j} \leftarrow v_y^{i,j} + d \cdot s^{i,j+1}/s \\\\
+v_y^{i,j+1} \leftarrow v_y^{i,j+1} + d \cdot s^{i,j+1}/s.\]
+
+<p>Why?</p>
+
+<h3 id="solving-the-grid">Solving the Grid</h3>
+<p>Naturally, we want to solve the whole grid. One, and possibly the simplest method here is to use the <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method">Gauss-Seidel method</a>:</p>
+
+<p>For \(n\) iterations and for all \(i,j\) , we compute the general case.</p>
+
+<p>An issue here is that we access boundary cells outside of the grid! To resolve this problem, we can add border cells and set \(s^{i,j} = 0\) for them to make them walls. Alternatively, we could copy the neighbor cells that are inside the grid.</p>
+
+<h3 id="measuring-pressure">Measuring Pressure</h3>
+<p>We can also store a physical pressure value \(p^{i,j}\) inside each cell!</p>
+
+<p>For the \(n\) iterations and all \(i,j\) , we can then additionally calculate it as</p>
+
+\[p^{i,j} \leftarrow p^{i,j} + \frac{d}{s}\cdot \frac{\rho \\; h}{\Delta t},\]
+
+<p>where \(\rho\) is the density of the fluid and \(h\) is the grid spacing.</p>
+
+<p>While not necessary for the simulation, it provides us with some interesting information without much additional effort!</p>
+
+<h3 id="over-relaxation">Over-Relaxation</h3>
+<p>While the Guass-Seidel method is very simple to implement, it needs more iterations than global methods. Here comes <em>“over-relaxation”</em> into play.</p>
+
+<p>We multiply the divergence by a scalar \(1 \leq o \leq 2\)</p>
+
+\[d \leftarrow o\cdot(v_x^{i+1, j} - v_x^{i,j} + v_y^{i,j+1} - v_y^{i,j})\]
+
+<p>e.g. \(o=1.9\) . Doing so increases the convergence of the method dramatically! It is very possible that the simulation will collapse and lead to an physically implausible result if we do not over-relax.</p>
+
+<p>And the pressure values still remain correct!</p>
+
+<h3 id="semi-lagrangian-advection">Semi-Lagrangian <a href="https://en.wikipedia.org/wiki/Advection">Advection</a></h3>
+<p>This section is going to be a bit weird and possibly difficult to understand.
+The core question is simply: <em>“How do the <strong>velocities</strong> stream through the fluid?”</em></p>
+
+<p>In the real world, fluids are made of particles. We don’t have static grids like we assume here. It is merely a useful abstraction. But we still need to move the velocity values in the grid just like the velocity state is carried by the particles in the real world since energy must be conserved!</p>
+
+<p>While we don’t actually simulate particles, this idea is why we call it a semi-Lagrangian approach. (Remember! <em>“Lagrangian”</em> rather than <em>“Eulerian”</em> because now we consider particles rather than a grid.)</p>
+
+<p>Given a velocity within a grid \( \vec{v}(t) \) at time \( t \) , we want to know where the velocity came from, how it changed, hence \( \vec{v}(t+\Delta t) \leftarrow \vec{v}(t) \). For that, we compute \( \vec{v} \) at the position \( \vec{x} \) through simple differentiation i.e. computing</p>
+
+\[\vec{v}(t) = \vec{x}(t) - \vec{x}(t-\Delta t).\]
+
+<p>Knowing that local change dependent on the position \( \vec{v}(x) \) , we can approximate the previous position of the velocity as</p>
+
+\[\vec{x} = \vec{x} - \Delta t \cdot \vec{v}(x)\]
+
+<p>(Note that my notation here is everything else but consistent or precise but I hope you get the idea.)</p>
+
+<p>This is another linear approximation. As the result, the viscosity of the fluid is increased. One possible solution to this issue is <a href=""><em>“vorticity confinement”</em></a>.</p>
+
+<p>To get the total 2D velocity within the grid cell we can simply take the average of the surrounding velocities:</p>
+
+\[v^{i,j} = (v^{i-1,j} + v^{i,j-1} +v^{i+1,j} +v^{i,j+1})/4.\]
+
+<p>And to calculate the velocity at any arbitrary position within the grid, hence, to interpolate, we can calculate a <strong>weighted average</strong> of the surrounding values</p>
+
+\[\bar{v} = w^{00} \cdot w^{10} \cdot v^{i,j} + w^{01} \cdot w^{10} \cdot v^{i+1,j} \\\\
+    \qquad \qquad + w^{10} \cdot w^{11} \cdot v^{i,j+1} + w^{11} \cdot w^{11} \cdot v^{i+1,j+1}\]
+
+<p>where \( w^{00} = 1 - x/h \) , \( w^{01} = x/h \) , \( w^{10} = 1 - y/h \) , and \( w^{11} = 1 - y/h \) for the height \( y \) within the points and the width \( x \) within the points.</p>
+
+<h3 id="smoke-advection--streamlines">Smoke Advection &amp; Streamlines</h3>
+<p>We can store the density value at the center of each cell and <em>“advect”</em> it just like the velocity components before. Quite useful for simulating smoke.</p>
+
+<p>Calculating streamlines is rather straightforward as well. We start at the position \(x_1\) and step forward with the step-size \(s\) to get \(x_2 \leftarrow s \cdot v(x_1) \) and so on for \(n\) steps, each time sampling the velocity \(v\) at the corresponding position.</p>
+
+<h2 id="references--notes">References &amp; Notes</h2>
+<h3 id="matthias-müllers-and-related-work">Matthias Müller’s and Related Work</h3>
+
+<h3 id="jos-stams-famous-real-time-fluid-dynamics-for-games-work">Jos Stam’s Famous “Real-Time Fluid Dynamics for Games” Work</h3>
+
+<h2 id="other-research-publications">Other Research Publications</h2>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p><a href="https://matthias-research.github.io/pages/tenMinutePhysics/17-fluidSim.pdf">Matthias Müller, <em>“How to write an Eulerian fluid simulator with 200 lines of code.”</em>, YouTube: Ten Minute Physics, 2022: <em>https://www.youtube.com/watch?v=iKAVRgIrUOU</em> (Accessed: June 28, 2024)</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p><a href="https://matthias-research.github.io/pages/tenMinutePhysics/17-fluidSim.pdf">Matthias Müller, <em>“Notes On Eulerian Fluid Simulations.”</em>, GitHub, 2022: <em>https://matthias-research.github.io/pages/tenMinutePhysics/17-fluidSim.pdf</em> (Accessed: June 28, 2024)</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="physics" /><category term="software" /><summary type="html"><![CDATA[Where we will discuss the Navier-Stokes equations and then break down the problem with the presence of solid objects implementing a simple real-time solver in Python.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/ink_fluid_comp.gif" /><media:content medium="image" url="http://localhost:4000/images/ink_fluid_comp.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">File Management in Tauri 2.0 with Rust</title><link href="http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html" rel="alternate" type="text/html" title="File Management in Tauri 2.0 with Rust" /><published>2024-11-26T20:38:24+01:00</published><updated>2024-11-26T20:38:24+01:00</updated><id>http://localhost:4000/blog/2024/11/26/files-in-tauri-v2</id><content type="html" xml:base="http://localhost:4000/blog/2024/11/26/files-in-tauri-v2.html"><![CDATA[<p>I recently posted on Reddit that <a href="https://www.reddit.com/r/tauri/comments/1h4nee8/tauri_20_is_a_nightmare_to_learn/">“Tauri 2.0 Is a Nightmare to Learn”</a> using my alternative account and found a lot of resonance with the community. Tauri 2.0<sup id="fnref:Tauri2" role="doc-noteref"><a href="#fn:Tauri2" class="footnote" rel="footnote">1</a></sup> (v2) is a big step forward for the framework and a big step forward for Rust as well. But if you are just getting started with it, you might find that the documentation is not quite as thorough as you would like it to be, and the safety features are overly complicated, and none of the current AI’s have learned yet how to use v2 making them useless if not a hindrance!</p>
+
+<p>When you are just getting started, opening, modifying, and saving files, for example,can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let’s make a simple text file editor (which I lovingly called <em>fedit</em> short for <em>“fucking edit!”</em> in my angry desperation to get this working) like this:</p>
 
 <p><img src="/images/tauri_editor.png" alt="" /></p>
 
@@ -500,4 +678,4 @@ $$
       <p><a href="https://www.youtube.com/watch?v=3mfvZ-mdtZQ">Barney Code’s Introduction to Shaders: Learn the Basics! https://www.youtube.com/watch?v=3mfvZ-mdtZQ</a> <a href="#fnref:Barney" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Quentin Wach</name></author><category term="blog" /><category term="computer graphics" /><summary type="html"><![CDATA[Explaining briefly what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/shader_2.png" /><media:content medium="image" url="http://localhost:4000/images/shader_2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Image Ranker: The Web App for Fast Ranking of Large Image Collections</title><link href="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html" rel="alternate" type="text/html" title="Image Ranker: The Web App for Fast Ranking of Large Image Collections" /><published>2024-08-28T21:38:24+02:00</published><updated>2024-08-28T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/08/28/image-ranker</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="app" /><category term="machine learning" /><summary type="html"><![CDATA[Training generative image models requires a way to compare images and provide feedback on which images are better. I built a web app to do just that.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/imagerank3.png" /><media:content medium="image" url="http://localhost:4000/images/imagerank3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Building a 16-Bit Computer: From NAND to Pong</title><link href="http://localhost:4000/2024/08/01/hack-comp.html" rel="alternate" type="text/html" title="Building a 16-Bit Computer: From NAND to Pong" /><published>2024-08-01T21:38:24+02:00</published><updated>2024-08-01T21:38:24+02:00</updated><id>http://localhost:4000/2024/08/01/hack-comp</id><content type="html" xml:base="http://localhost:4000/2024/08/01/hack-comp.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="verilog" /><category term="gds" /><category term="integrated circuits" /><category term="computer" /><summary type="html"><![CDATA[Verilog implementation and detailed explanation of the Hack computer architecture with the help of Logisim, Icarus Verilog, and GTKWave. A .gds mask layout can be generated with the OpenLane 130 nm PDK.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/hack_computer.png" /><media:content medium="image" url="http://localhost:4000/images/hack_computer.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Webiny</title><link href="http://localhost:4000/2024/07/27/webiny.html" rel="alternate" type="text/html" title="Webiny" /><published>2024-07-27T21:38:24+02:00</published><updated>2024-07-27T21:38:24+02:00</updated><id>http://localhost:4000/2024/07/27/webiny</id><content type="html" xml:base="http://localhost:4000/2024/07/27/webiny.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="internet" /><category term="application" /><summary type="html"><![CDATA[A minimal single-tab web browser written in Python without caching, cookies, chronic logins, etc. It only took 30 min to make but it's a nice little tool for when you want to focus and not get distracted while still having access to the internet.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/webiny.png" /><media:content medium="image" url="http://localhost:4000/images/webiny.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Computational Fluid Dynamics</title><link href="http://localhost:4000/science-engineering/2024/07/23/fluids-intro.html" rel="alternate" type="text/html" title="Introduction to Computational Fluid Dynamics" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/fluids-intro</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/fluids-intro.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="physics" /><category term="game" /><category term="fluid-dynamics" /><summary type="html"><![CDATA[Where we will discuss the Navier-Stokes equations and then break down the problem with the presence of solid objects implementing a simple real-time solver in Python.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/ink_fluid_comp.gif" /><media:content medium="image" url="http://localhost:4000/images/ink_fluid_comp.gif" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">TERRA: The Tiny Terrain Generator</title><link href="http://localhost:4000/science-engineering/2024/07/23/terra.html" rel="alternate" type="text/html" title="TERRA: The Tiny Terrain Generator" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/terra</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/terra.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="physics" /><category term="computer graphics" /><summary type="html"><![CDATA[This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/terra.png" /><media:content medium="image" url="http://localhost:4000/images/terra.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">IC3D: Render .gds Files in 3D</title><link href="http://localhost:4000/science-engineering/2024/07/23/IC3D.html" rel="alternate" type="text/html" title="IC3D: Render .gds Files in 3D" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/IC3D</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/IC3D.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="gds" /><category term="integrated circuits" /><category term="photonics" /><summary type="html"><![CDATA[.gds to .gltf file conversion and workflow to create photo-real animations of your photonic/electronic integrated circuits. Compared to other scripts, this one takes into account complex nested cell structures, rotations, and flips as one typically encounters them in photonic integrated circuits.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/xyz3.png" /><media:content medium="image" url="http://localhost:4000/images/xyz3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Sudoku: Generator and Solver</title><link href="http://localhost:4000/2024/06/22/Sudoku.html" rel="alternate" type="text/html" title="Sudoku: Generator and Solver" /><published>2024-06-22T21:38:24+02:00</published><updated>2024-06-22T21:38:24+02:00</updated><id>http://localhost:4000/2024/06/22/Sudoku</id><content type="html" xml:base="http://localhost:4000/2024/06/22/Sudoku.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="puzzle" /><category term="python" /><category term="AI" /><category term="game" /><summary type="html"><![CDATA[Generate Sudokus of any difficulty, generate beautiful images of them or just save them as .txt files, and solve them using a backtracking algorithm. I then ask: Can neurosymbolic AIs learn Sudoku, too?]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/sudoku_head.png" /><media:content medium="image" url="http://localhost:4000/images/sudoku_head.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</title><link href="http://localhost:4000/science-engineering/academia/2024/04/22/second-publication.html" rel="alternate" type="text/html" title="Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures" /><published>2024-04-22T21:38:24+02:00</published><updated>2024-04-22T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/academia/2024/04/22/second-publication</id><content type="html" xml:base="http://localhost:4000/science-engineering/academia/2024/04/22/second-publication.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="academia" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[The charge transport in semiconductor quantum dots and nanorods is studied theoretically, predicting strong field-dependent nonlinear mobility effects and intra-pulse gain. We studied the temperature- and size-sensitive mobility spectra, crucial for applications like 6G tech and nano electronics in general.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" /><media:content medium="image" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</div>]]></content><author><name>Quentin Wach</name></author><category term="blog" /><category term="computer graphics" /><summary type="html"><![CDATA[Explaining briefly what shaders are and then moving on to writing two simple ones in GLSL. The first one similar to a lava lamp and the second one a little mountain range under a blue sky with a distance fog. Turns out, shaders are like painting directly with mathematics.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/shader_2.png" /><media:content medium="image" url="http://localhost:4000/images/shader_2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Image Ranker: The Web App for Fast Ranking of Large Image Collections</title><link href="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html" rel="alternate" type="text/html" title="Image Ranker: The Web App for Fast Ranking of Large Image Collections" /><published>2024-08-28T21:38:24+02:00</published><updated>2024-08-28T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/08/28/image-ranker</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/08/28/image-ranker.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="app" /><category term="machine learning" /><summary type="html"><![CDATA[Training generative image models requires a way to compare images and provide feedback on which images are better. I built a web app to do just that.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/imagerank3.png" /><media:content medium="image" url="http://localhost:4000/images/imagerank3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Building a 16-Bit Computer: From NAND to Pong</title><link href="http://localhost:4000/2024/08/01/hack-comp.html" rel="alternate" type="text/html" title="Building a 16-Bit Computer: From NAND to Pong" /><published>2024-08-01T21:38:24+02:00</published><updated>2024-08-01T21:38:24+02:00</updated><id>http://localhost:4000/2024/08/01/hack-comp</id><content type="html" xml:base="http://localhost:4000/2024/08/01/hack-comp.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="verilog" /><category term="gds" /><category term="integrated circuits" /><category term="computer" /><summary type="html"><![CDATA[Verilog implementation and detailed explanation of the Hack computer architecture with the help of Logisim, Icarus Verilog, and GTKWave. A .gds mask layout can be generated with the OpenLane 130 nm PDK.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/hack_computer.png" /><media:content medium="image" url="http://localhost:4000/images/hack_computer.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Webiny</title><link href="http://localhost:4000/2024/07/27/webiny.html" rel="alternate" type="text/html" title="Webiny" /><published>2024-07-27T21:38:24+02:00</published><updated>2024-07-27T21:38:24+02:00</updated><id>http://localhost:4000/2024/07/27/webiny</id><content type="html" xml:base="http://localhost:4000/2024/07/27/webiny.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="python" /><category term="internet" /><category term="application" /><summary type="html"><![CDATA[A minimal single-tab web browser written in Python without caching, cookies, chronic logins, etc. It only took 30 min to make but it's a nice little tool for when you want to focus and not get distracted while still having access to the internet.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/webiny.png" /><media:content medium="image" url="http://localhost:4000/images/webiny.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">IC3D: Render .gds Files in 3D</title><link href="http://localhost:4000/science-engineering/2024/07/23/IC3D.html" rel="alternate" type="text/html" title="IC3D: Render .gds Files in 3D" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/IC3D</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/IC3D.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="gds" /><category term="integrated circuits" /><category term="photonics" /><summary type="html"><![CDATA[.gds to .gltf file conversion and workflow to create photo-real animations of your photonic/electronic integrated circuits. Compared to other scripts, this one takes into account complex nested cell structures, rotations, and flips as one typically encounters them in photonic integrated circuits.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/xyz3.png" /><media:content medium="image" url="http://localhost:4000/images/xyz3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">TERRA: The Tiny Terrain Generator</title><link href="http://localhost:4000/science-engineering/2024/07/23/terra.html" rel="alternate" type="text/html" title="TERRA: The Tiny Terrain Generator" /><published>2024-07-23T21:38:24+02:00</published><updated>2024-07-23T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/2024/07/23/terra</id><content type="html" xml:base="http://localhost:4000/science-engineering/2024/07/23/terra.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="python" /><category term="physics" /><category term="computer graphics" /><summary type="html"><![CDATA[This Python package provides various physics simulations for hydraulic erosion, tectonic dynamics, weather patterns, biomes, geological primitives, tesselations, filters, and more to quickly generate highly realistic terrains.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/terra.png" /><media:content medium="image" url="http://localhost:4000/images/terra.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Sudoku: Generator and Solver</title><link href="http://localhost:4000/2024/06/22/Sudoku.html" rel="alternate" type="text/html" title="Sudoku: Generator and Solver" /><published>2024-06-22T21:38:24+02:00</published><updated>2024-06-22T21:38:24+02:00</updated><id>http://localhost:4000/2024/06/22/Sudoku</id><content type="html" xml:base="http://localhost:4000/2024/06/22/Sudoku.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="puzzle" /><category term="python" /><category term="AI" /><category term="game" /><summary type="html"><![CDATA[Generate Sudokus of any difficulty, generate beautiful images of them or just save them as .txt files, and solve them using a backtracking algorithm. I then ask: Can neurosymbolic AIs learn Sudoku, too?]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/sudoku_head.png" /><media:content medium="image" url="http://localhost:4000/images/sudoku_head.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures</title><link href="http://localhost:4000/science-engineering/academia/2024/04/22/second-publication.html" rel="alternate" type="text/html" title="Field-Dependent THz Transport Nonlinearities in Semiconductor Nano Structures" /><published>2024-04-22T21:38:24+02:00</published><updated>2024-04-22T21:38:24+02:00</updated><id>http://localhost:4000/science-engineering/academia/2024/04/22/second-publication</id><content type="html" xml:base="http://localhost:4000/science-engineering/academia/2024/04/22/second-publication.html"><![CDATA[]]></content><author><name>Quentin Wach</name></author><category term="science-engineering" /><category term="academia" /><category term="physics" /><category term="optics" /><category term="THz spectroscopy" /><category term="thesis" /><category term="density matrix" /><category term="quantum mechanics" /><category term="semiconductors" /><category term="nanoscience" /><summary type="html"><![CDATA[The charge transport in semiconductor quantum dots and nanorods is studied theoretically, predicting strong field-dependent nonlinear mobility effects and intra-pulse gain. We studied the temperature- and size-sensitive mobility spectra, crucial for applications like 6G tech and nano electronics in general.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" /><media:content medium="image" url="http://localhost:4000/images/NS_Title_Graphic_Square_3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

@@ -13,9 +13,10 @@ note:
 categories: "blog"
 ---
 
-Tauri 2.0[^Tauri2] is a big step forward for the framework. It is a big step forward for Rust as well. But if you are just getting started with it, you might find that the documentation is not quite as thorough as you would like it to be and none of the current AI's have learned yet how to use it making them useless if not a hindrance!
 
-So, when you are just getting started, opening, modifying, and saving files can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let's make a simple text file editor (which I lovingly called _fedit_ short for _"fucking edit!"_ in my angry desperation to get this working) like this:
+I recently posted on Reddit that ["Tauri 2.0 Is a Nightmare to Learn"](https://www.reddit.com/r/tauri/comments/1h4nee8/tauri_20_is_a_nightmare_to_learn/) using my alternative account and found a lot of resonance with the community. Tauri 2.0[^Tauri2] (v2) is a big step forward for the framework and a big step forward for Rust as well. But if you are just getting started with it, you might find that the documentation is not quite as thorough as you would like it to be, and the safety features are overly complicated, and none of the current AI's have learned yet how to use v2 making them useless if not a hindrance!
+
+When you are just getting started, opening, modifying, and saving files, for example,can seem quite a bit tricky. If you choose to use Rust rather than using the API provided by Tauri and struggle to get it working, this post is for you. Let's make a simple text file editor (which I lovingly called _fedit_ short for _"fucking edit!"_ in my angry desperation to get this working) like this:
 
 ![](/images/tauri_editor.png)
 

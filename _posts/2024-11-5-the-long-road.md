@@ -1,9 +1,9 @@
 ---
 layout: post
 mathjax: true
-title:  "The Making of a New Anki - I"
+title:  "Building User-Friendly Applications: Development Summary"
 description: "Where I explain how I created Quester the Anki killer, talking about the projects that lead up to it and the learning and development process filled with many mistakes and arbitrary decisions that might help you avoid the same pitfalls."
-date:   2025-11-05 10:38:24 +0100
+date:   2124-12-05 10:38:24 +0100
 authors: ["Quentin Wach"]
 tags: ["software"]
 tag_search: true
